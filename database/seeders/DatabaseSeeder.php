@@ -16,10 +16,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ProvinceSeeder::class);
         $this->call(CitySeeder::class);
 
-        // example data
-        // $this->call(SellerSeeder::class);
-        // $this->call(FacilitySeeder::class);
-        // $this->call(DestinationSeeder::class);
-        // $this->call(VillaSeeder::class);
+        if (env('SEED_EXAMPLE', false)) {
+            $this->call(SellerSeeder::class);
+            $this->call(FacilitySeeder::class);
+            $this->call(DestinationSeeder::class);
+            $this->call(VillaSeeder::class);
+        }
     }
 }

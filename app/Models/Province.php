@@ -10,6 +10,8 @@ class Province extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     // Relation
     
     function cities() : HasMany {

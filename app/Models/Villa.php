@@ -12,6 +12,8 @@ class Villa extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     // Relation
     
     function seller() : BelongsTo {
@@ -23,7 +25,7 @@ class Villa extends Model
     }
 
     function facilities() : BelongsToMany {
-        return $this->belongsToMany(Facility::class);
+        return $this->belongsToMany(Facility::class, 'villa_facilities');
     }
 
     function ratings() : HasMany {
@@ -31,4 +33,19 @@ class Villa extends Model
     }
 
     // End Relation
+
+    function getAddressAttribute() : string {
+        $address = [
+            $this->city->name,
+            $this->city->province->name,
+        ];
+        return join(', ', $address);
+    }
+
+    function getPublishLabelAttribute() : string {
+        return match ($this->is_publish) {
+            0 => 'Draft',
+            1 => 'Publish',
+        };
+    }
 }

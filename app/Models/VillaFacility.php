@@ -10,6 +10,8 @@ class VillaFacility extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     // Relation
     
     function villa() : BelongsTo {

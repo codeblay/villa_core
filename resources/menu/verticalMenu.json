@@ -55,28 +55,28 @@
       "slug": "admin.transaction.withdrawal"
     },
     {
-      "menuHeader": "Villa"
+      "menuHeader": "Master"
     },
     {
-      "url": "admin.villa.facility",
+      "url": "admin.master.facility",
       "name": "Fasilitas",
       "icon": "menu-icon tf-icons bx bx-border-outer",
-      "slug": "admin.villa.facility"
+      "slug": "admin.master.facility"
     },
     {
       "name": "Destinasi",
       "icon": "menu-icon tf-icons bx bx-map-alt",
-      "slug": "admin.villa.destination",
+      "slug": "admin.master.destination",
       "submenu": [
         {
-          "url": "admin.villa.destination.category",
+          "url": "admin.master.destination.category",
           "name": "Kategori",
-          "slug": "admin.villa.destination.category"
+          "slug": "admin.master.destination.category"
         },
         {
-          "url": "admin.villa.destination.list",
+          "url": "admin.master.destination.list",
           "name": "List",
-          "slug": "admin.villa.destination.list"
+          "slug": "admin.master.destination.list"
         }
       ]
     }

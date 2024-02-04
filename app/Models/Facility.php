@@ -10,10 +10,12 @@ class Facility extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     // Relation
     
     function villas() : BelongsToMany {
-        return $this->belongsToMany(Villa::class);
+        return $this->belongsToMany(Villa::class, 'villa_facilities');
     }
 
     // End Relation

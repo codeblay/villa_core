@@ -10,6 +10,8 @@ class DestinationCategory extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     // Relation
     
     function destinations() : HasMany {

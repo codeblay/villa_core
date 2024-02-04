@@ -11,6 +11,8 @@ class City extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     // Relation
     
     function province() : BelongsTo {
@@ -23,6 +25,14 @@ class City extends Model
     
     function villas() : HasMany {
         return $this->hasMany(Villa::class);
+    }
+
+    function getAddressAttribute() : string {
+        $address = [
+            $this->name,
+            $this->province->name,
+        ];
+        return join(', ', $address);
     }
 
     // End Relation

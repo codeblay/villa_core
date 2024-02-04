@@ -6,21 +6,21 @@ use App\Interface\Repository;
 use App\Models\Villa;
 use Illuminate\Database\Eloquent\Collection;
 
-final class ViilaRepository implements Repository
+final class VillaRepository implements Repository
 {
-    static function get(array $conditions): Collection
+    static function get(array $conditions = []): Collection
     {
         return Villa::query()->where($conditions)->get();
     }
 
-    static function first(array $condition): ?Villa
+    static function first(array $conditions = []): ?Villa
     {
-        return Villa::query()->where($condition)->first();
+        return Villa::query()->where($conditions)->first();
     }
 
-    static function create(array $data): Villa
+    static function create(array $data): ?Villa
     {
-        return Villa::query()->create($data)->create();
+        return Villa::query()->create($data);
     }
 
     static function update(int $id, array $data): bool

@@ -7,3 +7,9 @@
 <script src="{{ asset('template/js/main.js') }}"></script>
 
 @yield('page-script')
+
+<script>
+    function logout() {
+        $('#logoutForm').submit()
+    }
+</script>

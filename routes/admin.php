@@ -12,6 +12,8 @@ Route::withoutMiddleware('admin')->middleware('guest')->group(function () {
     Route::post('login', [AuthController::class, 'login'])->name('login');
 });
 
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::view('', 'pages.admin.dashboard')->name('dashboard');
 Route::get('villa', [VillaController::class, 'index'])->name('villa');
 

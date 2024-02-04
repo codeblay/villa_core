@@ -72,6 +72,11 @@
 
     <div class="drag-target"></div>
     </div>
+
+    <form action="{{ route('admin.logout') }}" method="POST" id="logoutForm">
+        @csrf
+    </form>
+
     @include('_partials.toast')
 
     @include('layouts.admin.sections.scripts')

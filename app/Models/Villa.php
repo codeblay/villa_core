@@ -28,7 +28,7 @@ class Villa extends Model
     }
 
     function facilities() : BelongsToMany {
-        return $this->belongsToMany(Facility::class, 'villa_facilities');
+        return $this->belongsToMany(Facility::class, 'villa_facilities')->withTimestamps();
     }
 
     function ratings() : HasMany {
@@ -50,5 +50,9 @@ class Villa extends Model
             0 => 'Draft',
             1 => 'Publish',
         };
+    }
+
+    function getCanBookAttribute() : bool {
+        return $this->is_publish && $this->is_available;
     }
 }

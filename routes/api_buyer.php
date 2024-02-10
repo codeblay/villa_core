@@ -8,8 +8,3 @@ Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('auth:
 Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('auth:buyer');
 
 Route::post('logout', [AuthController::class, 'logout']);
-
-Route::prefix('villa')->group(function() {
-    Route::get('slider', [VillaController::class, 'slider']);
-    Route::get('{id}', [VillaController::class, 'detail']);
-});

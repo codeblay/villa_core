@@ -46,6 +46,6 @@ final class VillaRepository implements Repository
 
     static function detailForBuyer(int $id): ?Villa
     {
-        return Villa::query()->with(['city', 'facilities'])->where('id', $id)->first();
+        return Villa::query()->with(['city', 'facilities'])->where('is_publish', Villa::STATUS_PUBLISH)->where('id', $id)->first();
     }
 }

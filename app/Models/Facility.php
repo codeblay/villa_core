@@ -15,7 +15,7 @@ class Facility extends Model
     // Relation
     
     function villas() : BelongsToMany {
-        return $this->belongsToMany(Villa::class, 'villa_facilities');
+        return $this->belongsToMany(Villa::class, 'villa_facilities')->withTimestamps();
     }
 
     // End Relation

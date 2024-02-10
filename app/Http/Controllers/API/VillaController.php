@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Base\ApiController;
-use App\Services\API\Villa\VillaService;
-use App\Services\Villa\VillaService as VillaService2;
+use App\Services\Villa\VillaService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class VillaController extends ApiController
 {
 
     function index(): JsonResponse
     {
-        $service = VillaService::ListBySeller(auth()->user()->id);
+        $service = VillaService::ListBySeller(auth()->user());
 
         return parent::response(
             status: $service->status,
@@ -24,7 +24,7 @@ class VillaController extends ApiController
 
     function detail(int $villa_id): JsonResponse
     {
-        $service = VillaService2::detail($villa_id);
+        $service = VillaService::detail($villa_id);
 
         return parent::response(
             status: $service->status,
@@ -36,7 +36,19 @@ class VillaController extends ApiController
 
     function slider(): JsonResponse
     {
-        $service = VillaService2::slider();
+        $service = VillaService::slider();
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
+
+    function create(Request $request): JsonResponse
+    {
+        $service = VillaService::create($request, auth()->user());
 
         return parent::response(
             status: $service->status,

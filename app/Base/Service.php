@@ -10,7 +10,7 @@ use Throwable;
 
 abstract class Service implements InterfaceService
 {
-    protected array $result = [];
+    protected array $data = [];
 
     protected function validator(array $data, array $rules, array $messages = [], array $attributes = []) : Validator {
         return validator($data, $rules, $messages, $attributes);
@@ -21,7 +21,7 @@ abstract class Service implements InterfaceService
         $response               = new ServiceResponse;
         $response->status       = true;
         $response->message      = $message;
-        $response->result       = $this->result;
+        $response->data         = $this->data;
         $response->code         = $code;
 
         return $response;
@@ -32,7 +32,7 @@ abstract class Service implements InterfaceService
         $response               = new ServiceResponse;
         $response->status       = false;
         $response->message      = $message;
-        $response->result       = $this->result;
+        $response->data         = $this->data;
         $response->code         = $code;
 
         return $response;

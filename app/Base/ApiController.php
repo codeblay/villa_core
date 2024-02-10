@@ -7,12 +7,12 @@ use Illuminate\Http\JsonResponse;
 
 abstract class ApiController extends Controller
 {
-    function response(bool $status, string $message, array $result, int $http_code): JsonResponse
+    function response(bool $status, string $message, array $data, int $http_code): JsonResponse
     {
         $data = [
             'status'    => $status,
             'message'   => $message,
-            'result'    => $result,
+            'data'      => $data,
         ];
         return response()->json($data, $http_code);
     }

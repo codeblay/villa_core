@@ -14,6 +14,9 @@ class Villa extends Model
 
     protected $guarded = [];
 
+    const STATUS_DRAFT      = 0;
+    const STATUS_PUBLISH    = 1;
+
     // Relation
     
     function seller() : BelongsTo {

@@ -2,11 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Interface\Repository;
+use App\Interface\RepositoryApi;
 use App\Models\Seller;
+use App\MyConst;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Auth\User;
 
-final class SellerRepository implements Repository
+final class SellerRepository implements RepositoryApi
 {
     static function get(array $conditions = []): Collection
     {
@@ -36,5 +38,12 @@ final class SellerRepository implements Repository
     static function delete(int $id): bool
     {
         return Seller::query()->where('id', $id)->delete();
+    }
+
+    static function token(User $seller): string
+    {
+        if (!($seller instanceof Seller)) return '';
+        if ($seller->tokens()->count() >= 3) $seller->tokens()->delete();
+        return $seller->createToken(MyConst::USER_SELLER)->plainTextToken ?? '';
     }
 }

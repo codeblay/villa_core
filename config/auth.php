@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'buyer' => [
+            'driver' => 'sanctum',
+            'provider' => 'buyers',
+        ],
+        'seller' => [
+            'driver' => 'sanctum',
+            'provider' => 'sellers',
+        ],
     ],
 
     /*
@@ -65,10 +73,15 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'sellers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Seller::class,
+        ],
+
+        'buyers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Buyer::class,
+        ],
     ],
 
     /*

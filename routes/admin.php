@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BuyerController;
 use App\Http\Controllers\Admin\MasterController;
 use App\Http\Controllers\Admin\SellerController;
 use App\Http\Controllers\Admin\VillaController;
+use App\MyConst;
 use Illuminate\Support\Facades\Route;
 
 Route::withoutMiddleware('admin')->middleware('guest')->group(function () {
@@ -18,8 +19,8 @@ Route::view('', 'pages.admin.dashboard')->name('dashboard');
 Route::get('villa', [VillaController::class, 'index'])->name('villa');
 
 Route::prefix('user')->group(function () {
-    Route::get('seller', [SellerController::class, 'index'])->name('user.seller');
-    Route::get('buyer', [BuyerController::class, 'index'])->name('user.buyer');
+    Route::get(MyConst::USER_SELLER, [SellerController::class, 'index'])->name('user.seller');
+    Route::get(MyConst::USER_BUYER, [BuyerController::class, 'index'])->name('user.buyer');
 });
 
 Route::prefix('verification')->group(function () {

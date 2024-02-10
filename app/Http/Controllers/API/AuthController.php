@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Base\ApiController;
-use App\Services\API\Villa\VillaService;
-use App\Services\Villa\VillaService as VillaService2;
+use App\Services\API\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
-class VillaController extends ApiController
+class AuthController extends ApiController
 {
-
-    function index(): JsonResponse
+    function login(Request $request): JsonResponse
     {
-        $service = VillaService::ListBySeller(auth()->user()->id);
+        $user_type = $request->header('x-role', '');
+        $service = AuthService::login($request, $user_type);
 
         return parent::response(
             status: $service->status,
@@ -22,9 +22,9 @@ class VillaController extends ApiController
         );
     }
 
-    function detail(int $villa_id): JsonResponse
+    function logout(Request $request): JsonResponse
     {
-        $service = VillaService2::detail($villa_id);
+        $service = AuthService::logout($request);
 
         return parent::response(
             status: $service->status,
@@ -34,9 +34,10 @@ class VillaController extends ApiController
         );
     }
 
-    function slider(): JsonResponse
+    function register(Request $request): JsonResponse
     {
-        $service = VillaService2::slider();
+        $user_type = $request->header('x-role', '');
+        $service = AuthService::register($request, $user_type);
 
         return parent::response(
             status: $service->status,

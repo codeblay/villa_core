@@ -7,6 +7,7 @@ use App\Models\Seller;
 use App\Services\Villa\Action\Booking;
 use App\Services\Villa\Action\Create;
 use App\Services\Villa\Action\Detail;
+use App\Services\Villa\Action\ListAll;
 use App\Services\Villa\Action\ListBySeller;
 use App\Services\Villa\Action\Slider;
 use Illuminate\Http\Request;
@@ -31,6 +32,11 @@ final class VillaService
     static function booking(): ServiceResponse
     {
         return (new Booking)->call();
+    }
+
+    static function ListAll(Request $request): ServiceResponse
+    {
+        return (new ListAll($request))->call();
     }
 
     static function ListBySeller(Seller $seller): ServiceResponse

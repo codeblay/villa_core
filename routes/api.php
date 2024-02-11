@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('villa')->group(function() {
+    Route::get('', [VillaController::class, 'list']);
     Route::get('slider', [VillaController::class, 'slider']);
     Route::get('{id}', [VillaController::class, 'detail']);
 });

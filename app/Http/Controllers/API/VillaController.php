@@ -10,7 +10,19 @@ use Illuminate\Http\Request;
 class VillaController extends ApiController
 {
 
-    function index(): JsonResponse
+    function list(Request $request): JsonResponse
+    {
+        $service = VillaService::ListAll($request);
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
+
+    function listBySeller(): JsonResponse
     {
         $service = VillaService::ListBySeller(auth()->user());
 

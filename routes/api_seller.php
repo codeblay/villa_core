@@ -10,7 +10,7 @@ Route::post('register', [AuthController::class, 'register'])->withoutMiddleware(
 Route::post('logout', [AuthController::class, 'logout']);
 
 Route::prefix('villa')->group(function() {
-    Route::get('', [VillaController::class, 'index']);
+    Route::get('', [VillaController::class, 'listBySeller']);
     Route::get('{id}',[VillaController::class, 'detail']);
     Route::post('',[VillaController::class, 'create']);
     Route::put('{id}',[VillaController::class, 'edit']);

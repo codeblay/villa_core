@@ -7,6 +7,12 @@ final class Charge
     const PAYMENT_TYPE_QRIS             = 'qris';
     const PAYMENT_TYPE_GOPAY            = 'gopay';
     const PAYMENT_TYPE_BANK_TRANSFER    = 'bank_transfer';
+    
+    const PAYMENT = [
+        self::PAYMENT_TYPE_QRIS,
+        self::PAYMENT_TYPE_GOPAY,
+        self::PAYMENT_TYPE_BANK_TRANSFER,
+    ];
 
     public string                   $payment_type;
     public ChargeTransactionDetails $transaction_details;

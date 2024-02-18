@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\API\Auth\Action;
+namespace App\Services\Auth\Action;
 
 use App\Base\Service;
 use App\Interface\RepositoryApi;

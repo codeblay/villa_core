@@ -69,4 +69,40 @@ class VillaController extends ApiController
             http_code: $service->code,
         );
     }
+
+    function edit(Request $request): JsonResponse
+    {
+        $service = VillaService::edit($request, auth()->user());
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
+
+    function rate(Request $request): JsonResponse
+    {
+        $service = VillaService::rate($request, auth()->user());
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
+
+    function booking(Request $request): JsonResponse
+    {
+        $service = VillaService::booking($request, auth()->user());
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
 }

@@ -24,7 +24,6 @@ class VillaSeeder extends Seeder
                 'description'   => 'description villa',
                 'price'         => 500_000,
                 'is_publish'    => true,
-                'is_available'  => true,
             ]);
 
             VillaFacility::query()->create([

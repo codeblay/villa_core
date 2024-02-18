@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Seller;
+use App\MyConst;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,11 +19,12 @@ class SellerSeeder extends Seeder
             'name'                  => 'Seller Dummy',
             'email'                 => 'seller@gmail.com',
             'password'              => 'qweqweqwe',
-            'gender'                => 'Pria',
+            'phone'                 => '080000000001',
+            'gender'                => MyConst::GENDER_MALE,
             'birth_date'            => Carbon::createFromDate(1998, 01, 11),
             'nik'                   => '0000000000000001',
-            'is_email_verified'     => true,
-            'is_document_verified'  => true,
+            'email_verified_at'     => now(),
+            'document_verified_at'  => now(),
         ]);
     }
 }

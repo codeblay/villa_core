@@ -6,4 +6,11 @@ class MyConst
 {
     const USER_SELLER   = 'seller';
     const USER_BUYER    = 'buyer';
+    
+    const GENDER_MALE   = 'M';
+    const GENDER_FEMALE = 'F';
+    const GENDER        = [
+        self::GENDER_MALE,
+        self::GENDER_FEMALE,
+    ];
 }

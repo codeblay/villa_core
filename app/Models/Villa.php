@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Villa extends Model
 {
@@ -33,6 +34,10 @@ class Villa extends Model
 
     function ratings() : HasMany {
         return $this->hasMany(VillaRating::class);
+    }
+
+    function schedule() : HasOne {
+        return $this->hasOne(VillaSchedule::class);
     }
 
     // End Relation

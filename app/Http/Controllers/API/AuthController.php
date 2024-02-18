@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Base\ApiController;
-use App\Services\API\Auth\AuthService;
+use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

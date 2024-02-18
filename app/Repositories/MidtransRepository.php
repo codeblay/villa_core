@@ -27,4 +27,13 @@ final class MidtransRepository
 
         return $request;
     }
+
+    function cancel(string $url) : Response {
+        $request = Http::acceptJson()
+            ->contentType('application/json')
+            ->withBasicAuth($this->server_key, '')
+            ->post($url);
+
+        return $request;
+    }
 }

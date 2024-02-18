@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services\API\Auth;
+namespace App\Services\Auth;
 
 use App\Models\DTO\ServiceResponse;
-use App\Services\API\Auth\Action\Login;
-use App\Services\API\Auth\Action\Logout;
-use App\Services\API\Auth\Action\Register;
+use App\Services\Auth\Action\Login;
+use App\Services\Auth\Action\Logout;
+use App\Services\Auth\Action\Register;
 use Illuminate\Http\Request;
 
 class AuthService

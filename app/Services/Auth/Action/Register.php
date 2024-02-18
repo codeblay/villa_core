@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\API\Auth\Action;
+namespace App\Services\Auth\Action;
 
 use App\Base\Service;
 use App\Interface\RepositoryApi;
@@ -8,8 +8,11 @@ use App\Models\DTO\ServiceResponse;
 use App\MyConst;
 use App\Repositories\BuyerRepository;
 use App\Repositories\SellerRepository;
+use App\Services\Otp\OtpService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class Register extends Service
 {
@@ -29,7 +32,7 @@ class Register extends Service
                     'name'          => ['required', 'string'],
                     'email'         => ['required', 'email', 'unique:sellers,email'],
                     'password'      => ['required', 'min:8'],
-                    'gender'        => ['required', 'in:Pria,Wanita'],
+                    'gender'        => ['required', Rule::in(MyConst::GENDER)],
                     'birth_date'    => ['required', 'date_format:Y-m-d'],
                     'nik'           => ['required', 'size:16', 'unique:sellers,nik'],
                 ];
@@ -39,10 +42,9 @@ class Register extends Service
                 $rules = [
                     'name'          => ['required', 'string'],
                     'email'         => ['required', 'email', 'unique:buyers,email'],
+                    'phone'         => ['required', 'numeric', 'unique:buyers,phone'],
                     'password'      => ['required', 'min:8'],
-                    'gender'        => ['required', 'in:Pria,Wanita'],
-                    'birth_date'    => ['required', 'date_format:Y-m-d'],
-                    'nik'           => ['required', 'size:16', 'unique:buyers,nik'],
+                    'gender'        => ['required', Rule::in(MyConst::GENDER)],
                 ];
                 break;
         }
@@ -71,19 +73,34 @@ class Register extends Service
 
     function call(): ServiceResponse
     {
+        DB::beginTransaction();
         try {
-            if (!$this->validateUserType()) return parent::error("tipe user tidak valid");
+            if (!$this->validateUserType()) {
+                DB::rollBack();
+                return parent::error("tipe user tidak valid");
+            }
 
             $validator = parent::validator($this->request->all(), $this->rulesValidator());
-            if ($validator->fails()) return parent::error($validator->errors()->first());
+            if ($validator->fails()) {
+                DB::rollBack();
+                return parent::error($validator->errors()->first());
+            }
 
             $repo = $this->repo();
             $seller = $repo->create($validator->validated());
-            
+
+            $send_otp = OtpService::send($this->request->phone);
+            if (!$send_otp->status) {
+                DB::rollBack();
+                return parent::success($send_otp->message, $send_otp->code);
+            }
+
             $this->data['token'] = $repo->token($seller);
 
+            DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
+            DB::rollBack();
             parent::storeLog($th, self::CONTEXT);
             return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_REQUEST);
         }

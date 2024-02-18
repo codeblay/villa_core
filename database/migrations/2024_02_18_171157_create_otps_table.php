@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Otp;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,14 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('villas', function (Blueprint $table) {
+        Schema::create('otps', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('seller_id');
-            $table->integer('city_id');
-            $table->text('description');
-            $table->integer('price');
-            $table->boolean('is_publish')->default(0);
+            $table->string('phone');
+            $table->string('code');
+            $table->enum('status', Otp::STATUS)->default(Otp::STATUS_ACTIVE);
+            $table->timestamp('expired_at');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('villas');
+        Schema::dropIfExists('otps');
     }
 };

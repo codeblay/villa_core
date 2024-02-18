@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('villas', function (Blueprint $table) {
+        Schema::create('transaction_details', function (Blueprint $table) {
             $table->id();
+            $table->integer('transaction_id');
             $table->string('name');
-            $table->integer('seller_id');
-            $table->integer('city_id');
-            $table->text('description');
-            $table->integer('price');
-            $table->boolean('is_publish')->default(0);
+            $table->date('start');
+            $table->date('end');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('villas');
+        Schema::dropIfExists('transaction_details');
     }
 };

@@ -4,6 +4,7 @@ namespace App\Services\Otp\Action;
 
 use App\Base\Service;
 use App\Models\DTO\Sendtalk\Message;
+use App\Models\DTO\Sendtalk\Verification;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Otp;
 use App\Repositories\OtpRepository;
@@ -18,7 +19,10 @@ class Send extends Service
 
     public function __construct(protected int $phone)
     {
-        $this->data['code'] = '';
+        $this->data = [
+            'link'  => '',
+            'qr'    => '',
+        ];
     }
 
     static function formatPhone(string $phone) : string {
@@ -29,50 +33,42 @@ class Send extends Service
     {
         try {
 
-            $latest_otp = OtpRepository::latest(['phone' => $this->phone]);
-            if ($latest_otp) {
-                if ($latest_otp->is_expired) {
-                    OtpRepository::update($latest_otp->id, ['status' => Otp::STATUS_EXPIRED]);
-                }
-
-                switch ($latest_otp->status) {
-                    case Otp::STATUS_ACTIVE:
-                        $otp_code = $latest_otp->code;
-                        break;
-
-                    case Otp::STATUS_EXPIRED:
-                        $otp_code = Otp::generateOtp();
-                        break;
-
-
-                    case Otp::STATUS_VALID:
-                        $otp_code = Otp::generateOtp();
-                        break;
-                    }
-            } else {
-                $otp_code = Otp::generateOtp();
+            $otp = OtpRepository::first(['phone' => $this->phone]);
+            switch ($otp->status) {
+                case Otp::STATUS_ACTIVE:
+                    $this->data = [
+                        'link'  => $otp->external_response['data']['verification']['waLink'],
+                        'qr'    => $otp->external_response['data']['verification']['qrCode'],
+                    ];
+        
+                    return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
+                    break;
+                case Otp::STATUS_VALID:
+                    OtpRepository::delete($otp->id);
+                    break;
             }
 
-            $send_otp_body              = new Message;
-            $send_otp_body->phone       = self::formatPhone($this->phone);
-            $send_otp_body->messageType = $send_otp_body::TYPE_OTP;
-            $send_otp_body->body        = $otp_code;
+            $send_otp_body              = new Verification;
+            $send_otp_body->userPhone   = self::formatPhone($this->phone);
 
-            $send_otp = (new SendtalkRepository)->sendMessage($send_otp_body);
+            $send_otp = (new SendtalkRepository)->sendVerification($send_otp_body);
             $send_otp_result = $send_otp->json();
 
-            if ($send_otp->failed() || $send_otp_result['status'] != Response::HTTP_OK) {
+            if ($send_otp->failed() || $send_otp_result['status'] != Response::HTTP_OK || $send_otp_result['data']['success'] == false) {
+                logger()->channel('sendtalk')->info("send verification", $send_otp_result);
                 return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_GATEWAY);
             }
 
             OtpRepository::create([
-                'phone'         => $this->phone,
-                'code'          => $otp_code,
-                'status'        => Otp::STATUS_ACTIVE,
-                'expired_at'    => now()->addMinutes(10),
+                'phone'             => $this->phone,
+                'status'            => Otp::STATUS_ACTIVE,
+                'external_response' => $send_otp->body(),
             ]);
 
-            $this->data['code'] = $otp_code;
+            $this->data = [
+                'link'  => $send_otp_result['waLink'],
+                'qr'    => $send_otp_result['qrCode'],
+            ];
 
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);            
         } catch (\Throwable $th) {

@@ -14,10 +14,9 @@ return new class extends Migration
     {
         Schema::create('otps', function (Blueprint $table) {
             $table->id();
-            $table->string('phone');
-            $table->string('code');
+            $table->string('phone')->unique();
             $table->enum('status', Otp::STATUS)->default(Otp::STATUS_ACTIVE);
-            $table->timestamp('expired_at');
+            $table->json('external_response');
             $table->timestamps();
         });
     }

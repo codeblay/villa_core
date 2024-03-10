@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\DestinationController;
 use App\Http\Controllers\API\VillaController;
+use App\Services\Sendtalk\Callback\SendtalkCallbackService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,5 @@ Route::prefix('destination')->group(function() {
 
     Route::get('{id}', [DestinationController::class, 'detail']);
 });
+
+Route::post('callback_sendtalk', [SendtalkCallbackService::class, 'otp'])->withoutMiddleware('app_key');

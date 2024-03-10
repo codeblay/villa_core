@@ -11,13 +11,15 @@ class Otp extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'external_response' => 'object'
+    ];
+
     const STATUS_ACTIVE     = 'Active';
     const STATUS_VALID      = 'Valid';
-    const STATUS_EXPIRED    = 'Expired';
     const STATUS        = [
         self::STATUS_ACTIVE,
         self::STATUS_VALID,
-        self::STATUS_EXPIRED,
     ];
 
     function getIsExpiredAttribute() : bool {

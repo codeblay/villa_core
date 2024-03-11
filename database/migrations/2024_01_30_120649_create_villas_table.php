@@ -19,7 +19,6 @@ return new class extends Migration
             $table->text('description');
             $table->integer('price');
             $table->boolean('is_publish')->default(0);
-            $table->boolean('is_available')->default(0);
             $table->timestamps();
         });
     }

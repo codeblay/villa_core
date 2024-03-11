@@ -18,7 +18,11 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/home';
-
+    
+    static function adminPath() : string {
+        return config('admin.path');
+    }
+    
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
      */
@@ -35,6 +39,20 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+            Route::middleware(['web', 'admin'])
+                ->prefix(self::adminPath())
+                ->name('admin.')
+                ->group(base_path('routes/admin.php'));
+
+            Route::middleware(['api', 'auth:seller'])
+                ->prefix('api/seller')
+                ->group(base_path('routes/api_seller.php'));
+                
+            Route::middleware(['api', 'auth:buyer'])
+                ->prefix('api/buyer')
+                ->group(base_path('routes/api_buyer.php'));
+
         });
     }
 }

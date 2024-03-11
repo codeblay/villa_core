@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Destination extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
     
     // Relation
     
@@ -17,7 +19,7 @@ class Destination extends Model
     }
 
     function category() : BelongsTo {
-        return $this->belongsTo(DestinationCategory::class);
+        return $this->belongsTo(DestinationCategory::class, 'destination_category_id');
     }
 
     // End Relation

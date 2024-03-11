@@ -126,6 +126,14 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'sendtalk' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/sendtalk/sendtalk.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
+            'replace_placeholders' => true,
+        ],
     ],
 
 ];

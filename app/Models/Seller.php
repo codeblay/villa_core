@@ -2,13 +2,38 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\HasApiTokens;
 
 class Seller extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens, HasFactory, Notifiable;
+
+    protected $guarded = [];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 
     // Relation
     
@@ -17,4 +42,14 @@ class Seller extends Authenticatable
     }
 
     // End Relation
+
+    function password() : Attribute {
+        return Attribute::make(
+            set: fn (string $pw) => Hash::make($pw),
+        );
+    }
+
+    function getAgeAttribute() : int {
+        return Carbon::parse($this->birth_date)->age;
+    }
 }

@@ -1,0 +1,84 @@
+{
+  "menu": [
+    {
+      "url": "admin.dashboard",
+      "name": "Dashboards",
+      "icon": "menu-icon tf-icons bx bx-bar-chart-square",
+      "slug": "admin.dashboard"
+    },
+    {
+      "menuHeader": "Properti"
+    },
+    {
+      "url": "admin.villa",
+      "name": "Villa",
+      "icon": "menu-icon tf-icons bx bx-building-house",
+      "slug": "admin.villa"
+    },
+    {
+      "menuHeader": "Pengguna"
+    },
+    {
+      "url": "admin.user.seller",
+      "name": "Pemilik Properti",
+      "icon": "menu-icon tf-icons bx bx-user-check",
+      "slug": "admin.user.seller"
+    },
+    {
+      "url": "admin.user.buyer",
+      "name": "Penyewa",
+      "icon": "menu-icon tf-icons bx bx-user-voice",
+      "slug": "admin.user.buyer"
+    },
+    {
+      "menuHeader": "Verifikasi"
+    },
+    {
+      "url": "admin.verification.account",
+      "name": "Akun",
+      "icon": "menu-icon tf-icons bx bx-user-plus",
+      "slug": "admin.verification.account"
+    },
+    {
+      "menuHeader": "Transaksi"
+    },
+    {
+      "url": "admin.transaction.rent",
+      "name": "Penyewaan",
+      "icon": "menu-icon tf-icons bx bx-import",
+      "slug": "admin.transaction.rent"
+    },
+    {
+      "url": "admin.transaction.withdrawal",
+      "name": "Penarikan Dana",
+      "icon": "menu-icon tf-icons bx bx-export",
+      "slug": "admin.transaction.withdrawal"
+    },
+    {
+      "menuHeader": "Master"
+    },
+    {
+      "url": "admin.master.facility",
+      "name": "Fasilitas",
+      "icon": "menu-icon tf-icons bx bx-border-outer",
+      "slug": "admin.master.facility"
+    },
+    {
+      "name": "Destinasi",
+      "icon": "menu-icon tf-icons bx bx-map-alt",
+      "slug": "admin.master.destination",
+      "submenu": [
+        {
+          "url": "admin.master.destination.category",
+          "name": "Kategori",
+          "slug": "admin.master.destination.category"
+        },
+        {
+          "url": "admin.master.destination.list",
+          "name": "List",
+          "slug": "admin.master.destination.list"
+        }
+      ]
+    }
+  ]
+}

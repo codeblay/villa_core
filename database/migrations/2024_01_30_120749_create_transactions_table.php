@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->integer('villa_id');
             $table->integer('buyer_id');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->comment("1.Pending\n2.Success\n3.Failed");
             $table->integer('amount');
             $table->string('external_id');
+            $table->json('external_response');
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });

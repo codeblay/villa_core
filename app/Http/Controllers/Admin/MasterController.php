@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\BankRepository;
 use App\Repositories\DestinationCategoryRepository;
 use App\Repositories\DestinationRepository;
 use App\Repositories\FacilityRepository;
+use App\Services\Bank\BankService;
 use App\Services\Destination\DestinationService;
 use App\Services\Facility\FacilityService;
 use Illuminate\Http\Request;
@@ -50,5 +52,22 @@ class MasterController extends Controller
     {
         $data['destinations'] = DestinationRepository::get();
         return view('pages.admin.master.destination.list', $data);
+    }
+
+    function bank()
+    {
+        $data['banks'] = BankRepository::get();
+        return view('pages.admin.master.bank', $data);
+    }
+
+    function bankUpdate(Request $request)
+    {
+        $service = BankService::update($request);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
     }
 }

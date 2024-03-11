@@ -41,4 +41,9 @@ Route::prefix('master')->group(function () {
         Route::post('category', [MasterController::class, 'destinationCategoryCreate'])->name('master.destination.category.create');
         Route::get('list', [MasterController::class, 'destinationList'])->name('master.destination.list');
     });
+
+    Route::prefix('bank')->group(function () {
+        Route::get('', [MasterController::class, 'bank'])->name('master.bank');
+        Route::put('', [MasterController::class, 'bankUpdate'])->name('master.bank.update');
+    });
 });

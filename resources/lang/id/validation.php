@@ -146,6 +146,7 @@ return [
     */
 
     'attributes' => [
-        'name' => 'nama'
+        'name' => 'nama',
+        'va_number' => 'nomor virtual akun',
     ],
 ];

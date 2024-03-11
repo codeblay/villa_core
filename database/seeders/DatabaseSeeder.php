@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(ProvinceSeeder::class);
         $this->call(CitySeeder::class);
+        $this->call(BankSeeder::class);
 
         if (env('SEED_EXAMPLE', false)) {
             $this->call(SellerSeeder::class);

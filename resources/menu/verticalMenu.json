@@ -58,6 +58,12 @@
       "menuHeader": "Master"
     },
     {
+      "url": "admin.master.bank",
+      "name": "Akun Bank",
+      "icon": "menu-icon tf-icons bx bx-wallet-alt",
+      "slug": "admin.master.bank"
+    },
+    {
       "url": "admin.master.facility",
       "name": "Fasilitas",
       "icon": "menu-icon tf-icons bx bx-border-outer",

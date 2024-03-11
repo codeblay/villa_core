@@ -11,8 +11,10 @@ class Bank extends Model
     
     protected $guarded = [];
 
-    const STATUS_NONACTIVE  = false;
-    const STATUS_ACTIVE     = true;
+    const QR    = "qr";
+    const BCA   = "bca";
+    const BRI   = "bri";
+    const BNI   = "bni";
 
     function getIsActiveLabelAttribute() : string {
         return $this->is_active ? "aktif" : "tidak aktif";

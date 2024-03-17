@@ -17,7 +17,7 @@ class SellerController extends Controller
     function verification()
     {
         $data['sellers'] = SellerRepository::get([
-            'is_document_verified' => false,
+            'document_verified_at' => null,
         ]);
         return view('pages.admin.verification.account', $data);
     }

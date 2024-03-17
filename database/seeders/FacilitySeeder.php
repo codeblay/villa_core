@@ -11,6 +11,10 @@ class FacilitySeeder extends Seeder
     const FACILITIES = [
         'Wifi',
         'Kolam Renang',
+        'Sarapan Pagi',
+        'Billiard',
+        'Parkir Motor',
+        'Parkir Mobil',
     ];
 
     /**

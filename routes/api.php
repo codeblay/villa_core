@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\API\DestinationController;
+use App\Http\Controllers\API\Select2Controller;
+use App\Http\Controllers\API\SendtalkController;
 use App\Http\Controllers\API\VillaController;
-use App\Services\Sendtalk\Callback\SendtalkCallbackService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +36,11 @@ Route::prefix('destination')->group(function() {
     Route::get('{id}', [DestinationController::class, 'detail']);
 });
 
-Route::post('callback_sendtalk', [SendtalkCallbackService::class, 'otp'])->withoutMiddleware('app_key');
+Route::post('callback_sendtalk', [SendtalkController::class, 'otp'])->withoutMiddleware('app_key');
+
+Route::prefix('select2')->withoutMiddleware('app_key')->group(function(){
+    Route::get('location', [Select2Controller::class, 'location'])->name('select2.location');
+    Route::get('location/{id}', [Select2Controller::class, 'locationDetail'])->name('select2.location.detail');
+    Route::get('seller', [Select2Controller::class, 'seller'])->name('select2.seller');
+    Route::get('seller/{id}', [Select2Controller::class, 'sellerDetail'])->name('select2.seller.detail');
+});

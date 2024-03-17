@@ -16,7 +16,7 @@ class SellerSeeder extends Seeder
     public function run(): void
     {
         Seller::query()->create([
-            'name'                  => 'Seller Dummy',
+            'name'                  => 'Seller',
             'email'                 => 'seller@gmail.com',
             'password'              => 'qweqweqwe',
             'phone'                 => '080000000001',

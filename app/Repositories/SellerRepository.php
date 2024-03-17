@@ -46,4 +46,29 @@ final class SellerRepository implements RepositoryApi
         if ($seller->tokens()->count() >= 3) $seller->tokens()->delete();
         return $seller->createToken(MyConst::USER_SELLER)->plainTextToken ?? '';
     }
+
+    static function select2(string $keyword = ''): array
+    {
+        return Seller::query()
+            ->where('name', 'LIKE', "%$keyword%")
+            ->orWhere('email', 'LIKE', "$keyword%")
+            ->limit(5)
+            ->get()
+            ->map(function(Seller $city){
+                return [
+                    'id'    => $city->id,
+                    'text'  => $city->name,
+                ];
+            })
+            ->toArray();
+    }
+
+    static function select2Single(int $id): array
+    {
+        $seller = Seller::query()->find($id);
+        return [
+            'id'    => @$seller->id,
+            'text'  => @$seller->name,
+        ];
+    }
 }

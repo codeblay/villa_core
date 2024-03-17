@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interface\Repository;
 use App\Models\DTO\SearchVilla;
 use App\Models\Villa;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\CursorPaginator;
@@ -51,6 +52,22 @@ final class VillaRepository implements Repository
             })
             ->where('is_publish', Villa::STATUS_PUBLISH)
             ->cursorPaginate($cursor);
+    }
+
+    static function listForAdmin(int $cursor, SearchVilla $param): LengthAwarePaginator
+    {
+        return Villa::query()
+            ->with(['city'])
+            ->when($param->name, function(Builder $query, string $name){
+                $query->where('name', 'LIKE', "%{$name}%");
+            })
+            ->when($param->city_id, function(Builder $query, int $city_id){
+                $query->where('city_id', $city_id);
+            })
+            ->when($param->order_by, function(Builder $query, string $column) use ($param){
+                $query->orderBy($column, $param->order_type);
+            })
+            ->paginate($cursor);
     }
 
     static function cursorBySeller(int $seller_id, int $cursor): CursorPaginator

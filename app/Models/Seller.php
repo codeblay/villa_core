@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\MyConst;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,5 +52,12 @@ class Seller extends Authenticatable
 
     function getAgeAttribute() : int {
         return Carbon::parse($this->birth_date)->age;
+    }
+
+    function getGenderLabelAttribute() : string {
+        return match ($this->gender) {
+            MyConst::GENDER_MALE    => 'Laki-laki',
+            MyConst::GENDER_FEMALE  => 'Perempuan',
+        };
     }
 }

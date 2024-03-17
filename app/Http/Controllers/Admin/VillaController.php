@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DTO\SearchVilla;
 use App\Repositories\VillaRepository;
 use Illuminate\Http\Request;
 
 class VillaController extends Controller
 {
-    function index()
+    function index(Request $request)
     {
-        $data['villas'] = VillaRepository::get();
+        $param              = new SearchVilla;
+        $param->name        = $request->name;
+        $param->city_id     = $request->city_id;
+        $param->seller_id   = $request->seller_id;
+
+        $data['villas'] = VillaRepository::listForAdmin(2, $param);
         return view('pages.admin.villa', $data);
     }
 }

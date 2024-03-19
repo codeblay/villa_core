@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Villa extends Model
 {
@@ -40,6 +41,10 @@ class Villa extends Model
         return $this->hasOne(VillaSchedule::class);
     }
 
+    function files() : MorphMany {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
     // End Relation
 
     function getAddressAttribute() : string {
@@ -59,5 +64,11 @@ class Villa extends Model
 
     function getCanBookAttribute() : bool {
         return $this->is_publish && $this->is_available;
+    }
+
+    function getFilesPathAttribute() : array {
+        return $this->files->pluck('path')->map(function(string $path){
+            return config('filesystems.disks.villa.url') . "/" . $path;
+        })->toArray();
     }
 }

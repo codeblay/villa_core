@@ -48,6 +48,7 @@ final class Detail extends Service
             'price'         => $villa->price,
             'description'   => $villa->description,
             'can_book'      => $villa->can_book,
+            'images'        => $villa->files_path,
             'facilities'    => $villa->facilities->pluck('name')->toArray(),
         ];
     }

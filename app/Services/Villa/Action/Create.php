@@ -23,6 +23,7 @@ final class Create extends Service
         'price'         => 'required|integer',
         'facilities'    => 'required|array|min:1',
         'facilities.*'  => 'required|integer',
+        'images.*'       => 'required|mimes:jpg|max:1024|dimensions:ratio=16/9',
     ];
 
     public function __construct(protected Request $request, protected Seller $seller)
@@ -36,15 +37,22 @@ final class Create extends Service
             $validator = parent::validator($this->request->all(), self::RULES_VALIDATOR);
             if ($validator->fails()) return parent::error($validator->errors()->first());
 
-            VillaRepository::create([
+            $images = $this->request->file('images');
+
+            $villa = VillaRepository::create([
                 'name'          => $this->request->name,
                 'seller_id'     => $this->seller->id,
                 'city_id'       => $this->request->city_id,
                 'description'   => $this->request->description,
                 'price'         => $this->request->price,
                 'is_publish'    => false,
-                'is_available'  => false,
-            ])->facilities()->attach($this->request->facilities);
+            ]);
+
+            $villa->facilities()->attach($this->request->facilities);
+            
+            foreach ($images as $image) {
+                VillaRepository::addImages($villa, $image);
+            }
 
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);

@@ -4,11 +4,14 @@ namespace App\Repositories;
 
 use App\Interface\Repository;
 use App\Models\DTO\SearchVilla;
+use App\Models\File;
 use App\Models\Villa;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\CursorPaginator;
+use Illuminate\Support\Facades\Storage;
 
 final class VillaRepository implements Repository
 {
@@ -41,13 +44,13 @@ final class VillaRepository implements Repository
     {
         return Villa::query()
             ->with(['city'])
-            ->when($param->name, function(Builder $query, string $name){
+            ->when($param->name, function (Builder $query, string $name) {
                 $query->where('name', 'LIKE', "%{$name}%");
             })
-            ->when($param->city_id, function(Builder $query, int $city_id){
+            ->when($param->city_id, function (Builder $query, int $city_id) {
                 $query->where('city_id', $city_id);
             })
-            ->when($param->order_by, function(Builder $query, string $column) use ($param){
+            ->when($param->order_by, function (Builder $query, string $column) use ($param) {
                 $query->orderBy($column, $param->order_type);
             })
             ->where('is_publish', Villa::STATUS_PUBLISH)
@@ -58,13 +61,13 @@ final class VillaRepository implements Repository
     {
         return Villa::query()
             ->with(['city'])
-            ->when($param->name, function(Builder $query, string $name){
+            ->when($param->name, function (Builder $query, string $name) {
                 $query->where('name', 'LIKE', "%{$name}%");
             })
-            ->when($param->city_id, function(Builder $query, int $city_id){
+            ->when($param->city_id, function (Builder $query, int $city_id) {
                 $query->where('city_id', $city_id);
             })
-            ->when($param->order_by, function(Builder $query, string $column) use ($param){
+            ->when($param->order_by, function (Builder $query, string $column) use ($param) {
                 $query->orderBy($column, $param->order_type);
             })
             ->paginate($cursor);
@@ -83,5 +86,14 @@ final class VillaRepository implements Repository
     static function detailForBuyer(int $id): ?Villa
     {
         return Villa::query()->with(['city', 'facilities'])->where('is_publish', Villa::STATUS_PUBLISH)->where('id', $id)->first();
+    }
+
+    static function addImages(Villa $villa, UploadedFile $file): bool
+    {
+        $_file       = new File;
+        $_file->path = "villa/" . $file->store('', 'villa');
+        $_file->type = File::TYPE_IMAGE;
+
+        return $villa->files()->save($_file) instanceof File;
     }
 }

@@ -6,6 +6,41 @@
 @endsection
 
 @section('content')
+    <div class="card mb-2">
+        <form action="">
+            <div class="card-header">
+                <div class="d-flex flex-wrap gap-2">
+                    <div style="flex-grow: 2">
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+                            <input type="text" name="name" value="{{ request('name') }}" class="form-control"
+                                placeholder="Cari destinasi..." aria-label="Cari destinasi..."
+                                aria-describedby="basic-addon-search31" />
+                        </div>
+                    </div>
+                    <div style="flex-grow: 1">
+                        <select class="form-select select2-ajax" name="city_id"
+                            data-ajax--url="{{ route('api.select2.location') }}" data-placeholder="Lokasi">
+                        </select>
+                    </div>
+                    <div style="flex-grow: 1">
+                        <select class="form-select select2" name="category_id" data-placeholder="Kategori">
+                            <option value=""></option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div style="flex-grow: 0">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="card">
         <div class="table-responsive text-nowrap">
             <table class="table table-hover">
@@ -24,8 +59,9 @@
                             <td>{{ $destination->category->name }}</td>
                             <td>{{ $destination->city->address }}</td>
                             <td class="text-end">
-                                <button type="button" class="btn btn-icon btn-primary btn-sm detail-button" data-bs-toggle="tooltip"
-                                    data-bs-original-title="Detail" data-url="{{ route('admin.master.destination.list.detail', $destination->id) }}">
+                                <button type="button" class="btn btn-icon btn-primary btn-sm detail-button"
+                                    data-bs-toggle="tooltip" data-bs-original-title="Detail"
+                                    data-url="{{ route('admin.master.destination.list.detail', $destination->id) }}">
                                     <span class="tf-icons bx bx-show"></span>
                                 </button>
                             </td>
@@ -40,9 +76,16 @@
         </div>
     </div>
 
+    @if ($destinations->hasPages())
+        <div class="card mt-2 pt-3 pe-3 align-items-end justify-content-center">
+            {{ $destinations->links() }}
+        </div>
+    @endif
+
     <div class="modal fade" id="modalAdd" aria-modal="true" role="dialog" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form class="modal-content" action="{{ route('admin.master.destination.list.create') }}" enctype="multipart/form-data" method="POST">
+            <form class="modal-content" action="{{ route('admin.master.destination.list.create') }}"
+                enctype="multipart/form-data" method="POST">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalAddTitle">Tambah Destinasi</h5>
@@ -57,8 +100,8 @@
                         </div>
                         <div class="col col-12 col-md-6 mb-3">
                             <label for="destination_category_id" class="form-label">Kategori</label>
-                            <select class="form-select select2" id="destination_category_id"
-                                name="destination_category_id" data-placeholder="Kategori" required>
+                            <select class="form-select select2" id="destination_category_id" name="destination_category_id"
+                                data-placeholder="Kategori" required>
                                 <option value=""></option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -80,8 +123,9 @@
                             <label class="form-label">Gambar</label>
                             <div class="d-flex flex-column align-items-start gap-2">
                                 <div style="width: 60%">
-                                    <img src="{{ asset('image/placeholder-16-9.jpg') }}" alt="user-avatar" class="d-block rounded"
-                                        id="uploadedAvatar" style="width: -webkit-fill-available"/>
+                                    <img src="{{ asset('image/placeholder-16-9.jpg') }}" alt="user-avatar"
+                                        class="d-block rounded" id="uploadedAvatar"
+                                        style="width: -webkit-fill-available" />
                                 </div>
                                 <div class="d-flex w-100 justify-content-start gap-2">
                                     <button type="button" class="btn btn-sm btn-outline-secondary account-image-reset">
@@ -92,7 +136,7 @@
                                         <span class="d-none d-sm-block">Browse</span>
                                         <i class="bx bx-upload d-block d-sm-none"></i>
                                         <input type="file" id="upload" class="account-file-input" name="image"
-                                            hidden accept="image/jpeg"/>
+                                            hidden accept="image/jpeg" />
                                     </label>
                                 </div>
                             </div>
@@ -115,10 +159,26 @@
             e.preventDefault()
             $('#modalAdd').modal('show')
         })
-        
+
         $('.detail-button').click(function(e) {
             e.preventDefault()
             window.location.href = $(this).data('url')
         })
     </script>
+
+    @if (request('city_id'))
+        <script>
+            $(function() {
+                $.ajax({
+                    type: "GET",
+                    url: `{{ route('api.select2.location.detail', request('city_id')) }}`,
+                    dataType: "json",
+                    success: function(response) {
+                        $(`[name="city_id"]`).append(
+                            `<option value="${response.id}">${response.text}</option>`)
+                    }
+                });
+            })
+        </script>
+    @endif
 @endsection

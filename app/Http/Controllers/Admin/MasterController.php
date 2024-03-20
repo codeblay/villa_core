@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DTO\SearchDestination;
 use App\Repositories\BankRepository;
 use App\Repositories\DestinationCategoryRepository;
 use App\Repositories\DestinationRepository;
@@ -48,9 +49,14 @@ class MasterController extends Controller
         ]);
     }
     
-    function destinationList()
+    function destinationList(Request $request)
     {
-        $data['destinations'] = DestinationRepository::get();
+        $param              = new SearchDestination;
+        $param->name        = $request->name;
+        $param->city_id     = $request->city_id;
+        $param->category_id = $request->category_id;
+
+        $data['destinations'] = DestinationRepository::listForAdmin(20, $param);
         $data['categories'] = DestinationCategoryRepository::get();
         return view('pages.admin.master.destination.list', $data);
     }

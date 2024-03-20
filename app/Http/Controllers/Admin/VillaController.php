@@ -17,6 +17,12 @@ class VillaController extends Controller
         $param->seller_id   = $request->seller_id;
 
         $data['villas'] = VillaRepository::listForAdmin(10, $param);
-        return view('pages.admin.villa', $data);
+        return view('pages.admin.villa.index', $data);
+    }
+    
+    function detail(int $id)
+    {
+        $data['villa'] = VillaRepository::first(['id' => $id]);
+        return view('pages.admin.villa.detail', $data);
     }
 }

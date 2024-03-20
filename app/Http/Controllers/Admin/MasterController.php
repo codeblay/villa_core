@@ -54,6 +54,12 @@ class MasterController extends Controller
         $data['categories'] = DestinationCategoryRepository::get();
         return view('pages.admin.master.destination.list', $data);
     }
+    
+    function destinationListDetail(int $id)
+    {
+        $data['destination'] = DestinationRepository::first(['id' => $id]);
+        return view('pages.admin.master.destination.detail', $data);
+    }
 
     function destinationListCreate(Request $request)
     {

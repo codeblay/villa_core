@@ -13,7 +13,7 @@
       "url": "admin.villa",
       "name": "Villa",
       "icon": "menu-icon tf-icons bx bx-building-house",
-      "slug": "admin.villa"
+      "slug": ["admin.villa", "admin.villa.detail"]
     },
     {
       "menuHeader": "Pengguna"
@@ -82,7 +82,7 @@
         {
           "url": "admin.master.destination.list",
           "name": "List",
-          "slug": "admin.master.destination.list"
+          "slug": ["admin.master.destination.list", "admin.master.destination.list.detail"]
         }
       ]
     }

@@ -17,6 +17,7 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::view('', 'pages.admin.dashboard')->name('dashboard');
 Route::get('villa', [VillaController::class, 'index'])->name('villa');
+Route::get('villa/{id}', [VillaController::class, 'detail'])->name('villa.detail');
 
 Route::prefix('user')->group(function () {
     Route::get(MyConst::USER_SELLER, [SellerController::class, 'index'])->name('user.seller');
@@ -40,6 +41,7 @@ Route::prefix('master')->group(function () {
         Route::get('category', [MasterController::class, 'destinationCategory'])->name('master.destination.category');
         Route::post('category', [MasterController::class, 'destinationCategoryCreate'])->name('master.destination.category.create');
         Route::get('list', [MasterController::class, 'destinationList'])->name('master.destination.list');
+        Route::get('list/{id}', [MasterController::class, 'destinationListDetail'])->name('master.destination.list.detail');
         Route::post('list', [MasterController::class, 'destinationListCreate'])->name('master.destination.list.create');
     });
 

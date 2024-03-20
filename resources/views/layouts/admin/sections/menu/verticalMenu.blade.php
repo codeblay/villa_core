@@ -31,7 +31,9 @@
                     $activeClass = null;
                     $currentRouteName = Route::currentRouteName();
 
-                    if ($currentRouteName === $menu->slug) {
+                    $slug_match = gettype($menu->slug) === 'array' ? in_array($currentRouteName, $menu->slug) : $currentRouteName === $menu->slug;
+
+                    if ($slug_match) {
                         $activeClass = 'active';
                     } elseif (isset($menu->submenu)) {
                         if (gettype($menu->slug) === 'array') {

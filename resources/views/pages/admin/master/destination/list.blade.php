@@ -14,6 +14,7 @@
                         <th>Nama</th>
                         <th>Kategori</th>
                         <th>Lokasi</th>
+                        <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -22,6 +23,12 @@
                             <td><span class="fw-medium">{{ $destination->name }}</span></td>
                             <td>{{ $destination->category->name }}</td>
                             <td>{{ $destination->city->address }}</td>
+                            <td class="text-end">
+                                <button type="button" class="btn btn-icon btn-primary btn-sm detail-button" data-bs-toggle="tooltip"
+                                    data-bs-original-title="Detail" data-url="{{ route('admin.master.destination.list.detail', $destination->id) }}">
+                                    <span class="tf-icons bx bx-show"></span>
+                                </button>
+                            </td>
                         </tr>
                     @empty
                         <tr>
@@ -107,6 +114,11 @@
         $('#addButton').click(function(e) {
             e.preventDefault()
             $('#modalAdd').modal('show')
+        })
+        
+        $('.detail-button').click(function(e) {
+            e.preventDefault()
+            window.location.href = $(this).data('url')
         })
     </script>
 @endsection

@@ -40,7 +40,7 @@
                         <th>Lokasi</th>
                         <th>Pemilik</th>
                         <th>Status</th>
-                        <th>Aksi</th>
+                        <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -52,9 +52,10 @@
                             <td><span
                                     class="badge bg-label-{{ $villa->is_publish ? 'primary' : 'secondary' }} me-1">{{ $villa->publish_label }}</span>
                             </td>
-                            <td>
-                                <button type="button" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip"
-                                    data-bs-original-title="Detail">
+                            <td class="text-end">
+                                <button type="button" class="btn btn-icon btn-primary btn-sm detail-button"
+                                    data-bs-toggle="tooltip" data-bs-original-title="Detail"
+                                    data-url="{{ route('admin.villa.detail', $villa->id) }}">
                                     <span class="tf-icons bx bx-show"></span>
                                 </button>
                             </td>
@@ -80,13 +81,14 @@
 @section('page-script')
     @if (request('city_id'))
         <script>
-            $(function(){
+            $(function() {
                 $.ajax({
                     type: "GET",
                     url: `{{ route('api.select2.location.detail', request('city_id')) }}`,
                     dataType: "json",
-                    success: function (response) {
-                        $(`[name="city_id"]`).append(`<option value="${response.id}">${response.text}</option>`)
+                    success: function(response) {
+                        $(`[name="city_id"]`).append(
+                            `<option value="${response.id}">${response.text}</option>`)
                     }
                 });
             })
@@ -95,16 +97,24 @@
 
     @if (request('seller_id'))
         <script>
-            $(function(){
+            $(function() {
                 $.ajax({
                     type: "GET",
                     url: `{{ route('api.select2.seller.detail', request('seller_id')) }}`,
                     dataType: "json",
-                    success: function (response) {
-                        $(`[name="seller_id"]`).append(`<option value="${response.id}">${response.text}</option>`)
+                    success: function(response) {
+                        $(`[name="seller_id"]`).append(
+                            `<option value="${response.id}">${response.text}</option>`)
                     }
                 });
             })
         </script>
     @endif
+
+    <script>
+        $('.detail-button').click(function(e) {
+            e.preventDefault()
+            window.location.href = $(this).data('url')
+        })
+    </script>
 @endsection

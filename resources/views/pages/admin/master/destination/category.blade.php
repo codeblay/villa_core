@@ -44,7 +44,7 @@
                         <div class="col mb-3">
                             <label for="name" class="form-label">Nama</label>
                             <input type="text" id="name" class="form-control" name="name"
-                                placeholder="Masukkan kategori">
+                                placeholder="Masukkan kategori" required>
                         </div>
                     </div>
                 </div>

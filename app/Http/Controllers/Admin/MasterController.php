@@ -51,8 +51,21 @@ class MasterController extends Controller
     function destinationList()
     {
         $data['destinations'] = DestinationRepository::get();
+        $data['categories'] = DestinationCategoryRepository::get();
         return view('pages.admin.master.destination.list', $data);
     }
+
+    function destinationListCreate(Request $request)
+    {
+        $service = DestinationService::create($request);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+
 
     function bank()
     {

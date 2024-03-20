@@ -3,6 +3,7 @@
 namespace App\Services\Destination;
 
 use App\Models\DTO\ServiceResponse;
+use App\Services\Destination\Action\Create;
 use App\Services\Destination\Action\CreateCategory;
 use App\Services\Destination\Action\Detail;
 use App\Services\Destination\Action\ListByCategory;
@@ -23,5 +24,10 @@ final class DestinationService
     static function listByCategory(int $category_id): ServiceResponse
     {
         return (new ListByCategory($category_id))->call();
+    }
+
+    static function create(Request $request): ServiceResponse
+    {
+        return (new Create($request))->call();
     }
 }

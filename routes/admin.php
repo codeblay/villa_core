@@ -40,6 +40,7 @@ Route::prefix('master')->group(function () {
         Route::get('category', [MasterController::class, 'destinationCategory'])->name('master.destination.category');
         Route::post('category', [MasterController::class, 'destinationCategoryCreate'])->name('master.destination.category.create');
         Route::get('list', [MasterController::class, 'destinationList'])->name('master.destination.list');
+        Route::post('list', [MasterController::class, 'destinationListCreate'])->name('master.destination.list.create');
     });
 
     Route::prefix('bank')->group(function () {

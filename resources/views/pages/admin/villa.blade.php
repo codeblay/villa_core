@@ -15,12 +15,12 @@
                         </div>
                     </div>
                     <div style="flex-grow: 1">
-                        <select class="form-select select2" name="city_id"
+                        <select class="form-select select2-ajax" name="city_id"
                             data-ajax--url="{{ route('api.select2.location') }}" data-placeholder="Lokasi">
                         </select>
                     </div>
                     <div style="flex-grow: 1">
-                        <select class="form-select select2" name="seller_id"
+                        <select class="form-select select2-ajax" name="seller_id"
                             data-ajax--url="{{ route('api.select2.seller') }}" data-placeholder="Pemilik">
                         </select>
                     </div>

@@ -12,6 +12,53 @@
         $('.select2').select2({
             theme: "bootstrap",
             width: 'resolve',
+            allowClear: true,
+        })
+
+        $('.modal .select2').select2({
+            theme: "bootstrap",
+            width: 'resolve',
+            allowClear: true,
+            dropdownParent: $(this).closest('.modal') ? $('.modal') : $('body'),
+        })
+        
+        $('.select2-ajax').select2({
+            theme: "bootstrap",
+            width: 'resolve',
+            minimumInputLength: 3,
+            language: {
+                inputTooShort: function() {
+                    return "Minimal 3 karakter";
+                },
+                noResults: function() {
+                    return "Data tidak ditemukan"
+                },
+                searching: function() {
+                    return "Mencari data.."
+                },
+                errorLoading: function() {
+                    return "Terjadi kesalahan, coba lagi"
+                },
+            },
+            allowClear: true,
+            ajax: {
+                data: function(term) {
+                    return {
+                        keyword: term.term
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+        })
+    
+        $('.modal .select2-ajax').select2({
+            theme: "bootstrap",
+            width: 'resolve',
+            dropdownParent: $('.modal'),
             minimumInputLength: 3,
             language: {
                 inputTooShort: function() {

@@ -16,6 +16,10 @@ class Bank extends Model
     const BRI   = "bri";
     const BNI   = "bni";
 
+    function getLogoAttribute() : string {
+        return asset("image/bank/{$this->code}.png");
+    }
+
     function getIsActiveLabelAttribute() : string {
         return $this->is_active ? "aktif" : "tidak aktif";
     }

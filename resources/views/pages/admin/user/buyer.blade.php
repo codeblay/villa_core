@@ -1,30 +1,24 @@
-@extends('layouts.admin.index' )
+@extends('layouts.admin.index')
 @section('title', 'Penyewa')
 
 @section('content')
     <div class="card mb-2">
-        <div class="card-header">
-            <div class="d-flex flex-wrap gap-2">
-                <div style="flex-grow: 2">
-                    <div class="input-group input-group-merge">
-                        <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Cari pemilik properti..." aria-label="Cari pemilik properti..."
-                            aria-describedby="basic-addon-search31" />
+        <form action="">
+            <div class="card-header">
+                <div class="d-flex flex-wrap gap-2">
+                    <div style="flex-grow: 2">
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+                            <input type="text" class="form-control" name="name" value="{{ request('name') }}" placeholder="Cari penyewa..."
+                                aria-label="Cari penyewa..." aria-describedby="basic-addon-search31" />
+                        </div>
+                    </div>
+                    <div style="flex-grow: 0">
+                        <button type="submit" class="btn btn-primary">Filter</button>
                     </div>
                 </div>
-                <div style="flex-grow: 1">
-                    <select class="form-select">
-                        <option>Status</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-                <div style="flex-grow: 0">
-                    <button type="button" class="btn btn-primary">Filter</button>
-                </div>
             </div>
-        </div>
+        </form>
     </div>
     <div class="card">
         <div class="table-responsive text-nowrap">
@@ -33,8 +27,9 @@
                     <tr>
                         <th>Nama</th>
                         <th>Email</th>
-                        <th>Gender</th>
+                        <th>Jenis Kelamin</th>
                         <th>Umur</th>
+                        <th>Transaksi</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -42,8 +37,9 @@
                         <tr>
                             <td><span class="fw-medium">{{ $buyer->name }}</span></td>
                             <td>{{ $buyer->email }}</td>
-                            <td>{{ $buyer->gender }}</td>
+                            <td>{{ $buyer->gender_label }}</td>
                             <td>{{ $buyer->age }} Tahun</td>
+                            <td>{{ $buyer->transactions_success_count }}</td>
                         </tr>
                     @empty
                         <tr>
@@ -54,4 +50,10 @@
             </table>
         </div>
     </div>
+
+    @if ($buyers->hasPages())
+        <div class="card mt-2 pt-3 pe-3 align-items-end justify-content-center">
+            {{ $buyers->links() }}
+        </div>
+    @endif
 @endsection

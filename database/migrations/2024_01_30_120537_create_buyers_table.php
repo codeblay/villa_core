@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('password');
             $table->enum('gender', MyConst::GENDER);
+            $table->date('birth_date');
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });

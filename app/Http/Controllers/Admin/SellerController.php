@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DTO\SearchSeller;
 use App\Repositories\SellerRepository;
 use Illuminate\Http\Request;
 
 class SellerController extends Controller
 {
-    function index()
+    function index(Request $request)
     {
-        $data['sellers'] = SellerRepository::getWithTotalVilla();
+        $param          = new SearchSeller;
+        $param->name    = $request->name;
+        
+        $data['sellers'] = SellerRepository::listForAdmin(20, $param);
         return view('pages.admin.user.seller', $data);
     }
 

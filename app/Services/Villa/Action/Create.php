@@ -23,7 +23,8 @@ final class Create extends Service
         'price'         => 'required|integer',
         'facilities'    => 'required|array|min:1',
         'facilities.*'  => 'required|integer',
-        'images.*'       => 'required|mimes:jpg|max:1024|dimensions:ratio=16/9',
+        'images'        => 'required|array',
+        'images.*'      => 'required|mimes:jpg|max:1024|dimensions:ratio=16/9',
     ];
 
     public function __construct(protected Request $request, protected Seller $seller)

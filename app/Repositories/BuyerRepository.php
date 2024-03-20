@@ -4,8 +4,11 @@ namespace App\Repositories;
 
 use App\Interface\RepositoryApi;
 use App\Models\Buyer;
+use App\Models\DTO\SearchBuyer;
 use App\MyConst;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User;
 
 final class BuyerRepository implements RepositoryApi
@@ -40,5 +43,15 @@ final class BuyerRepository implements RepositoryApi
         if (!($buyer instanceof Buyer)) return '';
         if ($buyer->tokens()->count() >= 3) $buyer->tokens()->delete();
         return $buyer->createToken(MyConst::USER_BUYER)->plainTextToken ?? '';
+    }
+
+    static function listForAdmin(int $cursor, SearchBuyer $param): LengthAwarePaginator
+    {
+        return Buyer::query()
+            ->when($param->name, function (Builder $query, string $name) {
+                $query->where('name', 'LIKE', "%{$name}%");
+            })
+            ->withCount('transactionsSuccess')
+            ->paginate($cursor);
     }
 }

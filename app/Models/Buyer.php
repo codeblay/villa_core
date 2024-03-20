@@ -42,6 +42,10 @@ class Buyer extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
     
+    function transactionsSuccess() : HasMany {
+        return $this->hasMany(Transaction::class)->where('status', Transaction::STATUS_SUCCESS);
+    }
+    
     function ratings() : HasMany {
         return $this->hasMany(VillaRating::class);
     }

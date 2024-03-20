@@ -3,8 +3,11 @@
 namespace App\Repositories;
 
 use App\Interface\RepositoryApi;
+use App\Models\DTO\SearchSeller;
 use App\Models\Seller;
 use App\MyConst;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User;
 
@@ -13,11 +16,6 @@ final class SellerRepository implements RepositoryApi
     static function get(array $conditions = []): Collection
     {
         return Seller::query()->where($conditions)->get();
-    }
-
-    static function getWithTotalVilla(array $conditions = []): Collection
-    {
-        return Seller::query()->where($conditions)->withCount('villas')->get();
     }
 
     static function first(array $conditions = []): ?Seller
@@ -70,5 +68,15 @@ final class SellerRepository implements RepositoryApi
             'id'    => @$seller->id,
             'text'  => @$seller->name,
         ];
+    }
+
+    static function listForAdmin(int $cursor, SearchSeller $param): LengthAwarePaginator
+    {
+        return Seller::query()
+            ->when($param->name, function (Builder $query, string $name) {
+                $query->where('name', 'LIKE', "%{$name}%");
+            })
+            ->withCount('villas')
+            ->paginate($cursor);
     }
 }

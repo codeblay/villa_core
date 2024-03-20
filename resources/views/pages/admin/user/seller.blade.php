@@ -9,17 +9,9 @@
                     <div style="flex-grow: 2">
                         <div class="input-group input-group-merge">
                             <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                            <input type="text" class="form-control" placeholder="Cari penyewa..." aria-label="Cari penyewa..."
+                            <input type="text" class="form-control" name="name" value="{{ request('name') }}" placeholder="Cari pemilik properti..." aria-label="Cari pemilik properti..."
                                 aria-describedby="basic-addon-search31" />
                         </div>
-                    </div>
-                    <div style="flex-grow: 1">
-                        <select class="form-select">
-                            <option>Status</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
                     </div>
                     <div style="flex-grow: 0">
                         <button type="submit" class="btn btn-primary">Filter</button>
@@ -35,9 +27,9 @@
                     <tr>
                         <th>Nama</th>
                         <th>Email</th>
-                        <th>Gender</th>
+                        <th>Jenis Kelamin</th>
                         <th>Umur</th>
-                        <th>Total Villa</th>
+                        <th>Villa</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -58,4 +50,10 @@
             </table>
         </div>
     </div>
+
+    @if ($sellers->hasPages())
+        <div class="card mt-2 pt-3 pe-3 align-items-end justify-content-center">
+            {{ $sellers->links() }}
+        </div>
+    @endif
 @endsection

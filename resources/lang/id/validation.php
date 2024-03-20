@@ -146,7 +146,14 @@ return [
     */
 
     'attributes' => [
-        'name' => 'nama',
-        'va_number' => 'nomor virtual akun',
+        'name'          => 'nama',
+        'va_number'     => 'nomor virtual akun',
+        'images'        => 'gambar',
+        'facilities'    => 'fasilitas',
+        'price'         => 'harga',
+        'description'   => 'deskripsi',
+        'city_id'       => 'alamat',
+        'birth_date'    => 'tanggal lahir',
+        'gender'        => 'jenis kelamin',
     ],
 ];

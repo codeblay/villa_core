@@ -45,6 +45,7 @@ class Register extends Service
                     'phone'         => ['required', 'numeric', 'unique:buyers,phone'],
                     'password'      => ['required', 'min:8'],
                     'gender'        => ['required', Rule::in(MyConst::GENDER)],
+                    'birth_date'    => ['required', 'date_format:Y-m-d'],
                 ];
                 break;
         }

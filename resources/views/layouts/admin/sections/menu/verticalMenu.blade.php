@@ -2,10 +2,10 @@
 
     <!-- ! Hide app brand if navbar-full -->
     <div class="app-brand demo mb-4">
-        <a href="{{ url('/') }}" class="app-brand-link gap-2">
-            {{-- <span class="app-brand-logo demo">
-        @include('_partials.macros',["width"=>25,"withbg"=>'var(--bs-primary)'])
-      </span> --}}
+        <a href="{{ url('/') }}" class="app-brand-link gap-4">
+            <span class="app-brand-logo demo">
+                @include('_partials.macros', ['width' => 40, 'withbg' => 'var(--bs-primary)'])
+            </span>
             <span class="app-brand-text demo menu-text fw-bold">{{ config('app.name') }}</span>
         </a>
 
@@ -41,7 +41,10 @@
                                 }
                             }
                         } else {
-                            if (str_contains($currentRouteName, $menu->slug) and strpos($currentRouteName, $menu->slug) === 0) {
+                            if (
+                                str_contains($currentRouteName, $menu->slug) and
+                                strpos($currentRouteName, $menu->slug) === 0
+                            ) {
                                 $activeClass = 'active open';
                             }
                         }

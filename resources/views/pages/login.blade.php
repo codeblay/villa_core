@@ -12,18 +12,18 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Logo -->
-                        <div class="app-brand justify-content-center">
+                        <div class="app-brand justify-content-center mb-8 mt-2">
                             <div class="app-brand-link gap-2">
                                 <span class="app-brand-logo demo">@include('_partials.macros', [
-                                    'width' => 25,
+                                    'width' => 100,
                                     'withbg' => 'var(--bs-primary)',
                                 ])</span>
-                                <span class="app-brand-text demo text-body fw-bold">{{ config('app.name') }}</span>
+                                {{-- <span class="app-brand-text demo text-body fw-bold">{{ config('app.name') }}</span> --}}
                             </div>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-2">Welcome to {{ config('app.name') }}! 👋</h4>
-                        <p class="mb-4">Please sign-in to your account and start the adventure</p>
+                        <h4 class="mb-2 text-center">Welcome to {{ config('app.name') }}! 👋</h4>
+                        <hr class="my-4">
 
                         <form class="mb-3" action="{{ route('admin.login') }}" method="POST">
                             @csrf
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                                <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
                             </div>
                         </form>
                     </div>

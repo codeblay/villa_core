@@ -43,10 +43,13 @@ final class Notification extends Service
                 case Midtrans::STATUS_FAILUER:
                    $update['status'] = Transaction::STATUS_FAILED;
                     break;
+                default:
+                    goto SUCCESS;
             }
-    
+
             TransactionRepository::update($transaction->id, $update);
-    
+            
+            SUCCEESS:
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
             return parent::error(self::MESSAGE_SUCCESS);

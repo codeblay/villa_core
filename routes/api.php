@@ -36,8 +36,6 @@ Route::prefix('destination')->group(function() {
     Route::get('{id}', [DestinationController::class, 'detail']);
 });
 
-Route::post('callback_sendtalk', [SendtalkController::class, 'otp'])->withoutMiddleware('app_key');
-
 Route::prefix('select2')->withoutMiddleware('app_key')->group(function(){
     Route::get('location', [Select2Controller::class, 'location'])->name('select2.location');
     Route::get('location/{id}', [Select2Controller::class, 'locationDetail'])->name('select2.location.detail');

@@ -54,6 +54,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api/buyer')
                 ->group(base_path('routes/api_buyer.php'));
 
+            Route::middleware('api')
+                ->withoutMiddleware('app_key')
+                ->prefix('api/callback')
+                ->group(base_path('routes/api_callback.php'));
+
         });
     }
 }

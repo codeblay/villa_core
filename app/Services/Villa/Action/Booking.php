@@ -103,7 +103,7 @@ final class Booking extends Service
                     'buyer_id'          => $this->buyer->id,
                     'status'            => Transaction::STATUS_PENDING,
                     'amount'            => $villa->price,
-                    'external_id'       => $midtrans_charge_result['order_id'],
+                    'external_id'       => $midtrans_charge_result['transaction_id'],
                     'external_response' => $midtrans_charge->body(),
                 ]);
     

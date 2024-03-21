@@ -28,11 +28,12 @@ final class Booking extends Service
     const MESSAGE_ERROR     = "failed booking villa";
 
     private static function rules() : array {
+        $now = now()->format('Y-m-d');
         return [
             'villa_id'      => ['required', 'integer'],
             'payment'       => ['required', 'string', Rule::in(Charge::PAYMENT)],
             'name'          => ['required', 'string', 'min:2'],
-            'start_date'    => ['required', 'date_format:Y-m-d'],
+            'start_date'    => ['required', 'date_format:Y-m-d', "after:$now"],
             'end_date'      => ['required', 'date_format:Y-m-d', 'after_or_equal:start_date'],
         ];
     }

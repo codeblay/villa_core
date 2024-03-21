@@ -87,13 +87,4 @@ final class VillaRepository implements Repository
     {
         return Villa::query()->with(['city', 'facilities'])->where('is_publish', Villa::STATUS_PUBLISH)->where('id', $id)->first();
     }
-
-    static function addImages(Villa $villa, UploadedFile $file): bool
-    {
-        $_file       = new File;
-        $_file->path = "villa/" . $file->store(options: 'villa');
-        $_file->type = File::TYPE_IMAGE;
-
-        return $villa->files()->save($_file) instanceof File;
-    }
 }

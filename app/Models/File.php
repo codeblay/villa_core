@@ -18,4 +18,12 @@ class File extends Model
     public function fileable() : MorphTo{
         return $this->morphTo();
     }
+
+    function getLocalPathAttribute() : string {
+        return match ($this->fileable_type) {
+            Villa::class        => config('filesystems.disks.villa.url') . "/" . $this->path,
+            Destination::class  => config('filesystems.disks.destination.url') . "/" . $this->path,
+            default             => config('filesystems.disks.public.url') . "/" . $this->path,
+        };
+    }
 }

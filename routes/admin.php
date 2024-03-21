@@ -40,9 +40,14 @@ Route::prefix('master')->group(function () {
     Route::prefix('destination')->group(function () {
         Route::get('category', [MasterController::class, 'destinationCategory'])->name('master.destination.category');
         Route::post('category', [MasterController::class, 'destinationCategoryCreate'])->name('master.destination.category.create');
-        Route::get('list', [MasterController::class, 'destinationList'])->name('master.destination.list');
-        Route::get('list/{id}', [MasterController::class, 'destinationListDetail'])->name('master.destination.list.detail');
-        Route::post('list', [MasterController::class, 'destinationListCreate'])->name('master.destination.list.create');
+        
+        Route::prefix('list')->group(function () {
+            Route::get('', [MasterController::class, 'destinationList'])->name('master.destination.list');
+            Route::get('{id}', [MasterController::class, 'destinationListDetail'])->name('master.destination.list.detail');
+            Route::get('{id}/edit', [MasterController::class, 'destinationListEdit'])->name('master.destination.list.edit');
+            Route::post('', [MasterController::class, 'destinationListCreate'])->name('master.destination.list.create');
+            Route::put('', [MasterController::class, 'destinationListUpdate'])->name('master.destination.list.update');
+        });
     });
 
     Route::prefix('bank')->group(function () {

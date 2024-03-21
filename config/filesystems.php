@@ -59,7 +59,7 @@ return [
         'villa' => [
             'driver' => 'local',
             'root' => storage_path('app/public/villa'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL').'/storage/villa',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -67,7 +67,7 @@ return [
         'destination' => [
             'driver' => 'local',
             'root' => storage_path('app/public/destination'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL').'/storage/destination',
             'visibility' => 'public',
             'throw' => false,
         ],

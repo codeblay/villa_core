@@ -1,6 +1,12 @@
 @extends('layouts.admin.index')
 @section('title', 'Detail')
 
+@section('action')
+    <form action="{{ route('admin.master.destination.list.edit', $destination->id) }}">
+        <button class="btn btn-warning btn-sm">Edit</button>
+    </form>
+@endsection
+
 @section('content')
     <div class="card">
         <div class="card-body">

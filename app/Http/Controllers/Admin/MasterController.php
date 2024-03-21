@@ -67,6 +67,13 @@ class MasterController extends Controller
         return view('pages.admin.master.destination.detail', $data);
     }
 
+    function destinationListEdit(int $id)
+    {
+        $data['destination'] = DestinationRepository::first(['id' => $id]);
+        $data['categories'] = DestinationCategoryRepository::get();
+        return view('pages.admin.master.destination.edit', $data);
+    }
+
     function destinationListCreate(Request $request)
     {
         $service = DestinationService::create($request);
@@ -77,7 +84,17 @@ class MasterController extends Controller
             'message'   => ucfirst($service->message),
         ]);
     }
-
+    
+    function destinationListUpdate(Request $request)
+    {
+        $service = DestinationService::edit($request);
+        
+        return redirect()->route('admin.master.destination.list')->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
 
     function bank()
     {

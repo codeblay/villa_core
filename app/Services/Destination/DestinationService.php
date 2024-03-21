@@ -7,6 +7,7 @@ use App\Services\Destination\Action\Create;
 use App\Services\Destination\Action\CreateCategory;
 use App\Services\Destination\Action\Detail;
 use App\Services\Destination\Action\ListByCategory;
+use App\Services\Destination\Action\Edit;
 use Illuminate\Http\Request;
 
 final class DestinationService
@@ -29,5 +30,10 @@ final class DestinationService
     static function create(Request $request): ServiceResponse
     {
         return (new Create($request))->call();
+    }
+
+    static function edit(Request $request): ServiceResponse
+    {
+        return (new Edit($request))->call();
     }
 }

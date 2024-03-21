@@ -6,15 +6,15 @@
         <div class="card-body">
             <div id="carouselExample" class="carousel slide " data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    @foreach ($villa->files_path as $path)
+                    @foreach ($villa->files as $file)
                         <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="{{ $loop->index }}"
                             class="{{ $loop->first ? 'active' : '' }}"></button>
                     @endforeach
                 </div>
                 <div class="carousel-inner">
-                    @foreach ($villa->files_path as $path)
+                    @foreach ($villa->files as $file)
                         <div class="carousel-item text-center {{ $loop->first ? 'active' : '' }}" >
-                            <img src="{{ $path }}" style="height: 400px">
+                            <img src="{{ $file->local_path }}" style="height: 400px">
                         </div>
                     @endforeach
                 </div>

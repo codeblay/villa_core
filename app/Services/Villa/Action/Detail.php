@@ -29,8 +29,8 @@ final class Detail extends Service
 
             $destination_categories = DestinationCategoryRepository::get();
 
-            $this->data                 = self::mapVilla($villa);
-            $this->data['destination_categories']  = self::mapDestination($destination_categories);
+            $this->data                             = self::mapVilla($villa);
+            $this->data['destination_categories']   = self::mapDestination($destination_categories);
 
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
@@ -48,7 +48,7 @@ final class Detail extends Service
             'price'         => $villa->price,
             'description'   => $villa->description,
             'can_book'      => $villa->can_book,
-            'images'        => $villa->files_path,
+            'images'        => $villa->files->pluck('local_path')->toArray(),
             'facilities'    => $villa->facilities->pluck('name')->toArray(),
         ];
     }

@@ -45,7 +45,7 @@ final class Create extends Service
             $file = $this->request->file('image');
 
             $_file       = new File();
-            $_file->path = "destination/" . $file->store(options: 'destination');
+            $_file->path = $file->store(options: 'destination');
             $_file->type = File::TYPE_IMAGE;
     
             $destination->file()->save($_file);
@@ -54,7 +54,6 @@ final class Create extends Service
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th);
             parent::storeLog($th, self::CONTEXT);
             return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_REQUEST);
         }

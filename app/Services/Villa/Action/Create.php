@@ -4,6 +4,7 @@ namespace App\Services\Villa\Action;
 
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
+use App\Models\File;
 use App\Models\Seller;
 use App\Repositories\VillaRepository;
 use Illuminate\Http\Request;
@@ -52,7 +53,11 @@ final class Create extends Service
             $villa->facilities()->attach($this->request->facilities);
             
             foreach ($images as $image) {
-                VillaRepository::addImages($villa, $image);
+                $_file       = new File();
+                $_file->path = $image->store(options: 'villa');
+                $_file->type = File::TYPE_IMAGE;
+
+                $villa->files()->save($_file);
             }
 
             DB::commit();

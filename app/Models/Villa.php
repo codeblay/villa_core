@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Villa extends Model
 {
@@ -43,6 +44,10 @@ class Villa extends Model
 
     function files() : MorphMany {
         return $this->morphMany(File::class, 'fileable');
+    }
+
+    function file() : MorphOne {
+        return $this->morphOne(File::class, 'fileable');
     }
 
     // End Relation

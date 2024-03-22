@@ -24,6 +24,7 @@ final class Get extends Service
                     'name'      => $bank->name,
                     'code'      => $bank->code,
                     'va_number' => $bank->va_number,
+                    'logo'      => $bank->logo,
                 ];
             })->toArray();
 

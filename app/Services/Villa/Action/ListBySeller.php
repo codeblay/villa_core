@@ -55,6 +55,7 @@ final class ListBySeller extends Service
                 'description'   => $villa->description,
                 'is_publish'    => (bool) $villa->is_publish,
                 'is_available'  => (bool) $villa->is_available,
+                'image'         => $villa->file->local_path,
             ];
         }
         return $result ?? [];

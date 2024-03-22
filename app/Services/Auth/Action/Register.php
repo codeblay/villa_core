@@ -31,6 +31,7 @@ class Register extends Service
                 $rules = [
                     'name'          => ['required', 'string'],
                     'email'         => ['required', 'email', 'unique:sellers,email'],
+                    'phone'         => ['required', 'numeric', 'unique:sellers,phone'],
                     'password'      => ['required', 'min:8'],
                     'gender'        => ['required', Rule::in(MyConst::GENDER)],
                     'birth_date'    => ['required', 'date_format:Y-m-d'],
@@ -90,11 +91,11 @@ class Register extends Service
             $repo = $this->repo();
             $seller = $repo->create($validator->validated());
 
-            $send_otp = OtpService::send($this->request->phone);
-            if (!$send_otp->status) {
-                DB::rollBack();
-                return parent::success($send_otp->message, $send_otp->code);
-            }
+            // $send_otp = OtpService::send($this->request->phone);
+            // if (!$send_otp->status) {
+            //     DB::rollBack();
+            //     return parent::success($send_otp->message, $send_otp->code);
+            // }
 
             $this->data['token'] = $repo->token($seller);
 

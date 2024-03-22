@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\DestinationController;
+use App\Http\Controllers\API\FacilityController;
+use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\Select2Controller;
 use App\Http\Controllers\API\SendtalkController;
 use App\Http\Controllers\API\VillaController;
@@ -35,6 +37,12 @@ Route::prefix('destination')->group(function() {
 
     Route::get('{id}', [DestinationController::class, 'detail']);
 });
+
+Route::prefix('facility')->group(function() {
+    Route::get('dropdown', [FacilityController::class, 'dropdown']);
+});
+
+Route::get('payment', [PaymentController::class, 'list']);
 
 Route::prefix('select2')->withoutMiddleware('app_key')->group(function(){
     Route::get('location', [Select2Controller::class, 'location'])->name('select2.location');

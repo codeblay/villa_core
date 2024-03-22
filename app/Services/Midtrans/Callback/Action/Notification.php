@@ -49,7 +49,7 @@ final class Notification extends Service
 
             TransactionRepository::update($transaction->id, $update);
             
-            SUCCEESS:
+            SUCCESS:
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
             return parent::error(self::MESSAGE_SUCCESS);

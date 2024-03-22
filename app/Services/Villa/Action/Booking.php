@@ -138,13 +138,13 @@ final class Booking extends Service
     }
 
     static function generateExternalId() : string {
-        $prefix         = "villa";
+        $prefix         = "AOU";
         $random_string  = substr(md5(mt_rand()), 0, 9);
         $external_id    = "$prefix-$random_string";
 
         $check = TransactionRepository::first(['external_id' => $external_id]);
         if ($check) self::generateExternalId();
 
-        return "$prefix-$random_string";
+        return strtoupper("$prefix-$random_string");
     }
 }

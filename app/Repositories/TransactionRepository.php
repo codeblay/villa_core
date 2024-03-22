@@ -3,8 +3,10 @@
 namespace App\Repositories;
 
 use App\Interface\Repository;
+use App\Models\DTO\SearchTransaction;
 use App\Models\Transaction;
 use Illuminate\Contracts\Pagination\CursorPaginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -44,5 +46,15 @@ final class TransactionRepository implements Repository
                 $query->where('status', $status);
             })
             ->cursorPaginate($cursor);
+    }
+
+    static function listForAdmin(int $cursor, SearchTransaction $param): LengthAwarePaginator
+    {
+        return Transaction::query()
+            ->when($param->code, function (Builder $query, string $code) {
+                $query->where('code', 'LIKE', "%{$code}%");
+            })
+            ->with(['villa', 'buyer'])
+            ->paginate($cursor);
     }
 }

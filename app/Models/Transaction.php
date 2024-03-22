@@ -36,4 +36,12 @@ class Transaction extends Model
     }
 
     // End Relation
+
+    function getStatusLabelAttribute() : string {
+        return match ($this->status) {
+            self::STATUS_PENDING    => 'pending' ,
+            self::STATUS_SUCCESS    => 'sukses' ,
+            self::STATUS_FAILED     => 'gagal' ,
+        };
+    }
 }

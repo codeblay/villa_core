@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BuyerController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MasterController;
 use App\Http\Controllers\Admin\SellerController;
+use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\VillaController;
 use App\MyConst;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +17,7 @@ Route::withoutMiddleware('admin')->middleware('guest')->group(function () {
 
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::view('', 'pages.admin.dashboard')->name('dashboard');
+Route::get('', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('villa', [VillaController::class, 'index'])->name('villa');
 Route::get('villa/{id}', [VillaController::class, 'detail'])->name('villa.detail');
 
@@ -29,7 +31,7 @@ Route::prefix('verification')->group(function () {
 });
 
 Route::prefix('transaction')->group(function () {
-    Route::view('rent', 'pages.admin.transaction.rent')->name('transaction.rent');
+    Route::get('rent', [TransactionController::class, 'rent'])->name('transaction.rent');
     Route::view('withdrawal', 'pages.admin.transaction.withdrawal')->name('transaction.withdrawal');
 });
 

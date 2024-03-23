@@ -68,7 +68,7 @@ final class Booking extends Service
             }
             
             $transaction = TransactionRepository::create([
-                'code'              => self::generateOrderId(),
+                'code'              => self::generateCode(),
                 'villa_id'          => $villa->id,
                 'buyer_id'          => $this->buyer->id,
                 'status'            => Transaction::STATUS_PENDING,
@@ -91,7 +91,7 @@ final class Booking extends Service
                 ]);
             }
 
-            $this->data['order_id'] = $transaction->order_id;
+            $this->data['code'] = $transaction->code;
 
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
@@ -101,13 +101,13 @@ final class Booking extends Service
         }
     }
     
-    private static function generateOrderId() : string {
+    private static function generateCode() : string {
         $prefix         = "AURA";
         $random_string  = substr(md5(mt_rand()), 0, 9);
-        $order_id       = "$prefix-$random_string";
+        $code       = "$prefix-$random_string";
 
-        $check = TransactionRepository::first(['order_id' => $order_id]);
-        if ($check) self::generateOrderId();
+        $check = TransactionRepository::first(['code' => $code]);
+        if ($check) self::generateCode();
 
         return strtoupper("$prefix-$random_string");
     }

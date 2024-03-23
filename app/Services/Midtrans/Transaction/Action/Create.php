@@ -27,7 +27,7 @@ final class Create extends Service
         try {
 
             $midtrans_charge_transaction_detail                 = new ChargeTransactionDetails;
-            $midtrans_charge_transaction_detail->order_id       = $this->transaction->order_id;
+            $midtrans_charge_transaction_detail->order_id       = $this->transaction->code;
             $midtrans_charge_transaction_detail->gross_amount   = $this->transaction->villa->price;
 
             $midtrans_charge_customer_detail                = new ChargeCustomerDetails;

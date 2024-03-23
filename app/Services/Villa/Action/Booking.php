@@ -68,7 +68,7 @@ final class Booking extends Service
                 'code'              => self::generateCode(),
                 'villa_id'          => $villa->id,
                 'buyer_id'          => $this->buyer->id,
-                'bank_id'           => BankRepository::first(['code', $this->request->payment])->id,
+                'bank_id'           => BankRepository::first(['code' => $this->request->payment])->id,
                 'status'            => Transaction::STATUS_PENDING,
                 'amount'            => $villa->price,
             ]);

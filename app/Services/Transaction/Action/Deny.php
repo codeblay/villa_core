@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\DB;
 
 final class Deny extends Service
 {
-    const CONTEXT           = "deny transction";
-    const MESSAGE_SUCCESS   = "success deny transction";
-    const MESSAGE_ERROR     = "failed deny transction";
+    const CONTEXT           = "deny transaction";
+    const MESSAGE_SUCCESS   = "success deny transaction";
+    const MESSAGE_ERROR     = "failed deny transaction";
 
     public function __construct(protected int $transaction_id)
     {
@@ -24,7 +24,7 @@ final class Deny extends Service
     {
         DB::beginTransaction();
         try {
-            $transaction = Transaction::first(['id' => $this->transaction_id]);
+            $transaction = TransactionRepository::first(['id' => $this->transaction_id]);
             if (!$transaction || $transaction->status != Transaction::STATUS_PENDING) {
                 DB::rollBack();
                 return parent::error("data transaksi tidak ditemukan");

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\VillaController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,6 +9,8 @@ Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('auth:
 Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('auth:seller');
 
 Route::post('logout', [AuthController::class, 'logout']);
+
+Route::get('dashboard', [DashboardController::class, 'dashboard']);
 
 Route::prefix('villa')->group(function() {
     Route::get('', [VillaController::class, 'listBySeller']);

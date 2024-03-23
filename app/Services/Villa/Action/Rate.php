@@ -8,7 +8,6 @@ use App\Models\DTO\ServiceResponse;
 use App\Repositories\VillaRatingRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 
 final class Rate extends Service
 {

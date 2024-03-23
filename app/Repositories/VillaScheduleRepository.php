@@ -32,4 +32,9 @@ final class VillaScheduleRepository implements Repository
     {
         return VillaSchedule::query()->where('id', $id)->delete();
     }
+
+    static function deleteByTransaction(int $transaction_id): bool
+    {
+        return VillaSchedule::query()->where('transaction_id', $transaction_id)->delete();
+    }
 }

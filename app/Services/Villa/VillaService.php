@@ -12,6 +12,7 @@ use App\Services\Villa\Action\ListAll;
 use App\Services\Villa\Action\ListBySeller;
 use App\Services\Villa\Action\Rate;
 use App\Services\Villa\Action\Slider;
+use App\Services\Villa\Action\Check;
 use Illuminate\Http\Request;
 
 final class VillaService
@@ -54,5 +55,10 @@ final class VillaService
     static function rate(Request $request, Buyer $buyer): ServiceResponse
     {
         return (new Rate($request, $buyer))->call();
+    }
+
+    static function check(int $villa_id, Buyer $buyer): ServiceResponse
+    {
+        return (new Check($villa_id, $buyer))->call();
     }
 }

@@ -18,4 +18,5 @@ Route::prefix('transaction')->group(function(){
 Route::prefix('villa')->group(function(){
     Route::post('rate', [VillaController::class, 'rate']);
     Route::post('booking', [VillaController::class, 'booking']);
+    Route::get('check/{id}', [VillaController::class, 'check']);
 });

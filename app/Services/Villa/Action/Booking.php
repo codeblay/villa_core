@@ -96,7 +96,9 @@ final class Booking extends Service
                 'deeplink'  => $midtrans_charge_result_action->where('name', 'deeplink-redirect')->value('url') ?? '',
                 'cancel'    => $midtrans_charge_result_action->where('name', 'cancel')->value('url') ?? '',
             ];
-            try {       
+
+            
+            try {
                 $transaction = TransactionRepository::create([
                     'code'              => $midtrans_charge_result['order_id'],
                     'villa_id'          => $villa->id,
@@ -117,8 +119,9 @@ final class Booking extends Service
                 // schedule
                 foreach ($date_booking as $date) {
                     VillaScheduleRepository::create([
-                        'villa_id'  => $villa->id,
-                        'date'      => $date,
+                        'villa_id'          => $villa->id,
+                        'transaction_id'    => $transaction->id,
+                        'date'              => $date,
                     ]);
                 }
             } catch (\Throwable $th) {
@@ -138,7 +141,7 @@ final class Booking extends Service
     }
 
     static function generateExternalId() : string {
-        $prefix         = "AOU";
+        $prefix         = "AURA";
         $random_string  = substr(md5(mt_rand()), 0, 9);
         $external_id    = "$prefix-$random_string";
 

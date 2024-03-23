@@ -5,6 +5,7 @@ namespace App\Services\Transaction\Action;
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Transaction;
+use App\Repositories\TransactionRepository;
 use App\Services\Midtrans\Transaction\MidtransTransactionService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,7 @@ final class Accept extends Service
     {
         DB::beginTransaction();
         try {
-            $transaction = Transaction::first(['id' => $this->transaction_id]);
+            $transaction = TransactionRepository::first(['id' => $this->transaction_id]);
             if (!$transaction || $transaction->status != Transaction::STATUS_PENDING) {
                 DB::rollBack();
                 return parent::error("data transaksi tidak ditemukan");

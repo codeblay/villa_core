@@ -3,6 +3,7 @@
 namespace App\Services\Villa\Action;
 
 use App\Base\Service;
+use App\Models\Bank;
 use App\Models\Buyer;
 use App\Models\DTO\Midtrans\Charge;
 use App\Models\DTO\ServiceResponse;
@@ -28,7 +29,7 @@ final class Booking extends Service
         $now = now()->format('Y-m-d');
         return [
             'villa_id'      => ['required', 'integer'],
-            'payment'       => ['required', 'string', Rule::in(Charge::PAYMENT)],
+            'payment'       => ['required', 'string', Rule::in(Bank::BANK_CODE)],
             'name'          => ['required', 'string', 'min:2'],
             'start_date'    => ['required', 'date_format:Y-m-d', "after:$now"],
             'end_date'      => ['required', 'date_format:Y-m-d', 'after_or_equal:start_date'],

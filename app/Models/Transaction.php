@@ -34,6 +34,10 @@ class Transaction extends Model
     function villa() : BelongsTo {
         return $this->belongsTo(Villa::class);
     }
+    
+    function bank() : BelongsTo {
+        return $this->belongsTo(Bank::class);
+    }
 
     // End Relation
 

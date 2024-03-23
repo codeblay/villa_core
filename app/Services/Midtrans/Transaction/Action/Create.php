@@ -4,6 +4,7 @@ namespace App\Services\Midtrans\Transaction\Action;
 
 use App\Base\Service;
 use App\Models\DTO\Midtrans\Charge;
+use App\Models\DTO\Midtrans\ChargeBankTransfer;
 use App\Models\DTO\Midtrans\ChargeCustomerDetails;
 use App\Models\DTO\Midtrans\ChargeTransactionDetails;
 use App\Models\DTO\ServiceResponse;
@@ -25,6 +26,7 @@ final class Create extends Service
     function call(): ServiceResponse
     {
         try {
+            $payment_type = $this->transaction->bank->midtrans_payment_type;
 
             $midtrans_charge_transaction_detail                 = new ChargeTransactionDetails;
             $midtrans_charge_transaction_detail->order_id       = $this->transaction->code;
@@ -36,9 +38,17 @@ final class Create extends Service
             $midtrans_charge_customer_detail->phone         = $this->transaction->buyer->phone;
 
             $midtrans_charge_body                       = new Charge;
-            $midtrans_charge_body->payment_type         = $this->transaction->payment;
+            $midtrans_charge_body->payment_type         = $payment_type;
             $midtrans_charge_body->transaction_details  = $midtrans_charge_transaction_detail;
             $midtrans_charge_body->customer_details     = $midtrans_charge_customer_detail;
+            
+            if ($payment_type == Charge::PAYMENT_TYPE_BANK_TRANSFER) {
+                $midtrans_charge_bank_transfer              = new ChargeBankTransfer;
+                $midtrans_charge_bank_transfer->bank        = $this->transaction->bank->code;
+                $midtrans_charge_bank_transfer->va_number   = $this->transaction->bank->va_number;
+                
+                $midtrans_charge_body->bank_transfer        = $midtrans_charge_customer_detail;
+            }
 
             $midtrans_charge = (new MidtransRepository)->charge($midtrans_charge_body);
             if ($midtrans_charge->failed()) parent::error(self::MESSAGE_SUCCESS, Response::HTTP_BAD_GATEWAY);

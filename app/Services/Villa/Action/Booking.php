@@ -5,12 +5,9 @@ namespace App\Services\Villa\Action;
 use App\Base\Service;
 use App\Models\Buyer;
 use App\Models\DTO\Midtrans\Charge;
-use App\Models\DTO\Midtrans\ChargeCustomerDetails;
-use App\Models\DTO\Midtrans\ChargeTransactionDetails;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Transaction;
-use App\Models\Villa;
-use App\Repositories\MidtransRepository;
+use App\Repositories\BankRepository;
 use App\Repositories\TransactionDetailRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\VillaRepository;
@@ -71,6 +68,7 @@ final class Booking extends Service
                 'code'              => self::generateCode(),
                 'villa_id'          => $villa->id,
                 'buyer_id'          => $this->buyer->id,
+                'bank_id'           => BankRepository::first(['code', $this->request->payment]),
                 'status'            => Transaction::STATUS_PENDING,
                 'amount'            => $villa->price,
             ]);

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardController;
+use App\Http\Controllers\API\TransactionController;
 use App\Http\Controllers\API\VillaController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,9 +13,19 @@ Route::post('logout', [AuthController::class, 'logout']);
 
 Route::get('dashboard', [DashboardController::class, 'dashboard']);
 
-Route::prefix('villa')->group(function() {
+Route::prefix('villa')->group(function () {
     Route::get('', [VillaController::class, 'listBySeller']);
-    Route::get('{id}',[VillaController::class, 'detail']);
-    Route::post('',[VillaController::class, 'create']);
-    Route::put('{id}',[VillaController::class, 'edit']);
+    Route::post('', [VillaController::class, 'create']);
+
+    Route::prefix('{id}')->group(function () {
+        Route::get('', [VillaController::class, 'detail']);
+        Route::put('', [VillaController::class, 'edit']);       
+    });
+});
+
+Route::prefix('transaction')->group(function () {
+    Route::prefix('{id}')->group(function () {
+        Route::post('accept', [TransactionController::class, 'accept']);
+        Route::post('deny', [TransactionController::class, 'deny']);
+    });
 });

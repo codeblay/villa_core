@@ -4,6 +4,8 @@ namespace App\Services\Transaction;
 
 use App\Models\Buyer;
 use App\Models\DTO\ServiceResponse;
+use App\Services\Transaction\Action\Accept;
+use App\Services\Transaction\Action\Deny;
 use App\Services\Transaction\Action\Detail;
 use App\Services\Transaction\Action\ListForBuyer;
 use Illuminate\Http\Request;
@@ -18,5 +20,15 @@ final class TransactionService
     static function detail(int $transaction_id): ServiceResponse
     {
         return (new Detail($transaction_id))->call();
+    }
+
+    static function accept(int $transaction_id): ServiceResponse
+    {
+        return (new Accept($transaction_id))->call();
+    }
+
+    static function deny(int $transaction_id): ServiceResponse
+    {
+        return (new Deny($transaction_id))->call();
     }
 }

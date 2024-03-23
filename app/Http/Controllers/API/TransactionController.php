@@ -33,4 +33,28 @@ class TransactionController extends ApiController
             http_code: $service->code,
         );
     }
+
+    function accept(int $transaction_id): JsonResponse
+    {
+        $service = TransactionService::accept($transaction_id);
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
+
+    function deny(int $transaction_id): JsonResponse
+    {
+        $service = TransactionService::deny($transaction_id);
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
 }

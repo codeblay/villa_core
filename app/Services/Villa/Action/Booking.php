@@ -66,71 +66,32 @@ final class Booking extends Service
                     return parent::error("villa telah di-booking pada tanggal {$date_format}");
                 }
             }
-
-            // midtrans
-            $midtrans_charge_transaction_detail                 = new ChargeTransactionDetails;
-            $midtrans_charge_transaction_detail->order_id       = self::generateExternalId();
-            $midtrans_charge_transaction_detail->gross_amount   = $villa->price;
-
-            $midtrans_charge_customer_detail                = new ChargeCustomerDetails;
-            $midtrans_charge_customer_detail->first_name    = $this->buyer->name;
-            $midtrans_charge_customer_detail->email         = $this->buyer->email;
-            $midtrans_charge_customer_detail->phone         = $this->buyer->phone;
-
-            $midtrans_charge_body                       = new Charge;
-            $midtrans_charge_body->payment_type         = $this->request->payment;
-            $midtrans_charge_body->transaction_details  = $midtrans_charge_transaction_detail;
-            $midtrans_charge_body->customer_details     = $midtrans_charge_customer_detail;
             
-            $midtrans_charge = (new MidtransRepository)->charge($midtrans_charge_body);
-            if ($midtrans_charge->failed()) {
-                DB::rollBack();
-                return parent::error("terjadi kesalahan, cobalah beberapa saat lagi", Response::HTTP_BAD_GATEWAY);
-            }
-            
-            // transaction
-            $midtrans_charge_result = $midtrans_charge->json();
-            $midtrans_charge_result_action = collect($midtrans_charge_result['actions']);
-            $midtrans_charge_result_action = [
-                'qr'        => $midtrans_charge_result_action->where('name', 'generate-qr-code')->value('url') ?? '',
-                'deeplink'  => $midtrans_charge_result_action->where('name', 'deeplink-redirect')->value('url') ?? '',
-                'cancel'    => $midtrans_charge_result_action->where('name', 'cancel')->value('url') ?? '',
-            ];
+            $transaction = TransactionRepository::create([
+                'code'              => self::generateOrderId(),
+                'villa_id'          => $villa->id,
+                'buyer_id'          => $this->buyer->id,
+                'status'            => Transaction::STATUS_PENDING,
+                'amount'            => $villa->price,
+            ]);
 
-            
-            try {
-                $transaction = TransactionRepository::create([
-                    'code'              => $midtrans_charge_result['order_id'],
+            TransactionDetailRepository::create([
+                'transaction_id'    => $transaction->id,
+                'name'              => $this->request->name,
+                'start'             => $this->request->start_date,
+                'end'               => $this->request->end_date,
+            ]);
+
+            // schedule
+            foreach ($date_booking as $date) {
+                VillaScheduleRepository::create([
                     'villa_id'          => $villa->id,
-                    'buyer_id'          => $this->buyer->id,
-                    'status'            => Transaction::STATUS_PENDING,
-                    'amount'            => $villa->price,
-                    'external_id'       => $midtrans_charge_result['transaction_id'],
-                    'external_response' => $midtrans_charge->body(),
-                ]);
-    
-                TransactionDetailRepository::create([
                     'transaction_id'    => $transaction->id,
-                    'name'              => $this->request->name,
-                    'start'             => $this->request->start_date,
-                    'end'               => $this->request->end_date,
+                    'date'              => $date,
                 ]);
-    
-                // schedule
-                foreach ($date_booking as $date) {
-                    VillaScheduleRepository::create([
-                        'villa_id'          => $villa->id,
-                        'transaction_id'    => $transaction->id,
-                        'date'              => $date,
-                    ]);
-                }
-            } catch (\Throwable $th) {
-                DB::rollBack();
-                (new MidtransRepository)->cancel($midtrans_charge_result_action['cancel']);
-                return parent::error("terjadi kesalahan, cobalah beberapa saat lagi");
             }
 
-            $this->data = $midtrans_charge_result_action;
+            $this->data['order_id'] = $transaction->order_id;
 
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
@@ -139,14 +100,14 @@ final class Booking extends Service
             return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_REQUEST);
         }
     }
-
-    static function generateExternalId() : string {
+    
+    private static function generateOrderId() : string {
         $prefix         = "AURA";
         $random_string  = substr(md5(mt_rand()), 0, 9);
-        $external_id    = "$prefix-$random_string";
+        $order_id       = "$prefix-$random_string";
 
-        $check = TransactionRepository::first(['external_id' => $external_id]);
-        if ($check) self::generateExternalId();
+        $check = TransactionRepository::first(['order_id' => $order_id]);
+        if ($check) self::generateOrderId();
 
         return strtoupper("$prefix-$random_string");
     }

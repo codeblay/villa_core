@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
@@ -39,6 +40,8 @@ class AuthController extends Controller
     
     function verification(Request $request)
     {
+        if (!$request->token) abort(Response::HTTP_NOT_FOUND);
+
         $service = AuthService::verification($request);
 
         return $service->status ? 'Verifikasi berhasil' : 'Verifikasi gagal';

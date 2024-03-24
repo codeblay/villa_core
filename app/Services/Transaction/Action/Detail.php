@@ -30,10 +30,10 @@ final class Detail extends Service
                 'status'    => $transaction->status,
                 'amount'    => $transaction->amount,
                 'bank' => [
-                    'id'        => $transaction->id,
-                    'code'      => $transaction->code,
-                    'name'      => $transaction->name,
-                    'va_number' => $transaction->va_number,
+                    'id'        => $transaction->bank->id,
+                    'code'      => $transaction->bank->code,
+                    'name'      => $transaction->bank->name,
+                    'va_number' => $transaction->bank->va_number,
                 ],
                 'villa' => [
                     'id'        => $transaction->villa->id,

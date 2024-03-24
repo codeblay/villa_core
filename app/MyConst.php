@@ -4,6 +4,8 @@ namespace App;
 
 class MyConst
 {
+    const DOCUMENT_VERIFICATION_NAME = 'verification.pdf';
+
     const USER_SELLER   = 'seller';
     const USER_BUYER    = 'buyer';
     

@@ -64,6 +64,12 @@
       "slug": "admin.master.bank"
     },
     {
+      "url": "admin.master.document",
+      "name": "Dokumen Verifikasi",
+      "icon": "menu-icon tf-icons bx bx-news",
+      "slug": "admin.master.document"
+    },
+    {
       "url": "admin.master.facility",
       "name": "Fasilitas",
       "icon": "menu-icon tf-icons bx bx-border-outer",

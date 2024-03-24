@@ -60,4 +60,8 @@ class Seller extends Authenticatable
             MyConst::GENDER_FEMALE  => 'Perempuan',
         };
     }
+
+    function getLinkVerificationAttribute() : string {
+        return config('app.url');
+    }
 }

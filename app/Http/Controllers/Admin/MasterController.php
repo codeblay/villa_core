@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DTO\SearchDestination;
+use App\MyConst;
 use App\Repositories\BankRepository;
 use App\Repositories\DestinationCategoryRepository;
 use App\Repositories\DestinationRepository;
 use App\Repositories\FacilityRepository;
 use App\Services\Bank\BankService;
 use App\Services\Destination\DestinationService;
+use App\Services\Document\DocumentService;
 use App\Services\Facility\FacilityService;
 use Illuminate\Http\Request;
 
@@ -105,6 +107,25 @@ class MasterController extends Controller
     function bankUpdate(Request $request)
     {
         $service = BankService::update($request);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+
+    function document()
+    {
+        $data['document']       = "pdf/" . MyConst::DOCUMENT_VERIFICATION_NAME;
+        $data['document_exist'] = file_exists(public_path($data['document']));
+
+        return view('pages.admin.master.document', $data);
+    }
+
+    function documentUpdate(Request $request)
+    {
+        $service = DocumentService::upload($request);
         
         return back()->with([
             'type'      => $service->status ? 'success' : 'danger',

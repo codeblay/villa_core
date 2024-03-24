@@ -56,4 +56,9 @@ Route::prefix('master')->group(function () {
         Route::get('', [MasterController::class, 'bank'])->name('master.bank');
         Route::put('', [MasterController::class, 'bankUpdate'])->name('master.bank.update');
     });
+
+    Route::prefix('document')->group(function () {
+        Route::get('', [MasterController::class, 'document'])->name('master.document'); 
+        Route::post('', [MasterController::class, 'documentUpdate'])->name('master.document.update');
+    });
 });

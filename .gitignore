@@ -3,6 +3,7 @@
 /public/build
 /public/hot
 /public/storage
+/public/pdf/verification.pdf
 /storage/*.key
 /vendor
 .env

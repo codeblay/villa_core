@@ -48,6 +48,7 @@ final class ListBySeller extends Service
         foreach ($data as $villa) {
             $result[] = [
                 'id'            => $villa->id,
+                'uuid'          => $villa->uuid,
                 'name'          => $villa->name,
                 'seller'        => $villa->seller->name,
                 'address'       => $villa->city->address,

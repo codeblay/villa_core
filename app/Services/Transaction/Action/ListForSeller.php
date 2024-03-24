@@ -7,6 +7,7 @@ use App\Models\DTO\SearchTransaction;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Seller;
 use App\Repositories\TransactionRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -18,8 +19,10 @@ final class ListForSeller extends Service
 
     const RULES_VALIDATOR = [
         'code'      => 'sometimes|nullable|string',
-        'created_at'=> 'sometimes|nullable|date_format:Y-m-d',
-        'status'    => 'nullable|integer',
+        'status'    => 'sometimes|nullable|integer',
+        'villa_id'  => 'sometimes|nullable|string',
+        'start_date'=> ['required', 'date_format:Y-m-d'],
+        'end_date'  => ['required', 'date_format:Y-m-d', 'after_or_equal:start_date'],
     ];
 
     private int $cursor = 10;
@@ -42,9 +45,11 @@ final class ListForSeller extends Service
 
             $param              = new SearchTransaction;
             $param->code        = $this->request->code;
-            $param->created_at  = $this->request->created_at;
             $param->status      = $this->request->status;
-            
+            $param->start_date  = Carbon::parse($this->request->start_date)->format('Y-m-d 00:00:00');
+            $param->end_date    = Carbon::parse($this->request->end_date)->format('Y-m-d 23:59:59');
+            $param->villa_id    = $this->request->villa_id;
+
             $transaction = TransactionRepository::listForSeller($this->seller->id, $param, $this->cursor);
 
             $this->data = [

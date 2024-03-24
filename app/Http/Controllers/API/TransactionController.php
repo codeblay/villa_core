@@ -57,4 +57,21 @@ class TransactionController extends ApiController
             http_code: $service->code,
         );
     }
+
+    /**
+     * Mengambil data transaksi untuk seller
+     * @param Request $request
+     * @return JsonResponse
+     */
+    function listForSeller(Request $request): JsonResponse
+    {
+        $service = TransactionService::ListForSeller($request, auth()->user());
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
 }

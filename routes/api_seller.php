@@ -19,11 +19,12 @@ Route::prefix('villa')->group(function () {
 
     Route::prefix('{id}')->group(function () {
         Route::get('', [VillaController::class, 'detail']);
-        Route::put('', [VillaController::class, 'edit']);       
+        Route::put('', [VillaController::class, 'edit']);
     });
 });
 
 Route::prefix('transaction')->group(function () {
+    Route::get('', [TransactionController::class, 'listForSeller']);
     Route::prefix('{id}')->group(function () {
         Route::post('accept', [TransactionController::class, 'accept']);
         Route::post('deny', [TransactionController::class, 'deny']);

@@ -52,18 +52,18 @@ final class TransactionRepository implements Repository
     static function listForSeller(int $seller_id, SearchTransaction $param, int $cursor): CursorPaginator
     {
         return Transaction::query()
-            ->whereHas('villa', function(Builder $query) use ($seller_id){
-                $query->where('seller_id', $seller_id);
+            ->whereHas('villa', function(Builder $query) use ($seller_id, $param){
+                $query->when($param->villa_id, function (Builder $query, string $x){
+                    $query->where('uuid', $x);
+                })->where('seller_id', $seller_id);
             })
             ->when($param->code, function (Builder $query, string $x) {
-                $query->where('code', 'LIKE', "%{$x}%");
-            })
-            ->when($param->created_at, function (Builder $query, string $x) {
-                $query->where('created_at', $x);
+                $query->where('code', $x);
             })
             ->when($param->status, function (Builder $query, string $x) {
                 $query->where('status', $x);
             })
+            ->whereBetween('created_at', [$param->start_date, $param->end_date])
             ->cursorPaginate($cursor);
     }
 

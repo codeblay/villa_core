@@ -4,7 +4,6 @@ namespace App\Services\Transaction\Action;
 
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
-use App\Models\Transaction;
 use App\Repositories\TransactionRepository;
 use App\Services\Midtrans\Transaction\MidtransTransactionService;
 use Illuminate\Http\Response;

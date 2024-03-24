@@ -71,7 +71,7 @@ final class Booking extends Service
                 'buyer_id'          => $this->buyer->id,
                 'bank_id'           => BankRepository::first(['code' => $this->request->payment])->id,
                 'status'            => Transaction::STATUS_NEW,
-                'amount'            => $villa->price,
+                'amount'            => $villa->price * count($date_booking),
             ]);
 
             TransactionDetailRepository::create([

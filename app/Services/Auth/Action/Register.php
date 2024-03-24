@@ -88,6 +88,14 @@ class Register extends Service
                 return parent::error($validator->errors()->first());
             }
 
+            if ($this->user_type == MyConst::USER_SELLER) {
+                $document       = "pdf/" . MyConst::DOCUMENT_VERIFICATION_NAME;
+                $document_exist = file_exists(public_path($document));
+                if (!$document_exist) {
+                    return parent::error("sedang terjadi kendala teknis", Response::HTTP_PRECONDITION_REQUIRED);
+                }
+            }
+
             $repo = $this->repo();
             $seller = $repo->create($validator->validated());
 

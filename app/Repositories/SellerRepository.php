@@ -79,4 +79,12 @@ final class SellerRepository implements RepositoryApi
             ->withCount('villas')
             ->paginate($cursor);
     }
+
+    static function needAccAdmin(int $paginate): LengthAwarePaginator
+    {
+        return Seller::query()
+            ->whereNotNull('email_verified_at')
+            ->whereNull('document_verified_at')
+            ->paginate($paginate);
+    }
 }

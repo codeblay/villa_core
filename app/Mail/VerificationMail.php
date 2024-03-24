@@ -2,9 +2,10 @@
 
 namespace App\Mail;
 
-use App\Models\DTO\Mail\Verification;
+use App\Models\Buyer;
 use App\Models\Seller;
 use Illuminate\Bus\Queueable;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -20,7 +21,7 @@ class VerificationMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(protected Seller $seller)
+    public function __construct(protected User $user)
     {
         //
     }
@@ -32,7 +33,7 @@ class VerificationMail extends Mailable
     {
         return new Envelope(
             from: new Address('admin@allofyou.id', 'Aura'),
-            to: ["ahdiyatlalu@gmail.com"],
+            to: [$this->user->email],
             subject: 'Verifikasi',
         );
     }
@@ -45,9 +46,10 @@ class VerificationMail extends Mailable
         return new Content(
             view: 'emails.verification',
             with: [
-                'name'      => $this->seller->name,
-                'link'      => $this->seller->link_verification,
+                'name'      => $this->user->name,
+                'link'      => $this->user->link_verification,
                 'app_name'  => config('app.name'),
+                'is_seller' => $this->user instanceof Seller,
             ],
         );
     }
@@ -59,6 +61,8 @@ class VerificationMail extends Mailable
      */
     public function attachments(): array
     {
+        if ($this->user instanceof Buyer) return [];
+
         return [
             Attachment::fromPath(public_path('pdf/verification.pdf'))
                 ->as('verifikasi.pdf')

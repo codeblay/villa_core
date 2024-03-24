@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\MyConst;
+use App\Services\Auth\AuthService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -67,5 +68,9 @@ class Buyer extends Authenticatable
             MyConst::GENDER_MALE    => 'Laki-laki',
             MyConst::GENDER_FEMALE  => 'Perempuan',
         };
+    }
+
+    function getLinkVerificationAttribute() : string {
+        return route('verification', ['token' => AuthService::generateTokenVerification($this)]);
     }
 }

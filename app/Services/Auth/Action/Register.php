@@ -4,6 +4,7 @@ namespace App\Services\Auth\Action;
 
 use App\Base\Service;
 use App\Interface\RepositoryApi;
+use App\Mail\VerificationMail;
 use App\Models\DTO\ServiceResponse;
 use App\MyConst;
 use App\Repositories\BuyerRepository;
@@ -12,13 +13,14 @@ use App\Services\Otp\OtpService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class Register extends Service
 {
     const CONTEXT           = "register";
-    const MESSAGE_SUCCESS   = "success register";
-    const MESSAGE_ERROR     = "failed register";
+    const MESSAGE_SUCCESS   = "berhasil register, silahkan cek email untuk melakukan verifikasi";
+    const MESSAGE_ERROR     = "gagal register";
 
     public function __construct(protected Request $request, protected string $user_type)
     {
@@ -97,7 +99,7 @@ class Register extends Service
             }
 
             $repo = $this->repo();
-            $seller = $repo->create($validator->validated());
+            $user = $repo->create($validator->validated());
 
             // $send_otp = OtpService::send($this->request->phone);
             // if (!$send_otp->status) {
@@ -105,7 +107,8 @@ class Register extends Service
             //     return parent::success($send_otp->message, $send_otp->code);
             // }
 
-            $this->data['token'] = $repo->token($seller);
+            // send email
+            Mail::send(new VerificationMail($user));
 
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);

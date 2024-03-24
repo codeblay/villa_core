@@ -4,7 +4,6 @@ use App\Http\Controllers\API\DestinationController;
 use App\Http\Controllers\API\FacilityController;
 use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\Select2Controller;
-use App\Http\Controllers\API\SendtalkController;
 use App\Http\Controllers\API\VillaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

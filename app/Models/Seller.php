@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\MyConst;
+use App\Services\Auth\AuthService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -62,6 +63,6 @@ class Seller extends Authenticatable
     }
 
     function getLinkVerificationAttribute() : string {
-        return config('app.url');
+        return route('verification', ['token' => AuthService::generateTokenVerification($this)]);
     }
 }

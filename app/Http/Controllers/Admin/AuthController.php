@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -34,5 +35,12 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
     
         return redirect()->route('admin.login');
+    }
+    
+    function verification(Request $request)
+    {
+        $service = AuthService::verification($request);
+
+        return $service->status ? 'Verifikasi berhasil' : 'Verifikasi gagal';
     }
 }

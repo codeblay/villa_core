@@ -351,8 +351,10 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p style="margin-bottom: 0;">Unduh dan tanda tangani dokumen terlampir untuk keperluan
-                                    administrasi.</p>
+                                @if ($is_seller)
+                                    <p style="margin-bottom: 0;">Unduh dan tanda tangani dokumen terlampir untuk
+                                        keperluan administrasi.</p>
+                                @endif
                                 <p>Terimakasih.</p>
                             </td>
                         </tr>

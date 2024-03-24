@@ -20,9 +20,20 @@ class SellerController extends Controller
 
     function verification()
     {
-        $data['sellers'] = SellerRepository::get([
-            'document_verified_at' => null,
-        ]);
+        $data['sellers'] = SellerRepository::needAccAdmin(10);
         return view('pages.admin.verification.account', $data);
+    }
+
+    function verificationAccept(int $id)
+    {
+        $acc = SellerRepository::update($id, [
+            'document_verified_at' => now()
+        ]);
+        
+        return back()->with([
+            'type'      => $acc ? 'success' : 'danger',
+            'title'     => $acc ? 'Berhasil' : 'Gagal',
+            'message'   => $acc ? 'Verifikasi berhasil' : 'verifikasi gagal, coba lagi',
+        ]);
     }
 }

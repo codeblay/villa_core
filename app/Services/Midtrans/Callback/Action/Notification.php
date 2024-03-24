@@ -41,6 +41,7 @@ final class Notification extends Service
 
                 case Midtrans::STATUS_PENDING:
                     $status_parsed = Transaction::STATUS_PENDING;
+                    break;
 
                 case Midtrans::STATUS_CANCEL:
                 case Midtrans::STATUS_EXPIRE:
@@ -48,7 +49,7 @@ final class Notification extends Service
                     $status_parsed = Transaction::STATUS_FAILED;
                     VillaScheduleRepository::deleteByTransaction($transaction->id);
                     break;
-                    
+
                 default:
                     goto SUCCESS;
             }

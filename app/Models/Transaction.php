@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\DTO\Midtrans\Charge;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,26 +25,31 @@ class Transaction extends Model
     const STATUS_REJECT     = 4;
 
     // Relation
-    
-    function buyer() : BelongsTo {
+
+    function buyer(): BelongsTo
+    {
         return $this->belongsTo(Buyer::class);
     }
-    
-    function transactionDetail() : HasOne {
+
+    function transactionDetail(): HasOne
+    {
         return $this->hasOne(TransactionDetail::class);
     }
-    
-    function villa() : BelongsTo {
+
+    function villa(): BelongsTo
+    {
         return $this->belongsTo(Villa::class);
     }
-    
-    function bank() : BelongsTo {
+
+    function bank(): BelongsTo
+    {
         return $this->belongsTo(Bank::class);
     }
 
     // End Relation
 
-    function getStatusLabelAttribute() : string {
+    function getStatusLabelAttribute(): string
+    {
         return match ($this->status) {
             self::STATUS_NEW        => 'baru',
             self::STATUS_PENDING    => 'pending',
@@ -53,11 +59,36 @@ class Transaction extends Model
         };
     }
 
-    function getCanAcceptAttribute() : string {
+    function getCanAcceptAttribute(): string
+    {
         return $this->status == self::STATUS_NEW;
     }
 
-    function getCanDenyAttribute() : string {
+    function getCanDenyAttribute(): string
+    {
         return $this->status == self::STATUS_NEW;
+    }
+
+    function getExternalResponseParseAttribute(): array
+    {
+        $result = [];
+
+        if ($this->status != self::STATUS_PENDING) return $result;
+
+        switch ($this->bank->midtrans_payment_type) {
+            case Charge::PAYMENT_TYPE_QRIS:
+                $result = $this->external_response->actions;
+                break;
+
+            case Charge::PAYMENT_TYPE_BANK_TRANSFER:
+                $result = $this->external_response->va_numbers;
+                break;
+
+            default:
+                $result = [];
+                break;
+        }
+
+        return $result;
     }
 }

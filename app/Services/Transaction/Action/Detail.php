@@ -24,7 +24,29 @@ final class Detail extends Service
             $transaction = TransactionRepository::first(['id' => $this->transaction_id]);
             if (!$transaction) return parent::error('transaction not found', Response::HTTP_BAD_REQUEST);
 
-            $this->data = $transaction->toArray();
+            $this->data = [
+                'id'        => $transaction->id,
+                'code'      => $transaction->code,
+                'status'    => $transaction->status,
+                'amount'    => $transaction->amount,
+                'bank' => [
+                    'id'        => $transaction->id,
+                    'code'      => $transaction->code,
+                    'name'      => $transaction->name,
+                    'va_number' => $transaction->va_number,
+                ],
+                'villa' => [
+                    'id'        => $transaction->villa->id,
+                    'name'      => $transaction->villa->name,
+                    'address'   => $transaction->villa->city->address,
+                ],
+                'detail' => [
+                    'name'  => $transaction->transactionDetail->name,
+                    'start' => $transaction->transactionDetail->start,
+                    'end'   => $transaction->transactionDetail->end,
+                ],
+                'response'  => $transaction->external_response_parse,
+            ];
 
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {

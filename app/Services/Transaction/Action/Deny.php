@@ -25,7 +25,7 @@ final class Deny extends Service
         DB::beginTransaction();
         try {
             $transaction = TransactionRepository::first(['id' => $this->transaction_id]);
-            if (!$transaction || $transaction->status != Transaction::STATUS_PENDING) {
+            if (!$transaction || !$transaction->can_deny) {
                 DB::rollBack();
                 return parent::error("data transaksi tidak ditemukan");
             }

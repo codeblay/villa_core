@@ -17,9 +17,11 @@ class Transaction extends Model
         'external_response' => 'object'
     ];
 
+    const STATUS_NEW        = 0;
     const STATUS_PENDING    = 1;
     const STATUS_SUCCESS    = 2;
     const STATUS_FAILED     = 3;
+    const STATUS_REJECT     = 4;
 
     // Relation
     
@@ -43,9 +45,19 @@ class Transaction extends Model
 
     function getStatusLabelAttribute() : string {
         return match ($this->status) {
-            self::STATUS_PENDING    => 'pending' ,
-            self::STATUS_SUCCESS    => 'sukses' ,
-            self::STATUS_FAILED     => 'gagal' ,
+            self::STATUS_NEW        => 'baru',
+            self::STATUS_PENDING    => 'pending',
+            self::STATUS_SUCCESS    => 'sukses',
+            self::STATUS_FAILED     => 'gagal',
+            self::STATUS_REJECT     => 'ditolak',
         };
+    }
+
+    function getCanAcceptAttribute() : string {
+        return $this->status == self::STATUS_NEW;
+    }
+
+    function getCanDenyAttribute() : string {
+        return $this->status == self::STATUS_NEW;
     }
 }

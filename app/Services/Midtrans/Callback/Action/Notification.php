@@ -38,12 +38,17 @@ final class Notification extends Service
                 case Midtrans::STATUS_SETTLEMENT:
                     $status_parsed = Transaction::STATUS_SUCCESS;
                     break;
+
+                case Midtrans::STATUS_PENDING:
+                    $status_parsed = Transaction::STATUS_PENDING;
+
                 case Midtrans::STATUS_CANCEL:
                 case Midtrans::STATUS_EXPIRE:
                 case Midtrans::STATUS_FAILURE:
                     $status_parsed = Transaction::STATUS_FAILED;
                     VillaScheduleRepository::deleteByTransaction($transaction->id);
                     break;
+                    
                 default:
                     goto SUCCESS;
             }

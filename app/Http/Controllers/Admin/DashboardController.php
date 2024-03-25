@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\DashboardRepository;
+use App\Services\Dashboard\DashboardService;
 
 class DashboardController extends Controller
 {
     function index()
     {
-        $data = DashboardRepository::dashboard();
-        return view('pages.admin.dashboard', $data);
+        $data = DashboardService::admin();
+        return view('pages.admin.dashboard', $data->data);
     }
 }

@@ -36,7 +36,11 @@
                                 <span
                                     class="badge bg-{{ $bank->is_active ? 'success' : 'danger' }}">{{ $bank->is_active_label }}</span>
                             </td>
-                            <td class="text-end"><button class="btn btn-primary btn-sm editButton"">Edit</button></td>
+                            <td class="text-end"><button class="btn btn-warning btn-sm editButton" data-bs-toggle="tooltip"
+                                    title="Edit">
+                                    <span class="tf-icons bx bx-pencil"></span>
+                                </button>
+                            </td>
                         </tr>
                     @empty
                         <tr>
@@ -69,12 +73,12 @@
                             <label for="name" class="form-label">Nama</label>
                             <input type="text" id="name" class="form-control" value="" readonly>
                         </div>
-                  
+
                         <div class="col col-12 mb-3">
                             <label for="va_number" class="form-label">Nomor Virtual Akun</label>
                             <input type="text" id="va_number" name="va_number" class="form-control" value="">
                         </div>
-                  
+
                         <div class="col col-12 mb-3">
                             <label for="status" class="form-label">Status</label>
                             <div class="d-flex gap-4">

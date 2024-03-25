@@ -70,21 +70,24 @@ final class SellerRepository implements RepositoryApi
         ];
     }
 
-    static function listForAdmin(int $cursor, SearchSeller $param): LengthAwarePaginator
+    static function listForAdmin(int $paginate, SearchSeller $param): LengthAwarePaginator
     {
         return Seller::query()
             ->when($param->name, function (Builder $query, string $name) {
                 $query->where('name', 'LIKE', "%{$name}%");
             })
             ->withCount('villas')
-            ->paginate($cursor);
+            ->paginate($paginate);
     }
 
-    static function needAccAdmin(int $paginate): LengthAwarePaginator
+    static function needAccAdmin(int $paginate, SearchSeller $param): LengthAwarePaginator
     {
         return Seller::query()
             ->whereNotNull('email_verified_at')
             ->whereNull('document_verified_at')
+            ->when($param->name, function (Builder $query, string $name) {
+                $query->where('name', 'LIKE', "%{$name}%");
+            })
             ->paginate($paginate);
     }
 }

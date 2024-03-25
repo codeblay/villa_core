@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Interface\Repository;
 use App\Models\DTO\SearchTransaction;
-use App\Models\Seller;
 use App\Models\Transaction;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -109,5 +108,10 @@ final class TransactionRepository implements Repository
             ->where('status', Transaction::STATUS_PENDING)
             ->limit(3)
             ->get();
+    }
+
+    static function count(array $conditions = []): int
+    {
+        return Transaction::query()->where($conditions)->count();
     }
 }

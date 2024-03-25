@@ -18,9 +18,12 @@ class SellerController extends Controller
         return view('pages.admin.user.seller', $data);
     }
 
-    function verification()
+    function verification(Request $request)
     {
-        $data['sellers'] = SellerRepository::needAccAdmin(10);
+        $param          = new SearchSeller;
+        $param->name    = $request->name;
+
+        $data['sellers'] = SellerRepository::needAccAdmin(10, $param);
         return view('pages.admin.verification.account', $data);
     }
 

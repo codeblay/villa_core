@@ -4,18 +4,20 @@
 @section('content')
     <div class="card mb-2">
         <div class="card-header">
-            <div class="d-flex flex-wrap gap-2">
-                <div style="flex-grow: 2">
-                    <div class="input-group input-group-merge">
-                        <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Cari akun..." aria-label="Cari akun..."
-                            aria-describedby="basic-addon-search31" />
+            <form action="">
+                <div class="d-flex flex-wrap gap-2">
+                    <div style="flex-grow: 2">
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+                            <input type="text" class="form-control" placeholder="Cari akun..." aria-label="Cari akun..." name="name"
+                                aria-describedby="basic-addon-search31" />
+                        </div>
+                    </div>
+                    <div style="flex-grow: 0">
+                        <button type="submit" class="btn btn-primary">Filter</button>
                     </div>
                 </div>
-                <div style="flex-grow: 0">
-                    <button type="button" class="btn btn-primary">Filter</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
     <div class="card">
@@ -27,6 +29,7 @@
                         <th>Email</th>
                         <th>Gender</th>
                         <th>Umur</th>
+                        <th>Tanggal Registrasi</th>
                         <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
@@ -37,6 +40,7 @@
                             <td>{{ $seller->email }}</td>
                             <td>{{ $seller->gender }}</td>
                             <td>{{ $seller->age }} Tahun</td>
+                            <td>{{ $seller->created_at->translatedFormat('j F Y') }}</td>
                             <td class="text-end">
                                 <form action="{{ route('admin.verification.account.accept', $seller->id) }}" method="POST">
                                     @csrf
@@ -48,7 +52,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="5">Data tidak ada</td>
+                            <td class="text-center" colspan="6">Data tidak ada</td>
                         </tr>
                     @endforelse
                 </tbody>

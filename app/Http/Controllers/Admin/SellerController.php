@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\DTO\SearchSeller;
 use App\Repositories\SellerRepository;
+use App\Services\Verification\VerificationService;
 use Illuminate\Http\Request;
 
 class SellerController extends Controller
@@ -29,14 +30,23 @@ class SellerController extends Controller
 
     function verificationAccept(int $id)
     {
-        $acc = SellerRepository::update($id, [
-            'document_verified_at' => now()
-        ]);
+        $service = VerificationService::accept($id);
         
         return back()->with([
-            'type'      => $acc ? 'success' : 'danger',
-            'title'     => $acc ? 'Berhasil' : 'Gagal',
-            'message'   => $acc ? 'Verifikasi berhasil' : 'verifikasi gagal, coba lagi',
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+
+    function verificationDeny(int $id)
+    {
+        $service = VerificationService::deny($id);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
         ]);
     }
 }

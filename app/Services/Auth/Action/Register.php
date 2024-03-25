@@ -4,16 +4,14 @@ namespace App\Services\Auth\Action;
 
 use App\Base\Service;
 use App\Interface\RepositoryApi;
-use App\Mail\VerificationMail;
+use App\Mail\Verifiaction\VerificationMail;
 use App\Models\DTO\ServiceResponse;
 use App\MyConst;
 use App\Repositories\BuyerRepository;
 use App\Repositories\SellerRepository;
-use App\Services\Otp\OtpService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class Register extends Service
@@ -108,7 +106,7 @@ class Register extends Service
             // }
 
             // send email
-            Mail::send(new VerificationMail($user));
+            VerificationMail::send($user);
 
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);

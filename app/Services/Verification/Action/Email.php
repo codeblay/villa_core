@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Services\Auth\Action;
+namespace App\Services\Auth\Verification;
 
 use App\Base\Service;
-use App\Interface\RepositoryApi;
-use App\Models\Buyer;
 use App\Models\DTO\ServiceResponse;
 use App\MyConst;
 use App\Repositories\BuyerRepository;
@@ -13,7 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class Verification extends Service
+class Email extends Service
 {
     const CONTEXT           = "register";
     const MESSAGE_SUCCESS   = "berhasil register, silahkan cek email untuk melakukan verifikasi";

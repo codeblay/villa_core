@@ -1,27 +1,23 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Verifiaction\Action;
 
-use App\Models\Buyer;
 use App\Models\Seller;
 use Illuminate\Bus\Queueable;
-use Illuminate\Foundation\Auth\User;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
-use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class VerificationMail extends Mailable
+class Deny extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(protected User $user)
+    public function __construct(protected Seller $seller)
     {
         //
     }
@@ -32,8 +28,8 @@ class VerificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('admin@allofyou.id', 'Aura'),
-            to: [$this->user->email],
+            from: new Address(config('mail.from.address'), config('mail.from.name')),
+            to: [$this->seller->email],
             subject: 'Verifikasi',
         );
     }
@@ -44,12 +40,9 @@ class VerificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.verification',
+            view: 'emails.verification.deny',
             with: [
-                'name'      => $this->user->name,
-                'link'      => $this->user->link_verification,
-                'app_name'  => config('app.name'),
-                'is_seller' => $this->user instanceof Seller,
+                'name' => $this->seller->name,
             ],
         );
     }
@@ -61,12 +54,6 @@ class VerificationMail extends Mailable
      */
     public function attachments(): array
     {
-        if ($this->user instanceof Buyer) return [];
-
-        return [
-            Attachment::fromPath(public_path('pdf/verification.pdf'))
-                ->as('verifikasi.pdf')
-                ->withMime('application/pdf'),
-        ];
+        return [];
     }
 }

@@ -18,4 +18,5 @@ Route::get('/', function () {
     return 'OK';
 });
 
+Route::view('test','emails.verification.send');
 Route::get('verification', [AuthController::class, 'verification'])->name('verification');

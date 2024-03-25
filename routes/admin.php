@@ -29,6 +29,7 @@ Route::prefix('user')->group(function () {
 Route::prefix('verification')->group(function () {
     Route::get('account', [SellerController::class, 'verification'])->name('verification.account');
     Route::post('account/{id}/accept', [SellerController::class, 'verificationAccept'])->name('verification.account.accept');
+    Route::post('account/{id}/deny', [SellerController::class, 'verificationDeny'])->name('verification.account.deny');
 });
 
 Route::prefix('transaction')->group(function () {

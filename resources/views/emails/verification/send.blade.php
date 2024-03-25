@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Simple Transactional Email</title>
+    <title>Verification</title>
     <style media="all" type="text/css">
         /* -------------------------------------
     GLOBAL RESETS
@@ -49,17 +49,17 @@
 
         .container {
             margin: 0 auto !important;
-            max-width: 600px;
+            max-width: 650px;
             padding: 0;
             padding-top: 24px;
-            width: 600px;
+            min-width: 600px;
         }
 
         .content {
             box-sizing: border-box;
             display: block;
             margin: 0 auto;
-            max-width: 600px;
+            max-width: 650px;
             padding: 0;
         }
 
@@ -322,31 +322,26 @@
                 <div class="content">
 
                     <!-- START CENTERED WHITE CONTAINER -->
-                    <span class="preheader">This is preheader text. Some clients will show this text as a
-                        preview.</span>
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="main">
 
                         <!-- START MAIN CONTENT AREA -->
                         <tr>
                             <td class="wrapper">
                                 <h3>Hi, {{ $name }}!</h3>
-                                <p>Terimakasih sudah mendaftar di aplikasi <b>Aura<b></p>
+                                <p>Terimakasih sudah mendaftar di aplikasi <b>{{ config('app.name') }}<b></p>
                                 <p>Silahkan lakukan verifikasi dengan melalui tombol verifikasi agar akun anda dapat
                                     digunakan</p>
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0"
                                     class="btn btn-primary">
                                     <tbody>
                                         <tr>
-                                            <td align="left">
-                                                <table role="presentation" border="0" cellpadding="0"
-                                                    cellspacing="0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td> <a href="{{ $link }}"
-                                                                    target="_blank">Verifikasi</a> </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                            <td align="center">
+                                                <img src="{{ asset('image/undraw/newsletter.png') }}" height="300">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <a href="{{ $link }}" target="_blank">Verifikasi</a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -355,7 +350,6 @@
                                     <p style="margin-bottom: 0;">Unduh dan tanda tangani dokumen terlampir untuk
                                         keperluan administrasi.</p>
                                 @endif
-                                <p>Terimakasih.</p>
                             </td>
                         </tr>
 
@@ -367,15 +361,15 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td class="content-block">
-                                    <span class="apple-link">Kenayan, Wedomartani, Kec. Ngemplak, Kabupaten
-                                        Sleman,</span>
+                                    <span class="apple-link">Kenayan, Wedomartani, Kec. Ngemplak,
+                                        KabupatenSleman,</span>
                                     <br>
                                     <span class="apple-link">Daerah Istimewa Yogyakarta 55584</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="content-block powered-by">
-                                    {{ $app_name }}
+                                    {{ config('app.name') }}
                                 </td>
                             </tr>
                         </table>

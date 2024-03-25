@@ -6,9 +6,9 @@ use App\Models\Buyer;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Seller;
 use App\MyConst;
-use App\Services\Auth\Verification\Accept;
-use App\Services\Auth\Verification\Deny;
-use App\Services\Auth\Verification\Email;
+use App\Services\Verification\Accept;
+use App\Services\Verification\Deny;
+use App\Services\Verification\Email;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 

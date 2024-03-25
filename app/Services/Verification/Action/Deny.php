@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Auth\Verification;
+namespace App\Services\Verification;
 
 use App\Base\Service;
 use App\Mail\Verification\VerificationMail;

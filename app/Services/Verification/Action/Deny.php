@@ -26,8 +26,8 @@ class Deny extends Service
             $seller = SellerRepository::first(['id' => $this->seller_id]);
             if (!$seller) return parent::error("akun tidak ditemukan");
 
-
             VerificationMail::deny($seller);
+            SellerRepository::delete($seller->id);
 
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);

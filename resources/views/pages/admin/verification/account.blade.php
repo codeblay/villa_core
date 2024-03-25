@@ -9,8 +9,8 @@
                     <div style="flex-grow: 2">
                         <div class="input-group input-group-merge">
                             <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                            <input type="text" class="form-control" placeholder="Cari akun..." aria-label="Cari akun..." name="name"
-                                aria-describedby="basic-addon-search31" />
+                            <input type="text" class="form-control" placeholder="Cari akun..." aria-label="Cari akun..."
+                                name="name" aria-describedby="basic-addon-search31" />
                         </div>
                     </div>
                     <div style="flex-grow: 0">
@@ -42,12 +42,24 @@
                             <td>{{ $seller->age }} Tahun</td>
                             <td>{{ $seller->created_at->translatedFormat('j F Y') }}</td>
                             <td class="text-end">
-                                <form action="{{ route('admin.verification.account.accept', $seller->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-icon btn-success btn-sm acc-button" data-bs-toggle="tooltip" title="Verifikasi">
-                                        <span class="tf-icons bx bx-check"></span>
-                                    </button>
-                                </form>
+                                <div class="d-flex justify-content-end align-items-center gap-1">
+                                    <form action="{{ route('admin.verification.account.deny', $seller->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-icon btn-danger btn-sm"
+                                            data-bs-toggle="tooltip" title="Tolak">
+                                            <span class="tf-icons bx bx-x"></span>
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('admin.verification.account.accept', $seller->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-icon btn-success btn-sm"
+                                            data-bs-toggle="tooltip" title="Terima">
+                                            <span class="tf-icons bx bx-check"></span>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

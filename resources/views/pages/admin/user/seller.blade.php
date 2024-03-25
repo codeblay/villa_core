@@ -30,6 +30,7 @@
                         <th>Jenis Kelamin</th>
                         <th>Umur</th>
                         <th>Villa</th>
+                        <th>Verifikasi</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -40,10 +41,13 @@
                             <td>{{ $seller->gender_label }}</td>
                             <td>{{ $seller->age }} Tahun</td>
                             <td>{{ $seller->villas_count }} Unit</td>
+                            <td>
+                                <span class="badge bg-label-{{ $seller->is_verified ? 'success' : 'secondary' }} me-1">{{ $seller->is_verified ? 'Ya' : 'Tidak' }}</span>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="5">Data tidak ada</td>
+                            <td class="text-center" colspan="6">Data tidak ada</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Verification;
+namespace App\Services\Verification\Action;
 
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;

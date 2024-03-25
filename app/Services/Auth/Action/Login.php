@@ -4,7 +4,9 @@ namespace App\Services\Auth\Action;
 
 use App\Base\Service;
 use App\Interface\RepositoryApi;
+use App\Models\Buyer;
 use App\Models\DTO\ServiceResponse;
+use App\Models\Seller;
 use App\MyConst;
 use App\Repositories\BuyerRepository;
 use App\Repositories\SellerRepository;
@@ -59,6 +61,8 @@ class Login extends Service
 
             $check_password = Hash::check($this->request->password, @$user->password);
             if (!$check_password) return parent::error('email atau password salah');
+
+            if (!$user->is_verified) return parent::error('akun anda belum diverifikasi', Response::HTTP_UNAUTHORIZED);
 
             $token = $repo::token($user);
             if (empty($token)) return parent::error(self::MESSAGE_ERROR);

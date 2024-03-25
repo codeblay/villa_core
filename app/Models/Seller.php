@@ -65,4 +65,8 @@ class Seller extends Authenticatable
     function getLinkVerificationAttribute() : string {
         return route('verification', ['token' => AuthService::generateTokenVerification($this)]);
     }
+
+    function getIsVerifiedAttribute() : bool {
+        return !is_null($this->email_verified_at) && !is_null($this->document_verified_at);
+    }
 }

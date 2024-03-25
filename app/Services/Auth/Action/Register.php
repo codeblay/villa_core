@@ -4,7 +4,7 @@ namespace App\Services\Auth\Action;
 
 use App\Base\Service;
 use App\Interface\RepositoryApi;
-use App\Mail\Verifiaction\VerificationMail;
+use App\Mail\Verification\VerificationMail;
 use App\Models\DTO\ServiceResponse;
 use App\MyConst;
 use App\Repositories\BuyerRepository;

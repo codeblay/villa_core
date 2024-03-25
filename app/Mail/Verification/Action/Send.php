@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail\Verifiaction\Action;
+namespace App\Mail\Verification\Action;
 
 use App\Models\Buyer;
 use App\Models\Seller;

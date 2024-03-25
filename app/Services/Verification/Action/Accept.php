@@ -3,7 +3,7 @@
 namespace App\Services\Auth\Verification;
 
 use App\Base\Service;
-use App\Mail\Verifiaction\VerificationMail;
+use App\Mail\Verification\VerificationMail;
 use App\Models\DTO\ServiceResponse;
 use App\Repositories\SellerRepository;
 use Illuminate\Http\Response;

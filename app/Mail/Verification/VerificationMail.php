@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Mail\Verifiaction;
+namespace App\Mail\Verification;
 
-use App\Mail\Verifiaction\Action\Accept;
-use App\Mail\Verifiaction\Action\Deny;
-use App\Mail\Verifiaction\Action\Send;
+use App\Mail\Verification\Action\Accept;
+use App\Mail\Verification\Action\Deny;
+use App\Mail\Verification\Action\Send;
 use App\Models\Seller;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Mail\SentMessage;

@@ -10,6 +10,7 @@ use App\Repositories\VillaRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Uuid;
 
 final class Create extends Service
 {
@@ -42,6 +43,7 @@ final class Create extends Service
             $images = $this->request->file('images');
 
             $villa = VillaRepository::create([
+                'uuid'          => Uuid::uuid4(),
                 'name'          => $this->request->name,
                 'seller_id'     => $this->seller->id,
                 'city_id'       => $this->request->city_id,
@@ -51,7 +53,7 @@ final class Create extends Service
             ]);
 
             $villa->facilities()->attach($this->request->facilities);
-            
+
             foreach ($images as $image) {
                 $_file       = new File();
                 $_file->path = $image->store(options: 'villa');

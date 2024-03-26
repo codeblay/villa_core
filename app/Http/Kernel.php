@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         
         'admin' => \App\Http\Middleware\Admin::class,
         'app_key' => \App\Http\Middleware\AppKeyMiddleware::class,
+        'is_verified' => \App\Http\Middleware\IsVerified::class,
     ];
 }

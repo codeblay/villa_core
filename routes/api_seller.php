@@ -6,8 +6,8 @@ use App\Http\Controllers\API\TransactionController;
 use App\Http\Controllers\API\VillaController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('auth:seller');
-Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('auth:seller');
+Route::post('login', [AuthController::class, 'login'])->withoutMiddleware(['auth:seller', 'is_verified']);
+Route::post('register', [AuthController::class, 'register'])->withoutMiddleware(['auth:seller', 'is_verified']);
 
 Route::post('logout', [AuthController::class, 'logout']);
 

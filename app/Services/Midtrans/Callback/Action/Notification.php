@@ -65,6 +65,7 @@ final class Notification extends Service
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
             DB::rollBack();
+            parent::storeLog($th, self::CONTEXT);
             return parent::error(self::MESSAGE_SUCCESS);
         }
     }

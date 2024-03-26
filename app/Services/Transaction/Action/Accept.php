@@ -30,7 +30,7 @@ final class Accept extends Service
             }
 
             $midtrans = MidtransTransactionService::create($transaction);
-            if (!$midtrans) {
+            if (!$midtrans->status) {
                 DB::rollBack();
                 return parent::error("terjadi kesalahan, cobalah beberapa saat lagi", Response::HTTP_BAD_GATEWAY);
             }

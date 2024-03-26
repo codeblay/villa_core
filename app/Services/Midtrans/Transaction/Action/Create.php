@@ -47,15 +47,14 @@ final class Create extends Service
                 $midtrans_charge_bank_transfer->bank        = $this->transaction->bank->code;
                 $midtrans_charge_bank_transfer->va_number   = $this->transaction->bank->va_number;
                 
-                $midtrans_charge_body->bank_transfer        = $midtrans_charge_customer_detail;
+                $midtrans_charge_body->bank_transfer        = $midtrans_charge_bank_transfer;
             }
 
             $midtrans_charge = (new MidtransRepository)->charge($midtrans_charge_body);
             if ($midtrans_charge->failed()) parent::error(self::MESSAGE_SUCCESS, Response::HTTP_BAD_GATEWAY);
 
             $midtrans_charge_result = $midtrans_charge->json();
-            $midtrans_cancel_link   = collect($midtrans_charge_result['actions'])->where('name', 'cancel')->value('url');
-
+            
             try {
                 TransactionRepository::update($this->transaction->id, [
                     'external_id'       => $midtrans_charge_result['transaction_id'],
@@ -63,12 +62,16 @@ final class Create extends Service
                 ]);
 
             } catch (\Throwable $th) {
-                (new MidtransRepository)->cancel($midtrans_cancel_link);
+                if ($payment_type == Charge::PAYMENT_TYPE_BANK_TRANSFER) {
+                    $midtrans_cancel_link = collect($midtrans_charge_result['actions'])->where('name', 'cancel')->value('url');
+                    (new MidtransRepository)->cancel($midtrans_cancel_link);
+                }
             }
 
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
-            return parent::error(self::MESSAGE_SUCCESS);
+            parent::storeLog($th, self::CONTEXT);
+            return parent::error(self::MESSAGE_ERROR);
         }
     }
 }

@@ -23,14 +23,15 @@
     </div>
     <div class="card">
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+            <table class="table {{ count($transactions) == 0 ? 'table' : 'table-hover' }}">
                 <thead>
                     <tr>
                         <th>Kode Booking</th>
                         <th>Pemilik</th>
+                        <th>Pelanggan</th>
+                        <th>Pembayaran</th>
                         <th>Villa</th>
                         <th>Harga</th>
-                        <th>Penyewa</th>
                         <th>Tanggal</th>
                         <th>Status</th>
                     </tr>
@@ -40,15 +41,16 @@
                         <tr>
                             <td>{{ $transaction->code }}</td>
                             <td>{{ $transaction->villa->seller->name }}</td>
+                            <td>{{ $transaction->buyer->name }}</td>
+                            <td>{{ $transaction->bank->name }}</td>
                             <td>{{ $transaction->villa->name }}</td>
                             <td>{{ rupiah($transaction->amount) }}</td>
-                            <td>{{ $transaction->buyer->name }}</td>
                             <td>{{ $transaction->created_at->translatedFormat('j F Y') }}</td>
                             <td>{{ ucfirst($transaction->status_label) }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="6">Data tidak ada</td>
+                            <td class="text-center" colspan="8">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>

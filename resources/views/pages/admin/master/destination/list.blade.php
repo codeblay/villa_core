@@ -43,7 +43,7 @@
 
     <div class="card">
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+            <table class="table {{ count($destinations) == 0 ? 'table' : 'table-hover' }}">
                 <thead>
                     <tr>
                         <th>Nama</th>
@@ -68,7 +68,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="4">Data tidak ada</td>
+                            <td class="text-center" colspan="4">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>

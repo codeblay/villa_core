@@ -1,5 +1,5 @@
 @extends('layouts.admin.index' )
-@section('title', 'Pemilik Properti')
+@section('title', 'Investor')
 
 @section('content')
     <div class="card mb-2">
@@ -9,7 +9,7 @@
                     <div style="flex-grow: 2">
                         <div class="input-group input-group-merge">
                             <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                            <input type="text" class="form-control" name="name" value="{{ request('name') }}" placeholder="Cari pemilik properti..." aria-label="Cari pemilik properti..."
+                            <input type="text" class="form-control" name="name" value="{{ request('name') }}" placeholder="Cari investor..." aria-label="Cari investor..."
                                 aria-describedby="basic-addon-search31" />
                         </div>
                     </div>
@@ -22,7 +22,7 @@
     </div>
     <div class="card">
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+            <table class="table {{ count($sellers) == 0 ? 'table' : 'table-hover' }}">
                 <thead>
                     <tr>
                         <th>Nama</th>
@@ -47,7 +47,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="6">Data tidak ada</td>
+                            <td class="text-center" colspan="6">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>

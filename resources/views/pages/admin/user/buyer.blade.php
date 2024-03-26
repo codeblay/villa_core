@@ -1,5 +1,5 @@
 @extends('layouts.admin.index')
-@section('title', 'Penyewa')
+@section('title', 'Pelanggan')
 
 @section('content')
     <div class="card mb-2">
@@ -9,8 +9,8 @@
                     <div style="flex-grow: 2">
                         <div class="input-group input-group-merge">
                             <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                            <input type="text" class="form-control" name="name" value="{{ request('name') }}" placeholder="Cari penyewa..."
-                                aria-label="Cari penyewa..." aria-describedby="basic-addon-search31" />
+                            <input type="text" class="form-control" name="name" value="{{ request('name') }}" placeholder="Cari pelanggan..."
+                                aria-label="Cari pelanggan..." aria-describedby="basic-addon-search31" />
                         </div>
                     </div>
                     <div style="flex-grow: 0">
@@ -22,7 +22,7 @@
     </div>
     <div class="card">
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+            <table class="table {{ count($buyers) == 0 ? 'table' : 'table-hover' }}">
                 <thead>
                     <tr>
                         <th>Nama</th>
@@ -30,7 +30,7 @@
                         <th>Jenis Kelamin</th>
                         <th>Umur</th>
                         <th>Transaksi</th>
-                        <th>Status</th>
+                        <th>Verifikasi</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -47,7 +47,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="6">Data tidak ada</td>
+                            <td class="text-center" colspan="6">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>

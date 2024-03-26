@@ -61,11 +61,15 @@ final class VillaRepository implements Repository
     {
         return Villa::query()
             ->with(['city'])
+            ->withCount(['transactionsSuccess'])
             ->when($param->name, function (Builder $query, string $name) {
                 $query->where('name', 'LIKE', "%{$name}%");
             })
             ->when($param->city_id, function (Builder $query, int $city_id) {
                 $query->where('city_id', $city_id);
+            })
+            ->when(!is_null($param->is_publish), function (Builder $query) use ($param) {
+                $query->where('is_publish', $param->is_publish);
             })
             ->when($param->order_by, function (Builder $query, string $column) use ($param) {
                 $query->orderBy($column, $param->order_type);

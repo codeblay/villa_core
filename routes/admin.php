@@ -18,8 +18,11 @@ Route::withoutMiddleware('admin')->middleware('guest')->group(function () {
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('villa', [VillaController::class, 'index'])->name('villa');
-Route::get('villa/{id}', [VillaController::class, 'detail'])->name('villa.detail');
+
+Route::prefix('villa')->group(function () {
+    Route::get('', [VillaController::class, 'index'])->name('villa');
+    Route::get('{id}', [VillaController::class, 'detail'])->name('villa.detail');
+});
 
 Route::prefix('user')->group(function () {
     Route::get(MyConst::USER_SELLER, [SellerController::class, 'index'])->name('user.seller');
@@ -54,9 +57,9 @@ Route::prefix('master')->group(function () {
         });
     });
 
-    Route::prefix('bank')->group(function () {
-        Route::get('', [MasterController::class, 'bank'])->name('master.bank');
-        Route::put('', [MasterController::class, 'bankUpdate'])->name('master.bank.update');
+    Route::prefix('payment')->group(function () {
+        Route::get('', [MasterController::class, 'bank'])->name('master.payment');
+        Route::put('', [MasterController::class, 'bankUpdate'])->name('master.payment.update');
     });
 
     Route::prefix('document')->group(function () {

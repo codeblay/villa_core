@@ -1,10 +1,10 @@
 @extends('layouts.admin.index')
-@section('title', 'Bank')
+@section('title', 'Pembayaran')
 
 @section('content')
     <div class="card">
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+            <table class="table {{ count($banks) == 0 ? 'table' : 'table-hover' }}">
                 <thead>
                     <tr>
                         <th>Bank</th>
@@ -44,7 +44,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="4">Data tidak ada</td>
+                            <td class="text-center" colspan="4">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -54,7 +54,7 @@
 
     <div class="modal fade" id="modalEdit" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form class="modal-content" action="{{ route('admin.master.bank.update') }}" method="POST">
+            <form class="modal-content" action="{{ route('admin.master.payment.update') }}" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="id" id="id" value="">

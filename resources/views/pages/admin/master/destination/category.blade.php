@@ -8,7 +8,7 @@
 @section('content')
     <div class="card">
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+            <table class="table {{ count($categories) == 0 ? 'table' : 'table-hover' }}">
                 <thead>
                     <tr>
                         <th>Kategori</th>
@@ -23,7 +23,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="2">Data tidak ada</td>
+                            <td class="text-center" colspan="2">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>

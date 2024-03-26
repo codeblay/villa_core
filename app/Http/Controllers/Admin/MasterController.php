@@ -101,7 +101,7 @@ class MasterController extends Controller
     function bank()
     {
         $data['banks'] = BankRepository::get();
-        return view('pages.admin.master.bank', $data);
+        return view('pages.admin.master.payment', $data);
     }
 
     function bankUpdate(Request $request)

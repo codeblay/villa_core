@@ -20,13 +20,13 @@
     },
     {
       "url": "admin.user.seller",
-      "name": "Pemilik Properti",
+      "name": "Investor",
       "icon": "menu-icon tf-icons bx bx-user-check",
       "slug": "admin.user.seller"
     },
     {
       "url": "admin.user.buyer",
-      "name": "Penyewa",
+      "name": "Pelanggan",
       "icon": "menu-icon tf-icons bx bx-user-voice",
       "slug": "admin.user.buyer"
     },
@@ -58,10 +58,10 @@
       "menuHeader": "Master"
     },
     {
-      "url": "admin.master.bank",
-      "name": "Akun Bank",
+      "url": "admin.master.payment",
+      "name": "Pembayaran",
       "icon": "menu-icon tf-icons bx bx-wallet-alt",
-      "slug": "admin.master.bank"
+      "slug": "admin.master.payment"
     },
     {
       "url": "admin.master.document",

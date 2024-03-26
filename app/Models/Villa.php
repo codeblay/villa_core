@@ -50,6 +50,14 @@ class Villa extends Model
         return $this->morphOne(File::class, 'fileable');
     }
 
+    function transactions() : HasMany {
+        return $this->hasMany(Transaction::class);
+    }
+
+    function transactionsSuccess() : HasMany {
+        return $this->hasMany(Transaction::class)->where('status', Transaction::STATUS_SUCCESS);
+    }
+
     // End Relation
 
     function getAddressAttribute() : string {

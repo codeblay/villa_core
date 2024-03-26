@@ -22,12 +22,12 @@
     </div>
     <div class="card">
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+            <table class="table {{ count($sellers) == 0 ? 'table' : 'table-hover' }}">
                 <thead>
                     <tr>
                         <th>Nama</th>
                         <th>Email</th>
-                        <th>Gender</th>
+                        <th>Jenis Kelamin</th>
                         <th>Umur</th>
                         <th>Tanggal Registrasi</th>
                         <th class="text-end">Aksi</th>
@@ -38,7 +38,7 @@
                         <tr>
                             <td><span class="fw-medium">{{ $seller->name }}</span></td>
                             <td>{{ $seller->email }}</td>
-                            <td>{{ $seller->gender }}</td>
+                            <td>{{ $seller->gender_label }}</td>
                             <td>{{ $seller->age }} Tahun</td>
                             <td>{{ $seller->created_at->translatedFormat('j F Y') }}</td>
                             <td class="text-end">
@@ -64,7 +64,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="6">Data tidak ada</td>
+                            <td class="text-center" colspan="6">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>

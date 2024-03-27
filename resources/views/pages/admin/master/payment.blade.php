@@ -34,7 +34,7 @@
                             <td>{{ $bank->va_number ?? '-' }}</td>
                             <td>
                                 <span
-                                    class="badge bg-{{ $bank->is_active ? 'success' : 'danger' }}">{{ $bank->is_active_label }}</span>
+                                    class="badge bg-label-{{ $bank->is_active ? 'success' : 'danger' }}">{{ $bank->is_active_label }}</span>
                             </td>
                             <td class="text-end"><button class="btn btn-warning btn-sm editButton" data-bs-toggle="tooltip"
                                     title="Edit">

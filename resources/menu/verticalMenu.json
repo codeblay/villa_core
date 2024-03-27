@@ -13,7 +13,10 @@
       "url": "admin.villa",
       "name": "Villa",
       "icon": "menu-icon tf-icons bx bx-building-house",
-      "slug": ["admin.villa", "admin.villa.detail"]
+      "slug": [
+        "admin.villa",
+        "admin.villa.detail"
+      ]
     },
     {
       "menuHeader": "Pengguna"
@@ -76,21 +79,20 @@
       "slug": "admin.master.facility"
     },
     {
+      "url": "admin.master.destination.list",
       "name": "Destinasi",
       "icon": "menu-icon tf-icons bx bx-map-alt",
-      "slug": "admin.master.destination",
-      "submenu": [
-        {
-          "url": "admin.master.destination.category",
-          "name": "Kategori",
-          "slug": "admin.master.destination.category"
-        },
-        {
-          "url": "admin.master.destination.list",
-          "name": "List",
-          "slug": ["admin.master.destination.list", "admin.master.destination.list.detail"]
-        }
+      "slug": [
+        "admin.master.destination.list",
+        "admin.master.destination.list.detail",
+        "admin.master.destination.list.edit"
       ]
+    },
+    {
+      "url": "admin.master.destination.category",
+      "name": "Destinasi Kategori",
+      "icon": "menu-icon tf-icons bx bx-sitemap",
+      "slug": "admin.master.destination.category"
     }
   ]
 }

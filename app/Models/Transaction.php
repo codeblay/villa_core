@@ -24,6 +24,22 @@ class Transaction extends Model
     const STATUS_FAILED     = 3;
     const STATUS_REJECT     = 4;
 
+    const STATUS_LABEL = [
+        self::STATUS_NEW        => 'baru',
+        self::STATUS_PENDING    => 'pending',
+        self::STATUS_SUCCESS    => 'sukses',
+        self::STATUS_FAILED     => 'gagal',
+        self::STATUS_REJECT     => 'ditolak',
+    ];
+
+    const STATUS_CLASS = [
+        self::STATUS_NEW        => 'secondary',
+        self::STATUS_PENDING    => 'info',
+        self::STATUS_SUCCESS    => 'success',
+        self::STATUS_FAILED     => 'danger',
+        self::STATUS_REJECT     => 'warning',
+    ];
+
     // Relation
 
     function buyer(): BelongsTo
@@ -50,13 +66,12 @@ class Transaction extends Model
 
     function getStatusLabelAttribute(): string
     {
-        return match ($this->status) {
-            self::STATUS_NEW        => 'baru',
-            self::STATUS_PENDING    => 'pending',
-            self::STATUS_SUCCESS    => 'sukses',
-            self::STATUS_FAILED     => 'gagal',
-            self::STATUS_REJECT     => 'ditolak',
-        };
+        return self::STATUS_LABEL[$this->status];
+    }
+
+    function getStatusClassAttribute(): string
+    {
+        return self::STATUS_CLASS[$this->status];
     }
 
     function getCanAcceptAttribute(): string

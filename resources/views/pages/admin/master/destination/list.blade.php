@@ -1,5 +1,5 @@
 @extends('layouts.admin.index')
-@section('title', 'List Destinasi')
+@section('title', 'Destinasi')
 
 @section('action')
     <button class="btn btn-success btn-sm" id="addButton">Tambah</button>

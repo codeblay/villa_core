@@ -1,5 +1,5 @@
 @extends('layouts.admin.index')
-@section('title', 'Detail')
+@section('title', 'Destinasi')
 
 @section('action')
     <form action="{{ route('admin.master.destination.list.edit', $destination->id) }}">

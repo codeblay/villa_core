@@ -33,7 +33,7 @@
                         <th>Villa</th>
                         <th>Harga</th>
                         <th>Tanggal</th>
-                        <th>Status</th>
+                        <th class="text-end">Status</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -46,7 +46,9 @@
                             <td>{{ $transaction->villa->name }}</td>
                             <td>{{ rupiah($transaction->amount) }}</td>
                             <td>{{ $transaction->created_at->translatedFormat('j F Y') }}</td>
-                            <td>{{ ucfirst($transaction->status_label) }}</td>
+                            <td class="text-end">
+                                <span class="badge bg-label-{{ $transaction->status_class }}">{{ $transaction->status_label }}</span>
+                            </td>
                         </tr>
                     @empty
                         <tr>

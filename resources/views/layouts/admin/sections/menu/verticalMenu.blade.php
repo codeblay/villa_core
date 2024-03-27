@@ -16,7 +16,7 @@
 
     <div class="menu-inner-shadow"></div>
 
-    <ul class="menu-inner py-1">
+    <ul class="menu-inner pt-1">
         @foreach ($menuData[0]->menu as $menu)
             {{-- adding active and open class if child is active --}}
 
@@ -75,7 +75,7 @@
             @endif
         @endforeach
 
-        <li class="menu-item mt-auto border-top pt-1" style="border-color: #A1AC8b">
+        <li class="menu-item border-top border-bottom pt-1 mt-3 mb-0" style="border-color: #A1AC8b">
             <a href="javascript:logout();" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
                 <div type="button" id="logoutButton">Logout</div>

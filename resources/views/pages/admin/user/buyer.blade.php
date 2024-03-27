@@ -30,7 +30,7 @@
                         <th>Jenis Kelamin</th>
                         <th>Umur</th>
                         <th>Transaksi</th>
-                        <th>Verifikasi</th>
+                        <th class="text-end">Verifikasi</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -41,7 +41,7 @@
                             <td>{{ $buyer->gender_label }}</td>
                             <td>{{ $buyer->age }} Tahun</td>
                             <td>{{ $buyer->transactions_success_count }}</td>
-                            <td>
+                            <td class="text-end">
                                 <span class="badge bg-label-{{ $buyer->is_verified ? 'success' : 'secondary' }} me-1">{{ $buyer->is_verified ? 'Ya' : 'Tidak' }}</span>
                             </td>
                         </tr>

@@ -14,8 +14,8 @@ use Illuminate\Support\Collection;
 final class Detail extends Service
 {
     const CONTEXT           = "load villa";
-    const MESSAGE_SUCCESS   = "success load villa";
-    const MESSAGE_ERROR     = "failed load villa";
+    const MESSAGE_SUCCESS   = "berhasil load villa";
+    const MESSAGE_ERROR     = "gagal load villa";
 
     public function __construct(protected int $villa_id)
     {

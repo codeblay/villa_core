@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Hash;
 class Login extends Service
 {
     const CONTEXT           = "login";
-    const MESSAGE_SUCCESS   = "success login";
-    const MESSAGE_ERROR     = "failed login";
+    const MESSAGE_SUCCESS   = "berhasil login";
+    const MESSAGE_ERROR     = "gagal login";
 
     const RULES_VALIDATOR = [
         'email'     => 'required|email',

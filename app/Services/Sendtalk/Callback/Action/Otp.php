@@ -12,8 +12,8 @@ use Illuminate\Http\Response;
 final class Otp extends Service
 {
     const CONTEXT           = "receive callback";
-    const MESSAGE_SUCCESS   = "success receive callback";
-    const MESSAGE_ERROR     = "failed receive callback";
+    const MESSAGE_SUCCESS   = "berhasil receive callback";
+    const MESSAGE_ERROR     = "gagal receive callback";
 
     function __construct(protected Request $request)
     {

@@ -11,8 +11,8 @@ use Illuminate\Http\Response;
 final class Detail extends Service
 {
     const CONTEXT           = "load transaction";
-    const MESSAGE_SUCCESS   = "success load transaction";
-    const MESSAGE_ERROR     = "failed load transaction";
+    const MESSAGE_SUCCESS   = "berhasil load transaction";
+    const MESSAGE_ERROR     = "gagal load transaction";
 
     function __construct(protected int $transaction_id)
     {

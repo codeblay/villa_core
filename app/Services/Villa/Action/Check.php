@@ -12,8 +12,8 @@ use Illuminate\Http\Response;
 final class Check extends Service
 {
     const CONTEXT           = "rate villa";
-    const MESSAGE_SUCCESS   = "success rate villa";
-    const MESSAGE_ERROR     = "failed rate villa";
+    const MESSAGE_SUCCESS   = "berhasil rate villa";
+    const MESSAGE_ERROR     = "gagal rate villa";
 
     public function __construct(protected int $villa_id, protected Buyer $buyer)
     {

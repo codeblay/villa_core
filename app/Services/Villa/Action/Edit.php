@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\DB;
 final class Edit extends Service
 {
     const CONTEXT           = "edit villa";
-    const MESSAGE_SUCCESS   = "success edit villa";
-    const MESSAGE_ERROR     = "failed edit villa";
+    const MESSAGE_SUCCESS   = "berhasil edit villa";
+    const MESSAGE_ERROR     = "gagal edit villa";
 
     const RULES_VALIDATOR = [
         'id'            => 'required',

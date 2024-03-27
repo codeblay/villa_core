@@ -22,8 +22,8 @@ use Illuminate\Validation\Rule;
 final class Booking extends Service
 {
     const CONTEXT           = "booking villa";
-    const MESSAGE_SUCCESS   = "success booking villa";
-    const MESSAGE_ERROR     = "failed booking villa";
+    const MESSAGE_SUCCESS   = "berhasil booking villa";
+    const MESSAGE_ERROR     = "gagal booking villa";
 
     private static function rules() : array {
         $now = now()->format('Y-m-d');

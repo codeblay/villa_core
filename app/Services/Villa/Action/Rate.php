@@ -12,8 +12,8 @@ use Illuminate\Http\Response;
 final class Rate extends Service
 {
     const CONTEXT           = "rate villa";
-    const MESSAGE_SUCCESS   = "success rate villa";
-    const MESSAGE_ERROR     = "failed rate villa";
+    const MESSAGE_SUCCESS   = "berhasil rate villa";
+    const MESSAGE_ERROR     = "gagal rate villa";
 
     const RULES_VALIDATOR = [
         'villa_id'      => 'required|integer',

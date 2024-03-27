@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\DB;
 final class Accept extends Service
 {
     const CONTEXT           = "accept transaction";
-    const MESSAGE_SUCCESS   = "success accept transaction";
-    const MESSAGE_ERROR     = "failed accept transaction";
+    const MESSAGE_SUCCESS   = "berhasil accept transaction";
+    const MESSAGE_ERROR     = "gagal accept transaction";
 
     public function __construct(protected int $transaction_id)
     {

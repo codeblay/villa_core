@@ -11,8 +11,8 @@ use Illuminate\Http\Response;
 final class Slider extends Service
 {
     const CONTEXT           = "load villa";
-    const MESSAGE_SUCCESS   = "success load villa";
-    const MESSAGE_ERROR     = "failed load villa";
+    const MESSAGE_SUCCESS   = "berhasil load villa";
+    const MESSAGE_ERROR     = "gagal load villa";
 
     private int $total = 3;
 

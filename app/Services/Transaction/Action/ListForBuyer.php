@@ -12,8 +12,8 @@ use Illuminate\Http\Response;
 final class ListForBuyer extends Service
 {
     const CONTEXT           = "load transaction";
-    const MESSAGE_SUCCESS   = "success load transaction";
-    const MESSAGE_ERROR     = "failed load transaction";
+    const MESSAGE_SUCCESS   = "berhasil load transaction";
+    const MESSAGE_ERROR     = "gagal load transaction";
 
     const RULES_VALIDATOR = [
         'status' => 'nullable|integer'

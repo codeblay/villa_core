@@ -46,4 +46,29 @@ class AuthController extends ApiController
             http_code: $service->code,
         );
     }
+
+    function resetPassword(Request $request): JsonResponse
+    {
+        $service = AuthService::resetPassword($request, auth()->user());
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
+
+    function forgotPassword(Request $request): JsonResponse
+    {
+        $user_type = $request->header('x-role', '');
+        $service = AuthService::register($request, $user_type);
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
 }

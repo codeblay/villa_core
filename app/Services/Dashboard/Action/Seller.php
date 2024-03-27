@@ -14,8 +14,8 @@ use Illuminate\Http\Response;
 final class Seller extends Service
 {
     const CONTEXT           = "load dashboard";
-    const MESSAGE_SUCCESS   = "success load dashboard";
-    const MESSAGE_ERROR     = "failed load dashboard";
+    const MESSAGE_SUCCESS   = "berhasil load dashboard";
+    const MESSAGE_ERROR     = "gagal load dashboard";
 
     function __construct(protected ModelsSeller $seller)
     {

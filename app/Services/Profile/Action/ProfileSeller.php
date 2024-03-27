@@ -10,8 +10,8 @@ use Illuminate\Http\Response;
 final class ProfileSeller extends Service
 {
     const CONTEXT           = "load profile";
-    const MESSAGE_SUCCESS   = "success load profile";
-    const MESSAGE_ERROR     = "failed load profile";
+    const MESSAGE_SUCCESS   = "berhasil load profile";
+    const MESSAGE_ERROR     = "gagal load profile";
 
     public function __construct()
     {

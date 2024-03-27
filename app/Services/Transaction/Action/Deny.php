@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\DB;
 final class Deny extends Service
 {
     const CONTEXT           = "deny transaction";
-    const MESSAGE_SUCCESS   = "success deny transaction";
-    const MESSAGE_ERROR     = "failed deny transaction";
+    const MESSAGE_SUCCESS   = "berhasil deny transaction";
+    const MESSAGE_ERROR     = "gagal deny transaction";
 
     public function __construct(protected int $transaction_id)
     {

@@ -12,6 +12,11 @@ Route::post('register', [AuthController::class, 'register'])->withoutMiddleware(
 
 Route::post('logout', [AuthController::class, 'logout']);
 
+Route::prefix('password')->group(function(){
+    Route::post('reset', [AuthController::class, 'resetPassword']);
+    // Route::post('forgot', [AuthController::class, 'forgotPassword']);
+});
+
 Route::get('dashboard', [DashboardController::class, 'dashboard']);
 
 Route::prefix('villa')->group(function () {

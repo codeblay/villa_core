@@ -11,8 +11,8 @@ use Illuminate\Http\Response;
 class Logout extends Service
 {
     const CONTEXT           = "logout";
-    const MESSAGE_SUCCESS   = "success logout";
-    const MESSAGE_ERROR     = "failed logout";
+    const MESSAGE_SUCCESS   = "berhasil logout";
+    const MESSAGE_ERROR     = "gagal logout";
 
     public function __construct(protected Request $request)
     {

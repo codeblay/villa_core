@@ -16,8 +16,8 @@ use Illuminate\Http\Response;
 final class Create extends Service
 {
     const CONTEXT           = "create transaction midtrans";
-    const MESSAGE_SUCCESS   = "success create transaction midtrans";
-    const MESSAGE_ERROR     = "failed create transaction midtrans";
+    const MESSAGE_SUCCESS   = "berhasil create transaction midtrans";
+    const MESSAGE_ERROR     = "gagal create transaction midtrans";
 
     function __construct(protected Transaction $transaction)
     {

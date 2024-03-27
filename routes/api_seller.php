@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\TransactionController;
 use App\Http\Controllers\API\VillaController;
+use App\Http\Controllers\API\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login'])->withoutMiddleware(['auth:seller', 'is_verified']);
@@ -29,4 +30,8 @@ Route::prefix('transaction')->group(function () {
         Route::post('accept', [TransactionController::class, 'accept']);
         Route::post('deny', [TransactionController::class, 'deny']);
     });
+});
+
+Route::prefix('profile')->group(function () {
+    Route::get('', [ProfileController::class, 'profileSeller']);
 });

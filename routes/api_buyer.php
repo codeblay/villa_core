@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\TransactionController;
 use App\Http\Controllers\API\VillaController;
+use App\Http\Controllers\API\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login'])->withoutMiddleware(['auth:buyer', 'is_verified']);
@@ -19,4 +20,8 @@ Route::prefix('villa')->group(function(){
     Route::post('rate', [VillaController::class, 'rate']);
     Route::post('booking', [VillaController::class, 'booking']);
     Route::get('check/{id}', [VillaController::class, 'check']);
+});
+
+Route::prefix('profile')->group(function () {
+    Route::get('', [ProfileController::class, 'profileBuyer']);
 });

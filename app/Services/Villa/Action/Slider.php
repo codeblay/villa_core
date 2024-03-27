@@ -32,6 +32,7 @@ final class Slider extends Service
                     'id'        => $villa->id,
                     'name'      => $villa->name,
                     'address'   => $villa->city->address,
+                    'image_url' => $villa->primaryImage->local_path,
                 ];
             })->toArray();
 

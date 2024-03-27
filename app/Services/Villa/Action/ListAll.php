@@ -62,6 +62,7 @@ final class ListAll extends Service
                 'description'   => $villa->description,
                 'is_publish'    => (bool) $villa->is_publish,
                 'is_available'  => (bool) $villa->is_available,
+                'image_url'     => $villa->primaryImage->local_path,
             ];
         }
         return $result ?? [];

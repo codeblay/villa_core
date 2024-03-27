@@ -34,6 +34,28 @@ class MasterController extends Controller
         ]);
     }
     
+    function facilityUpdate(Request $request, int $id)
+    {
+        $service = FacilityService::update($request, $id);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+    
+    function facilityDelete(int $id)
+    {
+        $service = FacilityService::delete($id);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+    
     function destinationCategory()
     {
         $data['categories'] = DestinationCategoryRepository::getWithTotalDestination();

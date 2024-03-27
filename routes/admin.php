@@ -41,8 +41,12 @@ Route::prefix('transaction')->group(function () {
 });
 
 Route::prefix('master')->group(function () {
-    Route::get('facility', [MasterController::class, 'facility'])->name('master.facility');
-    Route::post('facility', [MasterController::class, 'facilityCreate'])->name('master.facility.create');
+    Route::prefix('facility')->group(function () {
+        Route::get('', [MasterController::class, 'facility'])->name('master.facility');
+        Route::post('', [MasterController::class, 'facilityCreate'])->name('master.facility.create');
+        Route::put('{id}', [MasterController::class, 'facilityUpdate'])->name('master.facility.update');
+        Route::delete('{id}', [MasterController::class, 'facilityDelete'])->name('master.facility.delete');
+    });
 
     Route::prefix('destination')->group(function () {
         Route::get('category', [MasterController::class, 'destinationCategory'])->name('master.destination.category');

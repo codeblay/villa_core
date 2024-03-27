@@ -13,6 +13,7 @@
                     <tr>
                         <th>Fasilitas</th>
                         <th>Total Villa</th>
+                        <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -20,10 +21,27 @@
                         <tr>
                             <td><span class="fw-medium">{{ $facility->name }}</span></td>
                             <td>{{ $facility->villas_count }}</td>
+                            <th class="text-end">
+                                <div class="d-flex justify-content-end align-items-center gap-1">
+                                    <form action="{{ route('admin.master.facility.delete', $facility->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-icon btn-danger btn-sm deleteButton" data-total-villa="{{ $facility->villas_count }}"
+                                            data-bs-toggle="tooltip" title="Hapus">
+                                            <span class="tf-icons bx bx-trash"></span>
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-icon btn-warning btn-sm editButton"
+                                        data-bs-toggle="tooltip" title="Edit" data-url="{{ route('admin.master.facility.update', $facility->id) }}" data-name="{{ $facility->name }}">
+                                        <span class="tf-icons bx bx-pencil"></span>
+                                    </button>
+                                </div>
+                            </th>
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="2">@include('components.empty')</td>
+                            <td class="text-center" colspan="3">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -54,6 +72,49 @@
             </form>
         </div>
     </div>
+
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form class="modal-content" action="" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditTitle">Edit Fasilitas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="name" class="form-label">Nama</label>
+                            <input type="text" id="name" class="form-control" name="name"
+                                placeholder="Masukkan fasilitas">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalDeleteFailed" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <img src="{{ asset('image/undraw/warning.svg') }}" height="200">
+                        <div class="mt-3">
+                            <span class="badge bg-label-danger text-wrap lh-base">Fasilitas telah digunakan oleh beberapa villa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('page-script')
@@ -61,6 +122,29 @@
         $('#addButton').click(function(e) {
             e.preventDefault()
             $('#modalAdd').modal('show')
+        })
+
+        $('.deleteButton').click(function(e) {
+            e.preventDefault()
+
+            let totalVilla = $(this).data('total-villa')
+
+            if (totalVilla > 0) {
+                $('#modalDeleteFailed').modal('show')
+            } else {
+                $(this).closest('form').submit()
+            }
+        })
+
+        $('.editButton').click(function(e) {
+            e.preventDefault()
+            
+            let url = $(this).data('url')
+            let name = $(this).data('name')
+
+            $('#modalEdit form').attr('action', url)
+            $('#modalEdit [name="name"]').val(name)
+            $('#modalEdit').modal('show')
         })
     </script>
 @endsection

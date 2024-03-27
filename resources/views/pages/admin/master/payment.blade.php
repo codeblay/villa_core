@@ -36,7 +36,8 @@
                                 <span
                                     class="badge bg-label-{{ $bank->is_active ? 'success' : 'danger' }}">{{ $bank->is_active_label }}</span>
                             </td>
-                            <td class="text-end"><button class="btn btn-warning btn-sm editButton" data-bs-toggle="tooltip"
+                            <td class="text-end">
+                                <button class="btn btn-icon btn-warning btn-sm editButton" data-bs-toggle="tooltip"
                                     title="Edit">
                                     <span class="tf-icons bx bx-pencil"></span>
                                 </button>

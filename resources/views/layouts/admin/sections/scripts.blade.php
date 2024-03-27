@@ -21,7 +21,7 @@
             allowClear: true,
             dropdownParent: $(this).closest('.modal') ? $('.modal') : $('body'),
         })
-        
+
         $('.select2-ajax').select2({
             theme: "bootstrap",
             width: 'resolve',
@@ -54,7 +54,7 @@
                 },
             },
         })
-    
+
         $('.modal .select2-ajax').select2({
             theme: "bootstrap",
             width: 'resolve',
@@ -88,6 +88,15 @@
                 },
             },
         })
+
+        let toast = $('body .bs-toast')
+        let hasToast = toast.length > 0
+
+        if (hasToast) {
+            setTimeout(function() {
+                toast.toggleClass('show');
+            }, 3000);
+        }
     })
 
     function logout() {

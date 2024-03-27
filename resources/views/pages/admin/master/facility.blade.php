@@ -21,7 +21,7 @@
                         <tr>
                             <td><span class="fw-medium">{{ $facility->name }}</span></td>
                             <td>{{ $facility->villas_count }}</td>
-                            <th class="text-end">
+                            <td class="text-end">
                                 <div class="d-flex justify-content-end align-items-center gap-1">
                                     <form action="{{ route('admin.master.facility.delete', $facility->id) }}"
                                         method="POST">
@@ -37,7 +37,7 @@
                                         <span class="tf-icons bx bx-pencil"></span>
                                     </button>
                                 </div>
-                            </th>
+                            </td>
                         </tr>
                     @empty
                         <tr>

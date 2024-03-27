@@ -49,13 +49,19 @@ Route::prefix('master')->group(function () {
     });
 
     Route::prefix('destination')->group(function () {
-        Route::get('category', [MasterController::class, 'destinationCategory'])->name('master.destination.category');
-        Route::post('category', [MasterController::class, 'destinationCategoryCreate'])->name('master.destination.category.create');
         
+        Route::prefix('category')->group(function () {
+            Route::get('', [MasterController::class, 'destinationCategory'])->name('master.destination.category');
+            Route::post('', [MasterController::class, 'destinationCategoryCreate'])->name('master.destination.category.create');
+            Route::put('{id}', [MasterController::class, 'destinationCategoryUpdate'])->name('master.destination.category.update');
+            Route::delete('{id}', [MasterController::class, 'destinationCategoryDelete'])->name('master.destination.category.delete');
+        });
+
         Route::prefix('list')->group(function () {
             Route::get('', [MasterController::class, 'destinationList'])->name('master.destination.list');
             Route::get('{id}', [MasterController::class, 'destinationListDetail'])->name('master.destination.list.detail');
             Route::get('{id}/edit', [MasterController::class, 'destinationListEdit'])->name('master.destination.list.edit');
+            Route::delete('{id}', [MasterController::class, 'destinationListDelete'])->name('master.destination.list.delete');
             Route::post('', [MasterController::class, 'destinationListCreate'])->name('master.destination.list.create');
             Route::put('', [MasterController::class, 'destinationListUpdate'])->name('master.destination.list.update');
         });

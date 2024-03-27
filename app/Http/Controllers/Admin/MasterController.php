@@ -73,6 +73,30 @@ class MasterController extends Controller
         ]);
     }
     
+
+    function destinationCategoryUpdate(Request $request, int $id)
+    {
+        $service = DestinationService::updateCategory($request, $id);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+    
+
+    function destinationCategoryDelete(int $id)
+    {
+        $service = DestinationService::deleteCategory($id);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+    
     function destinationList(Request $request)
     {
         $param              = new SearchDestination;
@@ -89,6 +113,17 @@ class MasterController extends Controller
     {
         $data['destination'] = DestinationRepository::first(['id' => $id]);
         return view('pages.admin.master.destination.detail', $data);
+    }
+    
+    function destinationListDelete(int $id)
+    {
+        $service = DestinationService::delete($id);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
     }
 
     function destinationListEdit(int $id)

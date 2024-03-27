@@ -89,12 +89,12 @@
             },
         })
 
-        let toast = $('body .bs-toast')
+        let toast = $('body .bs-toast.show')
         let hasToast = toast.length > 0
 
         if (hasToast) {
             setTimeout(function() {
-                toast.toggleClass('show');
+                toast.removeClass('show');
             }, 3000);
         }
     })

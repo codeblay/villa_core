@@ -59,11 +59,26 @@
                             <td>{{ $destination->category->name }}</td>
                             <td>{{ $destination->city->address }}</td>
                             <td class="text-end">
-                                <button type="button" class="btn btn-icon btn-primary btn-sm detail-button"
-                                    data-bs-toggle="tooltip" data-bs-original-title="Detail"
-                                    data-url="{{ route('admin.master.destination.list.detail', $destination->id) }}">
-                                    <span class="tf-icons bx bx-show"></span>
-                                </button>
+                                <div class="d-flex justify-content-end align-items-center gap-1">
+                                    <form action="{{ route('admin.master.destination.list.delete', $destination->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-icon btn-danger btn-sm"
+                                            data-bs-toggle="tooltip" title="Hapus">
+                                            <span class="tf-icons bx bx-trash"></span>
+                                        </button>
+                                    </form>
+                                    <a class="btn btn-icon btn-warning btn-sm"
+                                        data-bs-toggle="tooltip" title="Edit" href="{{ route('admin.master.destination.list.edit', $destination->id) }}">
+                                        <span class="tf-icons bx bx-pencil"></span>
+                                    </a>
+                                    <button type="button" class="btn btn-icon btn-primary btn-sm detail-button"
+                                        data-bs-toggle="tooltip" data-bs-original-title="Detail"
+                                        data-url="{{ route('admin.master.destination.list.detail', $destination->id) }}">
+                                        <span class="tf-icons bx bx-show"></span>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     @empty
@@ -96,7 +111,7 @@
                         <div class="col col-12 mb-3">
                             <label for="name" class="form-label">Nama</label>
                             <input type="text" id="name" class="form-control" name="name"
-                                placeholder="Masukkan kategori" required>
+                                placeholder="Masukkan nama" required>
                         </div>
                         <div class="col col-12 col-md-6 mb-3">
                             <label for="destination_category_id" class="form-label">Kategori</label>

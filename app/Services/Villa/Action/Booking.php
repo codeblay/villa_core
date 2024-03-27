@@ -49,7 +49,7 @@ final class Booking extends Service
                 DB::rollBack();
                 return parent::error($validator->errors()->first());
             }
-            
+
             $villa = VillaRepository::first(['id' => $this->request->villa_id]);
             if (!$villa || !$villa->is_publish) {
                 DB::rollBack();
@@ -64,7 +64,7 @@ final class Booking extends Service
                     return parent::error("villa telah di-booking pada tanggal {$date_format}");
                 }
             }
-            
+
             $transaction = TransactionRepository::create([
                 'code'              => self::generateCode(),
                 'villa_id'          => $villa->id,
@@ -79,6 +79,9 @@ final class Booking extends Service
                 'name'              => $this->request->name,
                 'start'             => $this->request->start_date,
                 'end'               => $this->request->end_date,
+                'villa_name'        => $villa->name,
+                'villa_address'     => $villa->city->address,
+                'villa_price'       => $villa->price,
             ]);
 
             // schedule
@@ -99,7 +102,7 @@ final class Booking extends Service
             return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_REQUEST);
         }
     }
-    
+
     private static function generateCode() : string {
         $prefix         = "AURA";
         $random_string  = substr(md5(mt_rand()), 0, 9);

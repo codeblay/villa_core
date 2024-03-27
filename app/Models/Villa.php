@@ -21,11 +21,11 @@ class Villa extends Model
     const STATUS_PUBLISH    = 1;
 
     // Relation
-    
+
     function seller() : BelongsTo {
         return $this->belongsTo(Seller::class);
     }
-    
+
     function city() : BelongsTo {
         return $this->belongsTo(City::class);
     }
@@ -48,6 +48,10 @@ class Villa extends Model
 
     function file() : MorphOne {
         return $this->morphOne(File::class, 'fileable');
+    }
+
+    function primaryImage() : MorphOne {
+        return $this->morphOne(File::class, 'fileable')->where('type', File::TYPE_IMAGE);
     }
 
     // End Relation

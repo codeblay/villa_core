@@ -13,15 +13,15 @@ return new class extends Migration
     {
 
         Schema::whenTableDoesntHaveColumn('transaction_details', 'villa_price', function (Blueprint $table) {
-            $table->unsignedInteger('villa_price')->after('end')->nullable()->default(0);
+            $table->unsignedInteger('villa_price')->after('end')->default(0);
         });
 
         Schema::whenTableDoesntHaveColumn('transaction_details', 'villa_address', function (Blueprint $table) {
-            $table->text('villa_address')->after('end')->nullable();
+            $table->text('villa_address')->after('end');
         });
 
         Schema::whenTableDoesntHaveColumn('transaction_details', 'villa_name', function (Blueprint $table) {
-            $table->string('villa_name')->after('end')->nullable();
+            $table->string('villa_name')->after('end')->default("system process");
         });
 
     }

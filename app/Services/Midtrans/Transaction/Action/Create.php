@@ -45,7 +45,7 @@ final class Create extends Service
             if ($payment_type == Charge::PAYMENT_TYPE_BANK_TRANSFER) {
                 $midtrans_charge_bank_transfer              = new ChargeBankTransfer;
                 $midtrans_charge_bank_transfer->bank        = $this->transaction->bank->code;
-                $midtrans_charge_bank_transfer->va_number   = $this->transaction->bank->va_number;
+                // $midtrans_charge_bank_transfer->va_number   = $this->transaction->bank->va_number;
                 
                 $midtrans_charge_body->bank_transfer        = $midtrans_charge_bank_transfer;
             }

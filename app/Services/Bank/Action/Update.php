@@ -21,9 +21,9 @@ final class Update extends Service
             'is_active' => 'required|boolean',
         ];
 
-        if ($this->request->code != Bank::QR) {
-            $rules['va_number'] = 'required|numeric';
-        }
+        // if ($this->request->code != Bank::QR) {
+        //     $rules['va_number'] = 'required|numeric';
+        // }
 
         return $rules;
     }

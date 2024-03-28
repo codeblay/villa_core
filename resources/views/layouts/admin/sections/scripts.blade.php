@@ -102,6 +102,16 @@
     function logout() {
         $('#logoutForm').submit()
     }
+
+    $(window).bind('beforeunload', function() {
+        $('#myLoading').removeClass('d-none')
+        $('#myLoading').addClass('d-flex')
+    });
+
+    $(window).bind('unload', function() {
+        $('#myLoading').addClass('d-none')
+        $('#myLoading').removeClass('d-flex')
+    });
 </script>
 
 @yield('page-script')

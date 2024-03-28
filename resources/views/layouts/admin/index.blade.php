@@ -22,6 +22,11 @@
 </head>
 
 <body>
+    <div class="d-none align-items-center justify-content-center" id="myLoading">
+        <div class="spinner-border spinner-border-lg text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+    </div>
 
     @php
         $contentNavbar = true;

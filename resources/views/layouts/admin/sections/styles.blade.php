@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="{{ asset('template/css/demo.css') }}" />
 <link rel="stylesheet" href="{{ asset('template/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css">
 
 <style>
     .card:has(.select2) {
@@ -49,6 +50,14 @@
 
     .select2-container .select2-dropdown {
         margin-top: -4px !important;
+    }
+
+    #myLoading {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        z-index: 9999;
+        background-color: rgba(255, 255, 255, 0.479);
     }
 </style>
 

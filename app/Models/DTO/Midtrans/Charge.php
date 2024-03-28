@@ -41,5 +41,5 @@ final class ChargeBankTransfer
     const BNI = 'bni';
     
     public string   $bank;
-    public string   $va_number;
+    // public string   $va_number;
 }

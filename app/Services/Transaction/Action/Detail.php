@@ -27,8 +27,8 @@ final class Detail extends Service
             $this->data = [
                 'id'        => $transaction->id,
                 'code'      => $transaction->code,
-                'status'    => $transaction->status,
                 'amount'    => $transaction->amount,
+                'status'    => $transaction->status_label,
                 'bank' => [
                     'id'        => $transaction->bank->id,
                     'code'      => $transaction->bank->code,

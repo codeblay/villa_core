@@ -32,6 +32,7 @@ Route::prefix('villa')->group(function () {
 Route::prefix('transaction')->group(function () {
     Route::get('', [TransactionController::class, 'listForSeller']);
     Route::prefix('{id}')->group(function () {
+        Route::get('', [TransactionController::class, 'detail']);
         Route::post('accept', [TransactionController::class, 'accept']);
         Route::post('deny', [TransactionController::class, 'deny']);
     });

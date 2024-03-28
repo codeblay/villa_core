@@ -26,8 +26,8 @@ final class FacilityService
         return (new Delete($id))->call();
     }
 
-    static function dropdown(): ServiceResponse
+    static function dropdown(Request $request): ServiceResponse
     {
-        return (new Dropdown)->call();
+        return (new Dropdown($request))->call();
     }
 }

@@ -3,10 +3,12 @@
 namespace App\Services\Facility\Action;
 
 use App\Base\Service;
+use App\Models\DTO\SearchFacility;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Facility;
 use App\Repositories\FacilityRepository;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 final class Dropdown extends Service
 {
@@ -14,14 +16,17 @@ final class Dropdown extends Service
     const MESSAGE_SUCCESS   = "berhasil memuat fasilitas";
     const MESSAGE_ERROR     = "gagal memuat fasilitas";
 
-    public function __construct()
+    public function __construct(protected Request $request)
     {
     }
 
     function call(): ServiceResponse
     {
         try {
-            $facilites = FacilityRepository::get();
+            $param          = new SearchFacility();
+            $param->name    = $this->request['keyword'];
+
+            $facilites = FacilityRepository::search($param);
             $this->data = $facilites->map(function(Facility $facility) {
                 return [
                     "id"    => $facility->id,

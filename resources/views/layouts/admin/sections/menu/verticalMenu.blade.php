@@ -2,7 +2,7 @@
 
     <!-- ! Hide app brand if navbar-full -->
     <div class="app-brand demo mb-4">
-        <a href="{{ url('/') }}" class="app-brand-link gap-4">
+        <a href="#" class="app-brand-link gap-4">
             <span class="app-brand-logo demo">
                 @include('_partials.macros', ['width' => 40, 'withbg' => 'var(--bs-primary)'])
             </span>

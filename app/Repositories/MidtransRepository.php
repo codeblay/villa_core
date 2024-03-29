@@ -36,4 +36,13 @@ final class MidtransRepository
 
         return $request;
     }
+
+    function status(string $order_id) : Response {
+        $request = Http::acceptJson()
+            ->contentType('application/json')
+            ->withBasicAuth($this->server_key, '')
+            ->get("{$this->url}/v2/$order_id/status");
+
+        return $request;
+    }
 }

@@ -34,12 +34,14 @@ final class Notification extends Service
             $transaction = TransactionRepository::first(['external_id' => $external_id]);
             if (!$transaction) return parent::error(self::MESSAGE_ERROR);
 
+            $transaction_status = $transaction->status;
+
             switch ($status) {
-                case Midtrans::STATUS_SETTLEMENT:
+                case Midtrans::STATUS_SETTLEMENT && ($transaction_status == Transaction::STATUS_PENDING):
                     $status_parsed = Transaction::STATUS_SUCCESS;
                     break;
 
-                case Midtrans::STATUS_PENDING:
+                case Midtrans::STATUS_PENDING && ($transaction_status == Transaction::STATUS_NEW):
                     $status_parsed = Transaction::STATUS_PENDING;
                     break;
 

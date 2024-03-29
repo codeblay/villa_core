@@ -5,6 +5,7 @@ namespace App\Services\Villa\Action;
 use App\Base\Service;
 use App\Models\Destination;
 use App\Models\DTO\ServiceResponse;
+use App\Models\Seller;
 use App\Models\Villa;
 use App\Repositories\DestinationCategoryRepository;
 use App\Repositories\VillaRepository;
@@ -24,7 +25,12 @@ final class Detail extends Service
     function call(): ServiceResponse
     {
         try {
-            $villa = VillaRepository::detailForBuyer($this->villa_id);
+            if (auth()?->user() instanceof Seller) {
+                $villa = VillaRepository::detailForSeller($this->villa_id);
+            } else {
+                $villa = VillaRepository::detailForBuyer($this->villa_id);
+            }
+            
             if (!$villa) return parent::error('villa not found', Response::HTTP_BAD_REQUEST);
 
             $destination_categories = DestinationCategoryRepository::get();

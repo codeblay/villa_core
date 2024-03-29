@@ -91,4 +91,9 @@ final class VillaRepository implements Repository
     {
         return Villa::query()->with(['city', 'facilities'])->where('is_publish', Villa::STATUS_PUBLISH)->where('id', $id)->first();
     }
+
+    static function detailForSeller(int $id): ?Villa
+    {
+        return Villa::query()->with(['city', 'facilities'])->where('id', $id)->first();
+    }
 }

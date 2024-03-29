@@ -92,11 +92,18 @@ class Transaction extends Model
 
         switch ($this->bank->midtrans_payment_type) {
             case Charge::PAYMENT_TYPE_QRIS:
-                $result = $this->external_response->actions;
+                $result = [
+                    'payment'   => $this->bank->name,
+                    'value'     => $this->external_response->actions[0]->url,
+                ];
                 break;
 
             case Charge::PAYMENT_TYPE_BANK_TRANSFER:
                 $result = $this->external_response->va_numbers;
+                $result = [
+                    'payment'   => $this->bank->name,
+                    'value'     => $this->external_response->va_numbers[0]->va_number,
+                ];
                 break;
 
             default:

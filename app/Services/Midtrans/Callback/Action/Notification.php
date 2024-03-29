@@ -6,7 +6,6 @@ use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
 use App\Models\External\Midtrans;
 use App\Models\Transaction;
-use App\Models\VillaSchedule;
 use App\Repositories\TransactionRepository;
 use App\Repositories\VillaScheduleRepository;
 use Illuminate\Http\Request;
@@ -15,9 +14,9 @@ use Illuminate\Support\Facades\DB;
 
 final class Notification extends Service
 {
-    const CONTEXT           = "receive callback";
-    const MESSAGE_SUCCESS   = "berhasil receive callback";
-    const MESSAGE_ERROR     = "gagal receive callback";
+    const CONTEXT           = "menerima callback";
+    const MESSAGE_SUCCESS   = "berhasil menerima callback";
+    const MESSAGE_ERROR     = "gagal menerima callback";
 
     function __construct(protected Request $request)
     {
@@ -37,12 +36,16 @@ final class Notification extends Service
             $transaction_status = $transaction->status;
 
             switch ($status) {
-                case Midtrans::STATUS_SETTLEMENT && ($transaction_status == Transaction::STATUS_PENDING):
-                    $status_parsed = Transaction::STATUS_SUCCESS;
+                case Midtrans::STATUS_SETTLEMENT:
+                    if ($transaction_status == Transaction::STATUS_PENDING) {
+                        $status_parsed = Transaction::STATUS_SUCCESS;
+                    }
                     break;
 
-                case Midtrans::STATUS_PENDING && ($transaction_status == Transaction::STATUS_NEW):
-                    $status_parsed = Transaction::STATUS_PENDING;
+                case Midtrans::STATUS_PENDING:
+                    if (($transaction_status == Transaction::STATUS_NEW)) {
+                        $status_parsed = Transaction::STATUS_PENDING;
+                    }
                     break;
 
                 case Midtrans::STATUS_CANCEL:

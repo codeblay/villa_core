@@ -58,6 +58,18 @@ class TransactionController extends ApiController
         );
     }
 
+    function sync(int $transaction_id): JsonResponse
+    {
+        $service = TransactionService::sync($transaction_id);
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
+
     /**
      * Mengambil data transaksi untuk seller
      * @param Request $request

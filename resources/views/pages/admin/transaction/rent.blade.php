@@ -33,7 +33,8 @@
                         <th>Villa</th>
                         <th>Harga</th>
                         <th>Tanggal</th>
-                        <th class="text-end">Status</th>
+                        <th>Status</th>
+                        <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -46,13 +47,23 @@
                             <td>{{ $transaction->villa->name }}</td>
                             <td>{{ rupiah($transaction->amount) }}</td>
                             <td>{{ $transaction->created_at->translatedFormat('j F Y') }}</td>
+                            <td>
+                                <span
+                                    class="badge bg-label-{{ $transaction->status_class }}">{{ $transaction->status_label }}</span>
+                            </td>
                             <td class="text-end">
-                                <span class="badge bg-label-{{ $transaction->status_class }}">{{ $transaction->status_label }}</span>
+                                <form action="{{ route('admin.transaction.rentSync', $transaction->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-icon btn-warning btn-sm" data-bs-toggle="tooltip"
+                                        data-bs-original-title="Sinkron">
+                                        <span class="tf-icons bx bx-sync"></span>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="8">@include('components.empty')</td>
+                            <td class="text-center" colspan="9">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -15,7 +15,7 @@ class BankSeeder extends Seeder
     {
         $banks = [
             [
-                'name'      => 'QR',
+                'name'      => 'QRIS',
                 'code'      => 'qr',
                 'is_active' => true,
             ],

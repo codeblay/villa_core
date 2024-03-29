@@ -52,12 +52,6 @@
       "slug": "admin.transaction.rent"
     },
     {
-      "url": "admin.transaction.withdrawal",
-      "name": "Penarikan Dana",
-      "icon": "menu-icon tf-icons bx bx-export",
-      "slug": "admin.transaction.withdrawal"
-    },
-    {
       "menuHeader": "Master"
     },
     {

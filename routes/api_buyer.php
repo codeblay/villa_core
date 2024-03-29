@@ -18,7 +18,11 @@ Route::prefix('password')->group(function(){
 
 Route::prefix('transaction')->group(function(){
     Route::get('', [TransactionController::class, 'list']);
-    Route::get('{id}', [TransactionController::class, 'detail']);
+    
+    Route::prefix('{id}')->group(function(){
+        Route::get('', [TransactionController::class, 'detail']);
+        Route::get('sync', [TransactionController::class, 'sync']);
+    });
 });
 
 Route::prefix('villa')->group(function(){

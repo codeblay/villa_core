@@ -3,7 +3,9 @@
 namespace App\Base;
 
 use App\Interface\Service as InterfaceService;
+use App\Models\Buyer;
 use App\Models\DTO\ServiceResponse;
+use App\Models\Seller;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Response;
 use Throwable;
@@ -45,5 +47,13 @@ abstract class Service implements InterfaceService
             'message'   => $th->getMessage(),
             'line'      => $th->getLine(),
         ]);
+    }
+
+    protected function isSeller() : bool {
+        return auth()?->user() instanceof Seller;
+    }
+
+    protected function isBuyer() : bool {
+        return auth()?->user() instanceof Buyer;
     }
 }

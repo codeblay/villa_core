@@ -36,8 +36,11 @@ Route::prefix('verification')->group(function () {
 });
 
 Route::prefix('transaction')->group(function () {
-    Route::get('rent', [TransactionController::class, 'rent'])->name('transaction.rent');
-    Route::view('withdrawal', 'pages.admin.transaction.withdrawal')->name('transaction.withdrawal');
+    Route::prefix('rent')->group(function () {
+        Route::get('', [TransactionController::class, 'rent'])->name('transaction.rent');
+        Route::post('{id}/sync', [TransactionController::class, 'rentSync'])->name('transaction.rentSync');
+    });
+    // Route::view('withdrawal', 'pages.admin.transaction.withdrawal')->name('transaction.withdrawal');
 });
 
 Route::prefix('master')->group(function () {

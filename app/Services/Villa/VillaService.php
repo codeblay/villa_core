@@ -13,6 +13,7 @@ use App\Services\Villa\Action\ListBySeller;
 use App\Services\Villa\Action\Rate;
 use App\Services\Villa\Action\Slider;
 use App\Services\Villa\Action\Check;
+use App\Services\Villa\Action\Edit;
 use Illuminate\Http\Request;
 
 final class VillaService
@@ -34,7 +35,7 @@ final class VillaService
 
     static function edit(Request $request, Seller $seller): ServiceResponse
     {
-        return (new Create($request, $seller))->call();
+        return (new Edit($request, $seller))->call();
     }
 
     static function booking(Request $request, Buyer $buyer): ServiceResponse

@@ -70,8 +70,9 @@ class VillaController extends ApiController
         );
     }
 
-    function edit(Request $request): JsonResponse
+    function edit(Request $request, int $id): JsonResponse
     {
+        $request->merge(['id' => $id]);
         $service = VillaService::edit($request, auth()->user());
 
         return parent::response(

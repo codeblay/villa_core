@@ -4,11 +4,13 @@ namespace App\Services\Villa\Action;
 
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
+use App\Models\File;
 use App\Models\Seller;
 use App\Repositories\VillaRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 final class Edit extends Service
 {
@@ -17,13 +19,16 @@ final class Edit extends Service
     const MESSAGE_ERROR     = "gagal edit villa";
 
     const RULES_VALIDATOR = [
-        'id'            => 'required',
-        'name'          => 'required|string',
-        'city_id'       => 'required|integer',
-        'description'   => 'required|string|min:20',
-        'price'         => 'required|integer',
-        'facilities'    => 'required|array|min:1',
-        'facilities.*'  => 'required|integer',
+        'id'            => 'required|integer',
+        'name'          => 'sometimes|string',
+        'city_id'       => 'sometimes|integer',
+        'description'   => 'sometimes|string|min:20',
+        'price'         => 'sometimes|integer',
+        'is_publish'    => 'sometimes|boolean',
+        'facilities'    => 'sometimes|array|min:1',
+        'facilities.*'  => 'sometimes|integer',
+        'images'        => 'sometimes|array|min:1',
+        'images.*'      => 'sometimes|mimes:jpg|max:1024|dimensions:ratio=16/9',
     ];
 
     public function __construct(protected Request $request, protected Seller $seller)
@@ -36,21 +41,35 @@ final class Edit extends Service
         try {
             $validator = parent::validator($this->request->all(), self::RULES_VALIDATOR);
             if ($validator->fails()) return parent::error($validator->errors()->first());
-            
+
             $villa = VillaRepository::first(['id' => $this->request->id]);
-            if (!$villa) return parent::error("villa tidak ditemukan");
+            if (!$villa || ($villa->seller_id != $this->seller->id)) return parent::error("villa tidak ditemukan");
 
-            VillaRepository::update($villa->id, [
-                'name'          => $this->request->name,
-                'seller_id'     => $this->seller->id,
-                'city_id'       => $this->request->city_id,
-                'description'   => $this->request->description,
-                'price'         => $this->request->price,
-                'is_publish'    => false,
-                'is_available'  => false,
+            $data = $this->request->except([
+                'images',
+                'facilities',
             ]);
+            VillaRepository::update($villa->id, $data);
 
-            $villa->facilities()->sync($this->request->facilities);
+            if ($this->request->facilities) {
+                $villa->facilities()->sync($this->request->facilities);
+            }
+
+            $images = $this->request->file('images');
+
+            if ($images) {
+                foreach ($villa->files as $file) {
+                    $file->delete();
+                    Storage::disk('villa')->delete($file->path);
+                }
+                foreach ($images as $image) {
+                    $_file       = new File();
+                    $_file->path = $image->store(options: 'villa');
+                    $_file->type = File::TYPE_IMAGE;
+
+                    $villa->files()->save($_file);
+                }
+            }
 
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);

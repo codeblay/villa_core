@@ -25,7 +25,7 @@ final class Create extends Service
         'price'         => 'required|integer',
         'facilities'    => 'required|array|min:1',
         'facilities.*'  => 'required|integer',
-        'images'        => 'required|array',
+        'images'        => 'required|array|min:1',
         'images.*'      => 'required|mimes:jpg|max:1024|dimensions:ratio=16/9',
     ];
 

@@ -25,7 +25,7 @@ Route::prefix('villa')->group(function () {
 
     Route::prefix('{id}')->group(function () {
         Route::get('', [VillaController::class, 'detail']);
-        Route::put('', [VillaController::class, 'edit']);
+        Route::post('update', [VillaController::class, 'edit']);
     });
 });
 

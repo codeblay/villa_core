@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CityController;
 use App\Http\Controllers\API\DestinationController;
 use App\Http\Controllers\API\FacilityController;
 use App\Http\Controllers\API\PaymentController;
@@ -39,6 +40,10 @@ Route::prefix('destination')->group(function() {
 
 Route::prefix('facility')->group(function() {
     Route::get('dropdown', [FacilityController::class, 'dropdown']);
+});
+
+Route::prefix('city')->group(function() {
+    Route::get('dropdown', [CityController::class, 'dropdown']);
 });
 
 Route::get('payment', [PaymentController::class, 'list']);

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\City;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 final class CityRepository
 {
@@ -32,5 +33,17 @@ final class CityRepository
             'id'    => @$city->id,
             'text'  => @$city->address,
         ];
+    }
+
+    
+    static function search(string $keyword = '', int $limit = 10): ?Collection
+    {
+        return City::query()
+            ->where('name', 'LIKE', "%$keyword%")
+            ->orWhereHas('province', function (Builder $query) use ($keyword) {
+                $query->where('name', 'LIKE', "%$keyword%");
+            })
+            ->limit($limit)
+            ->get();;
     }
 }

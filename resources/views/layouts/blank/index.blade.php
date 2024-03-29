@@ -7,7 +7,7 @@
 
     <title>@yield('title', config('app.name'))</title>
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('template/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('image/favicon.ico') }}" />
     @include('layouts.admin.sections.styles')
     @include('layouts.admin.sections.scriptsIncludes')
 </head>

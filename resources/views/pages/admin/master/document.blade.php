@@ -15,6 +15,7 @@
         <div class="d-flex align-items-center justify-content-center gap-2">
             <label for="upload" class="btn btn-primary" tabindex="0">
                 <span class="d-none d-sm-block">Browse</span>
+                <i class="bx bx-upload d-block d-sm-none"></i>
             </label>
             <form action="{{ route('admin.master.document.update') }}" enctype="multipart/form-data" method="POST" id="formSave" hidden>
                 @csrf

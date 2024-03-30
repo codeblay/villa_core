@@ -338,7 +338,7 @@
                                     <tbody>
                                         <tr>
                                             <td align="center">
-                                                <img src="{{ asset('image/undraw/sad.svg') }}" height="300">
+                                                <img src="{{ asset('image/undraw/sad.png') }}" height="300">
                                             </td>
                                         </tr>
                                     </tbody>

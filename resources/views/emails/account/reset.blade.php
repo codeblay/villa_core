@@ -339,7 +339,7 @@
                                     <tbody>
                                         <tr>
                                             <td align="center">
-                                                <img src="{{ asset('image/undraw/password.svg') }}" height="300">
+                                                <img src="{{ asset('image/undraw/password.png') }}" height="300">
                                             </td>
                                         </tr>
                                         <tr>

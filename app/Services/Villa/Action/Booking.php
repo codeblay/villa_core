@@ -65,13 +65,16 @@ final class Booking extends Service
                 }
             }
 
+            $bank = BankRepository::first(['code' => $this->request->payment]);
+
             $transaction = TransactionRepository::create([
                 'code'              => self::generateCode(),
                 'villa_id'          => $villa->id,
                 'buyer_id'          => $this->buyer->id,
-                'bank_id'           => BankRepository::first(['code' => $this->request->payment])->id,
+                'bank_id'           => $bank->id,
                 'status'            => Transaction::STATUS_NEW,
                 'amount'            => $villa->price * count($date_booking),
+                'fee'               => $bank->fee,
             ]);
 
             TransactionDetailRepository::create([

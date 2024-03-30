@@ -39,12 +39,12 @@ final class Detail extends Service
             'id'        => $transaction->id,
             'code'      => $transaction->code,
             'amount'    => $transaction->amount,
+            'fee'       => $transaction->fee,
             'status'    => $transaction->status_label,
             'bank' => [
                 'id'        => $transaction->bank->id,
                 'code'      => $transaction->bank->code,
                 'name'      => $transaction->bank->name,
-                'va_number' => $transaction->bank->va_number,
             ],
             'villa' => [
                 'id'        => $transaction->villa->id,

@@ -37,14 +37,24 @@ final class TransactionRepository implements Repository
         return Transaction::query()->where('id', $id)->delete();
     }
 
-    static function listForBuyer(int $buyer_id, ?int $status, int $cursor): CursorPaginator
+    static function listForBuyer(int $buyer_id, SearchTransaction $param, int $cursor): CursorPaginator
     {
         return Transaction::query()
             ->with(['villa'])
             ->where('buyer_id', $buyer_id)
-            ->when(!is_null($status), function(Builder $query) use ($status){
-                $query->where('status', $status);
+            ->when(!is_null($param->status), function(Builder $query) use ($param){
+                $query->where('status', $param->status);
             })
+            ->when($param->code, function (Builder $query, string $x) {
+                $query->where('code', $x);
+            })
+            ->when($param->status, function (Builder $query, string $x) {
+                $query->where('status', $x);
+            })
+            ->when($param->start_date, function (Builder $query) use ($param) {
+                $query->whereBetween('created_at', [$param->start_date, $param->end_date]);
+            })
+            ->latest()
             ->cursorPaginate($cursor);
     }
 
@@ -62,7 +72,13 @@ final class TransactionRepository implements Repository
             ->when($param->status, function (Builder $query, string $x) {
                 $query->where('status', $x);
             })
-            ->whereBetween('created_at', [$param->start_date, $param->end_date])
+            ->when(!is_null($param->status), function(Builder $query) use ($param){
+                $query->where('status', $param->status);
+            })
+            ->when($param->start_date, function (Builder $query) use ($param) {
+                $query->whereBetween('created_at', [$param->start_date, $param->end_date]);
+            })
+            ->latest()
             ->cursorPaginate($cursor);
     }
 

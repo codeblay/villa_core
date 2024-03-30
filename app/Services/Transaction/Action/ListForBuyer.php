@@ -4,19 +4,26 @@ namespace App\Services\Transaction\Action;
 
 use App\Base\Service;
 use App\Models\Buyer;
+use App\Models\DTO\SearchTransaction;
 use App\Models\DTO\ServiceResponse;
+use App\Models\Transaction;
 use App\Repositories\TransactionRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 final class ListForBuyer extends Service
 {
-    const CONTEXT           = "load transaction";
-    const MESSAGE_SUCCESS   = "berhasil load transaction";
-    const MESSAGE_ERROR     = "gagal load transaction";
+    const CONTEXT           = "memuat transaksi";
+    const MESSAGE_SUCCESS   = "berhasil memuat transaksi";
+    const MESSAGE_ERROR     = "gagal memuat transaksi";
 
     const RULES_VALIDATOR = [
-        'status' => 'nullable|integer'
+        'code'      => 'sometimes|nullable|string',
+        'status'    => 'sometimes|nullable|integer',
+        'villa_id'  => 'sometimes|nullable|string',
+        'start_date'=> ['sometimes', 'nullable', 'date_format:Y-m-d'],
+        'end_date'  => ['sometimes', 'nullable', 'date_format:Y-m-d', 'after_or_equal:start_date'],
     ];
 
     private int $cursor = 10;
@@ -37,10 +44,16 @@ final class ListForBuyer extends Service
             $validator = parent::validator($this->request->all(), self::RULES_VALIDATOR);
             if ($validator->fails()) return parent::error($validator->errors()->first());
 
-            $transaction = TransactionRepository::listForBuyer($this->buyer->id, $this->request->status, $this->cursor);
+            $param              = new SearchTransaction;
+            $param->code        = $this->request->code;
+            $param->status      = $this->request->status;
+            $param->start_date  = $this->request->start_date ? Carbon::parse($this->request->start_date)->format('Y-m-d 00:00:00') : null;
+            $param->end_date    = $this->request->end_date ? Carbon::parse($this->request->end_date)->format('Y-m-d 23:59:59') : null;
+            
+            $transaction = TransactionRepository::listForBuyer($this->buyer->id, $param, $this->cursor);
 
             $this->data = [
-                'result'    => $transaction->items(),
+                'result'    => self::map($transaction),
                 'next'      => $transaction->nextCursor()?->encode(),
             ];
 
@@ -49,5 +62,17 @@ final class ListForBuyer extends Service
             parent::storeLog($th, self::CONTEXT);
             return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_REQUEST);
         }
+    }
+
+    static function map($transactions) : array {
+        return $transactions->map(function(Transaction $transaction){
+            return [
+                'id'            => $transaction->id,
+                'code'          => $transaction->code,
+                'amount'        => $transaction->amount,
+                'image'         => $transaction->villa->file->local_path,
+                'created_at'    => $transaction->created_at->translatedFormat('j F Y'),
+            ];
+        })->toArray();
     }
 }

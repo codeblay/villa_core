@@ -54,6 +54,7 @@ final class VillaRepository implements Repository
                 $query->orderBy($column, $param->order_type);
             })
             ->where('is_publish', Villa::STATUS_PUBLISH)
+            ->latest()
             ->cursorPaginate($cursor);
     }
 
@@ -79,7 +80,7 @@ final class VillaRepository implements Repository
 
     static function cursorBySeller(int $seller_id, int $cursor): CursorPaginator
     {
-        return Villa::query()->with(['seller', 'city'])->where('seller_id', $seller_id)->cursorPaginate($cursor);
+        return Villa::query()->with(['seller', 'city'])->where('seller_id', $seller_id)->latest()->cursorPaginate($cursor);
     }
 
     static function limit(int $limit): Collection

@@ -34,7 +34,7 @@ class CancelForgotPassword extends Service
             $user = SellerRepository::first(['reset_token' => $this->request->token]);
             
             if (!$user) {
-                $user = BuyerRepository::first(['reset_token' => $this->request->reset_token]);
+                $user = BuyerRepository::first(['reset_token' => $this->request->token]);
                 if (!$user) return parent::error('user tidak ditemukan');
             }
 

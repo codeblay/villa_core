@@ -78,9 +78,16 @@ final class VillaRepository implements Repository
             ->paginate($cursor);
     }
 
-    static function cursorBySeller(int $seller_id, int $cursor): CursorPaginator
+    static function cursorBySeller(int $seller_id, SearchVilla $param, int $cursor): CursorPaginator
     {
-        return Villa::query()->with(['seller', 'city'])->where('seller_id', $seller_id)->latest()->cursorPaginate($cursor);
+        return Villa::query()
+            ->with(['seller', 'city'])
+            ->where('seller_id', $seller_id)
+            ->when($param->name, function (Builder $query, string $name) {
+                $query->where('name', 'LIKE', "%{$name}%");
+            })
+            ->latest()
+            ->cursorPaginate($cursor);
     }
 
     static function limit(int $limit): Collection

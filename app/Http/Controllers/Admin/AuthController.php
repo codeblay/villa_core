@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Auth\AuthService;
 use App\Services\Verification\VerificationService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -45,5 +46,34 @@ class AuthController extends Controller
         $service = VerificationService::email($request);
 
         return $service->status ? 'Verifikasi berhasil' : 'Verifikasi gagal';
+    }
+    
+    function reset(Request $request)
+    {
+        if (!$request->token) abort(Response::HTTP_NOT_FOUND);
+
+        $data['token'] = $request->token;
+
+        return view('pages.account.reset', $data);
+    }
+    
+    function resetPassword(Request $request)
+    {
+        $service = AuthService::doForgotPassword($request);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+    
+    function resetPasswordCancel(Request $request)
+    {
+        $service = AuthService::cancelForgotPassword($request);
+
+        $data['status'] = $service->status;
+
+        return view('pages.account.info-reset', $data);
     }
 }

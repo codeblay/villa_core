@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Verification</title>
+    <title>Reset Password</title>
     <style media="all" type="text/css">
         /* -------------------------------------
     GLOBAL RESETS
@@ -327,28 +327,28 @@
                         <!-- START MAIN CONTENT AREA -->
                         <tr>
                             <td class="wrapper">
-                                <h3>Hi, {{ $name }}!</h3>
+                                <h3>Hi, {{ @$name }}!</h3>
+                                <p>Kami mendapatkan permintaan reset password pada akun anda<b></p>
                                 <p>
-                                    Terimakasih sudah mendaftar di aplikasi <b>{{ config('app.name') }}</b>
+                                    Untuk melakukan reset password silahkan klik tombol reset password di bawah
                                     <br>
-                                    Selamat! Akun anda lolos verifikasi
+                                    Jika anda merasa tidak melakukan aktivitas ini, silahkan klik <a href="{{ $link_cancel }}">disini</a>
                                 </p>
-
-                                <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                <table role="presentation" border="0" cellpadding="0" cellspacing="0"
+                                    class="btn btn-primary">
                                     <tbody>
                                         <tr>
                                             <td align="center">
-                                                <img src="{{ asset('image/undraw/happy.svg') }}" height="300">
+                                                <img src="{{ asset('image/undraw/password.svg') }}" height="300">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <a href="{{ @$link }}" target="_blank">Reset Password</a>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-
-                                <p>
-                                    Silahkan melakukan login pada aplikasi
-                                    <br>
-                                    Terimakasih
-                                </p>
                             </td>
                         </tr>
 
@@ -360,8 +360,8 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td class="content-block">
-                                    <span class="apple-link">Kenayan, Wedomartani, Kec. Ngemplak, Kabupaten
-                                        Sleman,</span>
+                                    <span class="apple-link">Kenayan, Wedomartani, Kec. Ngemplak,
+                                        KabupatenSleman,</span>
                                     <br>
                                     <span class="apple-link">Daerah Istimewa Yogyakarta 55584</span>
                                 </td>

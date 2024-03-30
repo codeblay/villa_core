@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\MyConst;
+use App\Services\Auth\AuthService;
 use App\Services\Verification\VerificationService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -72,6 +73,14 @@ class Buyer extends Authenticatable
 
     function getLinkVerificationAttribute() : string {
         return route('verification', ['token' => VerificationService::generateTokenVerification($this)]);
+    }
+
+    function getLinkResetPasswordAttribute() : string {
+        return route('reset', ['token' => $this->reset_token]);
+    }
+  
+    function getLinkCancelResetPasswordAttribute() : string {
+        return route('reset.cancel', ['token' => $this->reset_token]);
     }
 
     function getIsVerifiedAttribute() : bool {

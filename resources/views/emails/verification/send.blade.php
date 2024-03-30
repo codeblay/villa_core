@@ -336,7 +336,7 @@
                                     <tbody>
                                         <tr>
                                             <td align="center">
-                                                <img src="{{ asset('image/undraw/newsletter.png') }}" height="300">
+                                                <img src="{{ asset('image/undraw/newsletter.svg') }}" height="300">
                                             </td>
                                         </tr>
                                         <tr>

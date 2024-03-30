@@ -14,7 +14,7 @@ Route::post('logout', [AuthController::class, 'logout']);
 
 Route::prefix('password')->group(function(){
     Route::post('reset', [AuthController::class, 'resetPassword']);
-    // Route::post('forgot', [AuthController::class, 'forgotPassword']);
+    Route::post('forgot', [AuthController::class, 'forgotPassword'])->withoutMiddleware(['auth:seller', 'is_verified']);
 });
 
 Route::get('dashboard', [DashboardController::class, 'dashboard']);

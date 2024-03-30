@@ -62,7 +62,7 @@ class AuthController extends ApiController
     function forgotPassword(Request $request): JsonResponse
     {
         $user_type = $request->header('x-role', '');
-        $service = AuthService::register($request, $user_type);
+        $service = AuthService::forgotPassword($request, $user_type);
 
         return parent::response(
             status: $service->status,

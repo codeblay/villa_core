@@ -13,7 +13,7 @@ Route::post('logout', [AuthController::class, 'logout']);
 
 Route::prefix('password')->group(function(){
     Route::post('reset', [AuthController::class, 'resetPassword']);
-    // Route::post('forgot', [AuthController::class, 'forgotPassword']);
+    Route::post('forgot', [AuthController::class, 'forgotPassword'])->withoutMiddleware(['auth:buyer', 'is_verified']);
 });
 
 Route::prefix('transaction')->group(function(){

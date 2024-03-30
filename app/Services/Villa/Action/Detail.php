@@ -5,12 +5,15 @@ namespace App\Services\Villa\Action;
 use App\Base\Service;
 use App\Models\Destination;
 use App\Models\DTO\ServiceResponse;
+use App\Models\Facility;
 use App\Models\Seller;
 use App\Models\Villa;
 use App\Repositories\DestinationCategoryRepository;
 use App\Repositories\VillaRepository;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+
+use function PHPSTORM_META\map;
 
 final class Detail extends Service
 {
@@ -55,7 +58,12 @@ final class Detail extends Service
             'description'   => $villa->description,
             'can_book'      => $villa->can_book,
             'images'        => $villa->files->pluck('local_path')->toArray(),
-            'facilities'    => $villa->facilities->pluck('name')->toArray(),
+            'facilities'    => $villa->facilities->map(function(Facility $facility){
+                return [
+                    'id'    => $facility->id,
+                    'name'  => $facility->name,
+                ];
+            })->toArray(),
         ];
     }
 

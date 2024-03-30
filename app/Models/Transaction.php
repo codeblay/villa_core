@@ -84,9 +84,9 @@ class Transaction extends Model
         return $this->status == self::STATUS_NEW;
     }
 
-    function getExternalResponseParseAttribute(): array
+    function getExternalResponseParseAttribute(): ?array
     {
-        $result = [];
+        $result = null;
 
         if ($this->status != self::STATUS_PENDING) return $result;
 
@@ -107,7 +107,7 @@ class Transaction extends Model
                 break;
 
             default:
-                $result = [];
+                $result = null;
                 break;
         }
 

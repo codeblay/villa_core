@@ -41,7 +41,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="2">@include('components.empty')</td>
+                            <td class="text-center" colspan="3">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>

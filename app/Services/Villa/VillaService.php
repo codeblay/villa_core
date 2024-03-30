@@ -48,9 +48,9 @@ final class VillaService
         return (new ListAll($request))->call();
     }
 
-    static function ListBySeller(Seller $seller): ServiceResponse
+    static function ListBySeller(Request $request, Seller $seller): ServiceResponse
     {
-        return (new ListBySeller($seller))->call();
+        return (new ListBySeller($request, $seller))->call();
     }
 
     static function rate(Request $request, Buyer $buyer): ServiceResponse

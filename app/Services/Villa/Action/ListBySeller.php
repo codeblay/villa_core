@@ -3,9 +3,11 @@
 namespace App\Services\Villa\Action;
 
 use App\Base\Service;
+use App\Models\DTO\SearchVilla;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Seller;
 use App\Repositories\VillaRepository;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 final class ListBySeller extends Service
@@ -16,7 +18,7 @@ final class ListBySeller extends Service
 
     private int $cursor = 10;
 
-    function __construct(protected Seller $seller)
+    function __construct(protected Request $request, protected Seller $seller)
     {
     }
 
@@ -29,7 +31,10 @@ final class ListBySeller extends Service
     function call(): ServiceResponse
     {
         try {
-            $villa = VillaRepository::cursorBySeller($this->seller->id, $this->cursor);
+            $param = new SearchVilla;
+            $param->name = @$this->request->keyword;
+
+            $villa = VillaRepository::cursorBySeller($this->seller->id, $param, $this->cursor);
 
             $this->data = [
                 'result'    => self::mapResult($villa->items()),

@@ -22,9 +22,9 @@ class VillaController extends ApiController
         );
     }
 
-    function listBySeller(): JsonResponse
+    function listBySeller(Request $request): JsonResponse
     {
-        $service = VillaService::ListBySeller(auth()->user());
+        $service = VillaService::ListBySeller($request, auth()->user());
 
         return parent::response(
             status: $service->status,

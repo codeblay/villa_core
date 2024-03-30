@@ -3,6 +3,7 @@
 namespace App\Services\Dashboard\Action;
 
 use App\Base\Service;
+use App\Models\DTO\SearchVilla;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Seller as ModelsSeller;
 use App\Models\Transaction;
@@ -54,7 +55,7 @@ final class Seller extends Service
     }
     
     private function villa() : array {
-        $data = VillaRepository::cursorBySeller($this->seller->id, 3);
+        $data = VillaRepository::cursorBySeller($this->seller->id, new SearchVilla, 3);
         return $data->map(function(Villa $villa){
             return [
                 'id'            => $villa->id,

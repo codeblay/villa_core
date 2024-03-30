@@ -18,6 +18,7 @@ final class Update extends Service
     private function rulesValidator() : array {
         $rules = [
             'id'        => 'required|integer',
+            'fee'       => 'nullable|integer',
             'is_active' => 'required|boolean',
         ];
 

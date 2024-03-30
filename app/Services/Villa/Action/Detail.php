@@ -53,6 +53,7 @@ final class Detail extends Service
         return [
             'id'            => $villa->id,
             'name'          => $villa->name,
+            'city_id'       => $villa->city_id,
             'address'       => $villa->city->address,
             'price'         => $villa->price,
             'description'   => $villa->description,

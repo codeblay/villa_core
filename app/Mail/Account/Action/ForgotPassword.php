@@ -30,8 +30,8 @@ class ForgotPassword extends Mailable
     {
         return new Envelope(
             from: new Address(config('mail.from.address'), config('mail.from.name')),
-            to: ['ahdiyatlalu@gmail.com'],
-            subject: 'Akun',
+            to: [$this->user->email],
+            subject: 'Reset Password',
         );
     }
 

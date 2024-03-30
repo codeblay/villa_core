@@ -78,6 +78,7 @@ final class Detail extends Service
                     return [
                         'id'    => $destination->id,
                         'name'  => $destination->name,
+                        'image' => $destination->image_path,
                     ];
                 })->toArray(),
             ];

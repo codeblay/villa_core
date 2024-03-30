@@ -86,6 +86,9 @@ final class VillaRepository implements Repository
             ->when($param->name, function (Builder $query, string $name) {
                 $query->where('name', 'LIKE', "%{$name}%");
             })
+            ->when($param->city_id, function (Builder $query, int $city_id) {
+                $query->where('city_id', $city_id);
+            })
             ->latest()
             ->cursorPaginate($cursor);
     }

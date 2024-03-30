@@ -31,8 +31,9 @@ final class ListBySeller extends Service
     function call(): ServiceResponse
     {
         try {
-            $param = new SearchVilla;
-            $param->name = @$this->request->keyword;
+            $param          = new SearchVilla;
+            $param->name    = @$this->request->keyword;
+            $param->city_id = @$this->request->city_id;
 
             $villa = VillaRepository::cursorBySeller($this->seller->id, $param, $this->cursor);
 

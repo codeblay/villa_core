@@ -67,7 +67,7 @@ final class TransactionRepository implements Repository
                 })->where('seller_id', $seller_id);
             })
             ->when($param->code, function (Builder $query, string $x) {
-                $query->where('code', $x);
+                $query->where('code', 'LIKE', "%$x%");
             })
             ->when($param->status, function (Builder $query, string $x) {
                 $query->where('status', $x);

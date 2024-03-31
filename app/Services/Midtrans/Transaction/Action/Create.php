@@ -62,7 +62,7 @@ final class Create extends Service
                 ]);
 
             } catch (\Throwable $th) {
-                if ($payment_type == Charge::PAYMENT_TYPE_BANK_TRANSFER) {
+                if ($payment_type == Charge::PAYMENT_TYPE_QRIS) {
                     $midtrans_cancel_link = collect($midtrans_charge_result['actions'])->where('name', 'cancel')->value('url');
                     (new MidtransRepository)->cancel($midtrans_cancel_link);
                 }

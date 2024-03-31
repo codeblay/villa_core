@@ -50,6 +50,7 @@ final class Detail extends Service
                 'id'        => $transaction->villa->id,
                 'name'      => $transaction->villa->name,
                 'address'   => $transaction->villa->city->address,
+                'image'     => $transaction->villa->file->local_path,
             ],
             'detail' => [
                 'name'  => $transaction->transactionDetail->name,

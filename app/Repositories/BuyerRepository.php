@@ -52,6 +52,8 @@ final class BuyerRepository implements RepositoryApi
                 $query->where('name', 'LIKE', "%{$name}%");
             })
             ->withCount('transactionsSuccess')
+            ->orderByDesc('email_verified_at')
+            ->orderByDesc('transactions_success_count')
             ->paginate($cursor);
     }
 }

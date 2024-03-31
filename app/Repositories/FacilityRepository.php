@@ -17,7 +17,11 @@ final class FacilityRepository implements Repository
 
     static function getWithTotalVilla(array $conditions = []): Collection
     {
-        return Facility::query()->where($conditions)->withCount('villas')->get();
+        return Facility::query()
+            ->where($conditions)
+            ->withCount('villas')
+            ->orderByDesc('villas_count')
+            ->get();
     }
 
     static function first(array $conditions = []): ?Facility

@@ -15,7 +15,11 @@ final class DestinationCategoryRepository implements Repository
 
     static function getWithTotalDestination(array $conditions = []): Collection
     {
-        return DestinationCategory::query()->where($conditions)->withCount('destinations')->get();
+        return DestinationCategory::query()
+            ->where($conditions)
+            ->withCount('destinations')
+            ->orderByDesc('destinations_count')
+            ->get();
     }
 
     static function first(array $conditions = []): ?DestinationCategory

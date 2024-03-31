@@ -27,11 +27,12 @@
                 <thead>
                     <tr>
                         <th>Kode Booking</th>
+                        <th>Villa</th>
                         <th>Pemilik</th>
                         <th>Pelanggan</th>
                         <th>Pembayaran</th>
-                        <th>Villa</th>
                         <th>Harga</th>
+                        <th>Biaya</th>
                         <th>Tanggal</th>
                         <th>Status</th>
                         <th class="text-end">Aksi</th>
@@ -41,11 +42,12 @@
                     @forelse ($transactions as $transaction)
                         <tr>
                             <td>{{ $transaction->code }}</td>
+                            <td>{{ $transaction->villa->name }}</td>
                             <td>{{ $transaction->villa->seller->name }}</td>
                             <td>{{ $transaction->buyer->name }}</td>
                             <td>{{ $transaction->bank->name }}</td>
-                            <td>{{ $transaction->villa->name }}</td>
                             <td>{{ rupiah($transaction->amount) }}</td>
+                            <td>{{ rupiah($transaction->fee) }}</td>
                             <td>{{ $transaction->created_at->translatedFormat('j F Y') }}</td>
                             <td>
                                 <span

@@ -75,6 +75,7 @@ final class VillaRepository implements Repository
             ->when($param->order_by, function (Builder $query, string $column) use ($param) {
                 $query->orderBy($column, $param->order_type);
             })
+            ->orderByDesc('transactions_success_count')
             ->paginate($cursor);
     }
 

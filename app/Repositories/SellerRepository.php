@@ -77,6 +77,7 @@ final class SellerRepository implements RepositoryApi
                 $query->where('name', 'LIKE', "%{$name}%");
             })
             ->withCount('villas')
+            ->orderByDesc('villas_count')
             ->paginate($paginate);
     }
 
@@ -88,6 +89,7 @@ final class SellerRepository implements RepositoryApi
             ->when($param->name, function (Builder $query, string $name) {
                 $query->where('name', 'LIKE', "%{$name}%");
             })
+            ->latest()
             ->paginate($paginate);
     }
 }

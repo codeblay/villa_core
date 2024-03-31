@@ -89,6 +89,7 @@ final class TransactionRepository implements Repository
                 $query->where('code', 'LIKE', "%{$code}%");
             })
             ->with(['villa', 'buyer'])
+            ->latest()
             ->paginate($cursor);
     }
 

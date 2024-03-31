@@ -49,7 +49,7 @@ final class ListForBuyer extends Service
             $param->status      = $this->request->status;
             $param->start_date  = $this->request->start_date ? Carbon::parse($this->request->start_date)->format('Y-m-d 00:00:00') : null;
             $param->end_date    = $this->request->end_date ? Carbon::parse($this->request->end_date)->format('Y-m-d 23:59:59') : null;
-            
+
             $transaction = TransactionRepository::listForBuyer($this->buyer->id, $param, $this->cursor);
 
             $this->data = [
@@ -69,6 +69,7 @@ final class ListForBuyer extends Service
             return [
                 'id'            => $transaction->id,
                 'code'          => $transaction->code,
+                'name'          => $transaction->villa->name,
                 'amount'        => $transaction->amount,
                 'image'         => $transaction->villa->file->local_path,
                 'created_at'    => $transaction->created_at->translatedFormat('j F Y'),

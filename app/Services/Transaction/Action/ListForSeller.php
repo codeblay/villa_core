@@ -64,12 +64,13 @@ final class ListForSeller extends Service
             return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_REQUEST);
         }
     }
-    
+
     static function map($transactions) : array {
         return $transactions->map(function(Transaction $transaction){
             return [
                 'id'            => $transaction->id,
                 'code'          => $transaction->code,
+                'name'          => $transaction->villa->name,
                 'amount'        => $transaction->amount,
                 'image'         => $transaction->villa->file->local_path,
                 'created_at'    => $transaction->created_at->translatedFormat('j F Y'),

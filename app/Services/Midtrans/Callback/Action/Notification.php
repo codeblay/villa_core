@@ -3,6 +3,7 @@
 namespace App\Services\Midtrans\Callback\Action;
 
 use App\Base\Service;
+use App\Mail\Booking\BookingMail;
 use App\Models\DTO\ServiceResponse;
 use App\Models\External\Midtrans;
 use App\Models\Transaction;
@@ -39,6 +40,7 @@ final class Notification extends Service
                 case Midtrans::STATUS_SETTLEMENT:
                     if ($transaction_status == Transaction::STATUS_PENDING) {
                         $status_parsed = Transaction::STATUS_SUCCESS;
+                        BookingMail::ticket($transaction);
                     }
                     break;
 

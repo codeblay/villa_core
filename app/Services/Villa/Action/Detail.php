@@ -39,7 +39,7 @@ final class Detail extends Service
             $destination_categories = DestinationCategoryRepository::get();
 
             $this->data                             = self::mapVilla($villa);
-            $this->data['destination_categories']   = self::mapDestination($destination_categories);
+            $this->data['destination_categories']   = self::mapDestination($destination_categories, $villa->city_id);
 
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
@@ -68,14 +68,14 @@ final class Detail extends Service
         ];
     }
 
-    private static function mapDestination(Collection $destination_categories): array
+    private static function mapDestination(Collection $destination_categories, int $city_id): array
     {
         foreach ($destination_categories as $destination_category) {
             $destination_category->load('destinations');
             $result[] = [
                 'id'            => $destination_category->id,
                 'name'          => $destination_category->name,
-                'destinations'  => $destination_category->destinations->take(5)->map(function(Destination $destination){
+                'destinations'  => $destination_category->destinations->where('city_id', $city_id)->take(5)->map(function(Destination $destination){
                     return [
                         'id'    => $destination->id,
                         'name'  => $destination->name,

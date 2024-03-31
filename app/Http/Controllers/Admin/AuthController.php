@@ -45,7 +45,9 @@ class AuthController extends Controller
 
         $service = VerificationService::email($request);
 
-        return $service->status ? 'Verifikasi berhasil' : 'Verifikasi gagal';
+        $data['status'] = $service->status;
+
+        return view('pages.account.info-verifikasi', $data);
     }
     
     function reset(Request $request)

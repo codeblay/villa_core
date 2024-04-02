@@ -71,6 +71,7 @@ final class ListForBuyer extends Service
                 'code'          => $transaction->code,
                 'name'          => $transaction->villa->name,
                 'amount'        => $transaction->amount,
+                'fee'           => $transaction->fee,
                 'image'         => $transaction->villa->file->local_path,
                 'created_at'    => $transaction->created_at->translatedFormat('j F Y'),
             ];

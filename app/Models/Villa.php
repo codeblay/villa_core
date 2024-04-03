@@ -80,6 +80,6 @@ class Villa extends Model
     }
 
     function getRatingAttribute() : float {
-        return round($this->ratings->sum('rating') / $this->ratings->count(), 1);
+        return $this->ratings->count() == 0 ? 0 : round($this->ratings->sum('rating') / $this->ratings->count(), 1);
     }
 }

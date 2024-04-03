@@ -58,7 +58,7 @@ final class Detail extends Service
             'price'         => $villa->price,
             'description'   => $villa->description,
             'rating'        => $villa->rating,
-            'can_book'      => $villa->is_publish,
+            'can_book'      => $villa->is_publish == 1,
             'images'        => $villa->files->pluck('local_path')->toArray(),
             'facilities'    => $villa->facilities->map(function(Facility $facility){
                 return [

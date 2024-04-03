@@ -21,9 +21,9 @@ class File extends Model
 
     function getLocalPathAttribute() : string {
         return match ($this->fileable_type) {
-            Villa::class        => config('filesystems.disks.villa.public_path') . "/" . $this->path,
-            Destination::class  => config('filesystems.disks.destination.public_path') . "/" . $this->path,
-            default             => config('filesystems.disks.public.public_path') . "/" . $this->path,
+            Villa::class        => asset('storage/villa') . "/" . $this->path,
+            Destination::class  => asset('storage/destination') . "/" . $this->path,
+            default             => asset('storage') . "/" . $this->path,
         };
     }
 }

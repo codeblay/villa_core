@@ -34,7 +34,7 @@ final class ListAll extends Service
             $param->name        = $this->request->name;
             $param->city_id     = $this->request->city_id;
             $param->order_by    = $this->request->order_by;
-            $param->order_type  = $this->request->order_type ?? 'asc';
+            $param->order_type  = $this->request->order_type ?? 'desc';
 
             $villa = VillaRepository::cursor($this->cursor, $param);
 
@@ -60,8 +60,8 @@ final class ListAll extends Service
                 'address'       => $villa->city->address,
                 'price'         => $villa->price,
                 'description'   => $villa->description,
+                'rating'        => $villa->rating,
                 'is_publish'    => (bool) $villa->is_publish,
-                'is_available'  => (bool) $villa->is_available,
                 'image_url'     => $villa->primaryImage->local_path,
             ];
         }

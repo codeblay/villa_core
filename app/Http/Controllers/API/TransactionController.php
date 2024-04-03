@@ -24,7 +24,7 @@ class TransactionController extends ApiController
 
     function detail(int $transaction_id): JsonResponse
     {
-        $service = TransactionService::detail($transaction_id);
+        $service = TransactionService::detail($transaction_id, auth()->user());
 
         return parent::response(
             status: $service->status,

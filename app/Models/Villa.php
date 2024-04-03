@@ -79,7 +79,7 @@ class Villa extends Model
         };
     }
 
-    function getCanBookAttribute() : bool {
-        return $this->is_publish && $this->is_available;
+    function getRatingAttribute() : float {
+        return round($this->ratings->sum('rating') / $this->ratings->count(), 1);
     }
 }

@@ -20,9 +20,9 @@ final class TransactionService
         return (new ListForBuyer($request, $buyer))->call();
     }
 
-    static function detail(int $transaction_id): ServiceResponse
+    static function detail(int $transaction_id, Seller|Buyer $user): ServiceResponse
     {
-        return (new Detail($transaction_id))->call();
+        return (new Detail($transaction_id, $user))->call();
     }
 
     static function accept(int $transaction_id): ServiceResponse

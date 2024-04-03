@@ -3,7 +3,9 @@
 namespace App\Services\Transaction\Action;
 
 use App\Base\Service;
+use App\Models\Buyer;
 use App\Models\DTO\ServiceResponse;
+use App\Models\Seller;
 use App\Models\Transaction;
 use App\Repositories\TransactionRepository;
 use Illuminate\Http\Request;
@@ -11,19 +13,22 @@ use Illuminate\Http\Response;
 
 final class Detail extends Service
 {
-    const CONTEXT           = "load transaction";
-    const MESSAGE_SUCCESS   = "berhasil load transaction";
-    const MESSAGE_ERROR     = "gagal load transaction";
+    const CONTEXT           = "load transaksi";
+    const MESSAGE_SUCCESS   = "berhasil load transaksi";
+    const MESSAGE_ERROR     = "gagal load transaksi";
 
-    function __construct(protected int $transaction_id)
+    function __construct(protected int $transaction_id, protected Seller|Buyer $user)
     {
     }
 
     function call(): ServiceResponse
     {
         try {
-            $transaction = TransactionRepository::first(['id' => $this->transaction_id]);
-            if (!$transaction) return parent::error('transaction not found', Response::HTTP_BAD_REQUEST);
+            $conditions['id'] = $this->transaction_id;
+            if ($this->user instanceof Buyer) $conditions['buyer_id'] = $this->user->id;
+
+            $transaction = TransactionRepository::first($conditions);
+            if (!$transaction) return parent::error('transaksi tidak ditemukan', Response::HTTP_BAD_REQUEST);
 
             $this->data = self::mapResult($transaction);
 
@@ -41,6 +46,8 @@ final class Detail extends Service
             'amount'    => $transaction->amount,
             'fee'       => $transaction->fee,
             'status'    => $transaction->status_label,
+            'can_rate'  => $transaction->status == Transaction::STATUS_SUCCESS && is_null($transaction->villaRating),
+            'rating'    => $transaction->villaRating->rating ?? 0,
             'bank' => [
                 'id'        => $transaction->bank->id,
                 'code'      => $transaction->bank->code,

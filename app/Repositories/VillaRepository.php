@@ -54,7 +54,6 @@ final class VillaRepository implements Repository
                 $query->orderBy($column, $param->order_type);
             })
             ->where('is_publish', Villa::STATUS_PUBLISH)
-            ->latest()
             ->cursorPaginate($cursor);
     }
 

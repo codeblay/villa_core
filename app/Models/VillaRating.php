@@ -21,6 +21,10 @@ class VillaRating extends Model
     function buyer() : BelongsTo {
         return $this->belongsTo(Buyer::class);
     }
+    
+    function transaction() : BelongsTo {
+        return $this->belongsTo(Transaction::class);
+    }
 
     // End Relation
 }

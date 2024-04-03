@@ -62,6 +62,11 @@ class Transaction extends Model
         return $this->belongsTo(Bank::class);
     }
 
+    function villaRating(): HasOne
+    {
+        return $this->hasOne(VillaRating::class);
+    }
+
     // End Relation
 
     function getStatusLabelAttribute(): string

@@ -30,6 +30,6 @@ class Destination extends Model
     // End Relation
 
     function getImagePathAttribute() : string {
-        return config('filesystems.disks.destination.url') . "/" . @$this->file->path;
+        return config('filesystems.disks.destination.public_path') . "/" . @$this->file->path;
     }
 }

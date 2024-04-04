@@ -15,7 +15,7 @@
         content="{{ config('variables.templateKeyword') ? config('variables.templateKeyword') : '' }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="canonical" href="{{ config('variables.productPage') ? config('variables.productPage') : '' }}">
-    <link rel="icon" type="image/x-icon" href="{{ asset('image/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('image/logo/icon.png') }}" />
 
     @include('layouts.admin.sections.styles')
     @include('layouts.admin.sections.scriptsIncludes')

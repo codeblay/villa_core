@@ -52,6 +52,7 @@
             max-width: 650px;
             padding: 0;
             padding-top: 24px;
+            padding-bottom: 24px;
             min-width: 600px;
         }
 
@@ -332,7 +333,7 @@
                                 <p>
                                     Untuk melakukan reset password silahkan klik tombol reset password di bawah
                                     <br>
-                                    Jika anda merasa tidak melakukan aktivitas ini, silahkan klik <a href="{{ $link_cancel }}">disini</a>
+                                    Jika anda merasa tidak melakukan aktivitas ini, silahkan klik <a href="{{ @$link_cancel }}">disini</a>
                                 </p>
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0"
                                     class="btn btn-primary">
@@ -369,6 +370,11 @@
                             <tr>
                                 <td class="content-block powered-by">
                                     {{ config('app.name') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="content-block powered-by">
+                                    <img src="{{ asset('image/logo/icon.png') }}" height="50" style="margin-top: 8px">
                                 </td>
                             </tr>
                         </table>

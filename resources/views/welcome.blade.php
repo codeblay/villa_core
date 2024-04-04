@@ -17,7 +17,7 @@
                         <h4 class="mb-2 text-center">Welcome to {{ config('app.name') }}! 👋</h4>
                         <hr class="my-4">
                         <div class="text-center">
-                            <img src="{{ asset('image/logo.png') }}" style="max-width: 100%">
+                            <img src="{{ asset('image/logo/icon.png') }}" style="max-width: 100%">
                         </div>
                     </div>
                 </div>

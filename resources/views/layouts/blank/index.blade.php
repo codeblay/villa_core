@@ -8,7 +8,7 @@
 
     <title>@yield('title', config('app.name'))</title>
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('image/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('image/logo/icon.png') }}" />
     @include('layouts.admin.sections.styles')
     @include('layouts.admin.sections.scriptsIncludes')
 </head>

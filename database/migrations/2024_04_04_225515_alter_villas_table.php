@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::whenTableDoesntHaveColumn('villas', 'bypass_rating', function (Blueprint $table) {
-            $table->tinyInteger('bypass_rating')->default(0)->after('amount');
+            $table->tinyInteger('bypass_rating')->default(0)->after('is_publish');
         });
     }
 

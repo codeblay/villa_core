@@ -6,7 +6,7 @@
             <span class="app-brand-logo demo">
                 @include('_partials.macros', ['width' => 40, 'withbg' => 'var(--bs-primary)'])
             </span>
-            <span class="app-brand-text demo menu-text fw-bold">{{ config('app.name') }}</span>
+            <span class="app-brand-text demo menu-text fw-bold" style="text-transform: inherit">{{ config('app.name') }}</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">

@@ -19,6 +19,6 @@ Route::get('/', function () {
 });
 
 Route::get('verification', [AuthController::class, 'verification'])->name('verification');
-Route::get('reset', [AuthController::class, 'reset'])->name('reset');
+Route::get('reset', [AuthController::class, 'reset']);
 Route::post('reset', [AuthController::class, 'resetPassword'])->name('reset');
 Route::get('resetCancel', [AuthController::class, 'resetPasswordCancel'])->name('reset.cancel');

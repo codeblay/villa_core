@@ -1,4 +1,4 @@
-name: CI/CD with Laravel
+name: All Need
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
           port: ${{ secrets.REMOTE_PORT }}
           script: |
             cd /var/www/villa_core
-            git pull origin dev
+            git pull origin
             composer install --no-interaction --prefer-dist
             php artisan migrate --force
             php artisan optimize:clear

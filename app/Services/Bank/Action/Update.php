@@ -11,9 +11,9 @@ use Illuminate\Http\Response;
 
 final class Update extends Service
 {
-    const CONTEXT           = "menyimpan fasilitas";
-    const MESSAGE_SUCCESS   = "berhasil menyimpan fasilitas";
-    const MESSAGE_ERROR     = "gagal menyimpan fasilitas";
+    const CONTEXT           = "menyimpan pembayaran";
+    const MESSAGE_SUCCESS   = "berhasil menyimpan pembayaran";
+    const MESSAGE_ERROR     = "gagal menyimpan pembayaran";
 
     private function rulesValidator() : array {
         $rules = [

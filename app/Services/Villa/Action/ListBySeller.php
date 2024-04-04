@@ -12,9 +12,9 @@ use Illuminate\Http\Response;
 
 final class ListBySeller extends Service
 {
-    const CONTEXT           = "load villa";
-    const MESSAGE_SUCCESS   = "berhasil load villa";
-    const MESSAGE_ERROR     = "gagal load villa";
+    const CONTEXT           = "memuat villa";
+    const MESSAGE_SUCCESS   = "berhasil memuat villa";
+    const MESSAGE_ERROR     = "gagal memuat villa";
 
     private int $cursor = 10;
 

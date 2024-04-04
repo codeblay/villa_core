@@ -16,9 +16,9 @@ use Illuminate\Support\Collection;
 
 final class Admin extends Service
 {
-    const CONTEXT           = "load dashboard";
-    const MESSAGE_SUCCESS   = "berhasil load dashboard";
-    const MESSAGE_ERROR     = "gagal load dashboard";
+    const CONTEXT           = "memuat dashboard";
+    const MESSAGE_SUCCESS   = "berhasil memuat dashboard";
+    const MESSAGE_ERROR     = "gagal memuat dashboard";
 
     function __construct()
     {

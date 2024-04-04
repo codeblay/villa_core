@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Storage;
 
 final class Edit extends Service
 {
-    const CONTEXT           = "edit villa";
-    const MESSAGE_SUCCESS   = "berhasil edit villa";
-    const MESSAGE_ERROR     = "gagal edit villa";
+    const CONTEXT           = "menyimpan villa";
+    const MESSAGE_SUCCESS   = "berhasil menyimpan villa";
+    const MESSAGE_ERROR     = "gagal menyimpan villa";
 
     const RULES_VALIDATOR = [
         'id'            => 'required|integer',

@@ -17,9 +17,9 @@ use function PHPSTORM_META\map;
 
 final class Detail extends Service
 {
-    const CONTEXT           = "load villa";
-    const MESSAGE_SUCCESS   = "berhasil load villa";
-    const MESSAGE_ERROR     = "gagal load villa";
+    const CONTEXT           = "memuat villa";
+    const MESSAGE_SUCCESS   = "berhasil memuat villa";
+    const MESSAGE_ERROR     = "gagal memuat villa";
 
     public function __construct(protected int $villa_id)
     {

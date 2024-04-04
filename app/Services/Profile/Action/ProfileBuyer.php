@@ -9,9 +9,9 @@ use Illuminate\Http\Response;
 
 final class ProfileBuyer extends Service
 {
-    const CONTEXT           = "load profile";
-    const MESSAGE_SUCCESS   = "berhasil load profile";
-    const MESSAGE_ERROR     = "gagal load profile";
+    const CONTEXT           = "memuat profile";
+    const MESSAGE_SUCCESS   = "berhasil memuat profile";
+    const MESSAGE_ERROR     = "gagal memuat profile";
 
     public function __construct()
     {

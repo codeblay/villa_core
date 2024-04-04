@@ -22,7 +22,7 @@ abstract class Service implements InterfaceService
     {
         $response               = new ServiceResponse;
         $response->status       = true;
-        $response->message      = $message;
+        $response->message      = ucfirst($message);
         $response->data         = $this->data;
         $response->code         = $code;
 
@@ -33,7 +33,7 @@ abstract class Service implements InterfaceService
     {
         $response               = new ServiceResponse;
         $response->status       = false;
-        $response->message      = $message;
+        $response->message      = ucfirst($message);
         $response->data         = $this->data;
         $response->code         = $code;
 

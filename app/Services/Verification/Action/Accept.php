@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 class Accept extends Service
 {
-    const CONTEXT           = "terima verifikasi";
-    const MESSAGE_SUCCESS   = "berhasil terima verifikasi";
-    const MESSAGE_ERROR     = "gagal terima verifikasi";
+    const CONTEXT           = "menerima verifikasi";
+    const MESSAGE_SUCCESS   = "berhasil menerima verifikasi";
+    const MESSAGE_ERROR     = "gagal menerima verifikasi";
 
     public function __construct(protected int $seller_id)
     {

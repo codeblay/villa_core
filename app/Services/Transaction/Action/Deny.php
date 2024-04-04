@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\DB;
 
 final class Deny extends Service
 {
-    const CONTEXT           = "deny transaction";
-    const MESSAGE_SUCCESS   = "berhasil deny transaction";
-    const MESSAGE_ERROR     = "gagal deny transaction";
+    const CONTEXT           = "menolak transaksi";
+    const MESSAGE_SUCCESS   = "berhasil menolak transaksi";
+    const MESSAGE_ERROR     = "gagal menolak transaksi";
 
     public function __construct(protected int $transaction_id)
     {

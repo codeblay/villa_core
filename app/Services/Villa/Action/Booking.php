@@ -5,7 +5,6 @@ namespace App\Services\Villa\Action;
 use App\Base\Service;
 use App\Models\Bank;
 use App\Models\Buyer;
-use App\Models\DTO\Midtrans\Charge;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Transaction;
 use App\Repositories\BankRepository;

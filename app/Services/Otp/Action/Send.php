@@ -13,9 +13,9 @@ use Illuminate\Http\Response;
 
 class Send extends Service
 {
-    const CONTEXT           = "send OTP";
-    const MESSAGE_SUCCESS   = "berhasil send OTP";
-    const MESSAGE_ERROR     = "gagal send OTP";
+    const CONTEXT           = "mengirim OTP";
+    const MESSAGE_SUCCESS   = "berhasil mengirim OTP";
+    const MESSAGE_ERROR     = "gagal mengirim OTP";
 
     public function __construct(protected int $phone)
     {

@@ -14,9 +14,9 @@ use Ramsey\Uuid\Uuid;
 
 final class Create extends Service
 {
-    const CONTEXT           = "create villa";
-    const MESSAGE_SUCCESS   = "berhasil create villa";
-    const MESSAGE_ERROR     = "gagal create villa";
+    const CONTEXT           = "menyimpan villa";
+    const MESSAGE_SUCCESS   = "berhasil menyimpan villa";
+    const MESSAGE_ERROR     = "gagal menyimpan villa";
 
     const RULES_VALIDATOR = [
         'name'          => 'required|string',

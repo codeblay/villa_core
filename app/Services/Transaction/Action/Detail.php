@@ -8,14 +8,13 @@ use App\Models\DTO\ServiceResponse;
 use App\Models\Seller;
 use App\Models\Transaction;
 use App\Repositories\TransactionRepository;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 final class Detail extends Service
 {
-    const CONTEXT           = "load transaksi";
-    const MESSAGE_SUCCESS   = "berhasil load transaksi";
-    const MESSAGE_ERROR     = "gagal load transaksi";
+    const CONTEXT           = "memuat transaksi";
+    const MESSAGE_SUCCESS   = "berhasil memuat transaksi";
+    const MESSAGE_ERROR     = "gagal memuat transaksi";
 
     function __construct(protected int $transaction_id, protected Seller|Buyer $user)
     {

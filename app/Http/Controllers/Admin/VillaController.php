@@ -16,6 +16,7 @@ class VillaController extends Controller
         $param->city_id     = $request->city_id;
         $param->seller_id   = $request->seller_id;
         $param->is_publish  = $request->status;
+        $param->rating      = $request->rating;
 
         $data['villas'] = VillaRepository::listForAdmin(20, $param);
         return view('pages.admin.villa.index', $data);

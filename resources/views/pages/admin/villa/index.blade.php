@@ -31,6 +31,18 @@
                             <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Draft</option>
                         </select>
                     </div>
+                    <div style="flex-grow: 1">
+                        <select class="form-select select2" name="rating" data-placeholder="Rating">
+                            <option></option>
+                            @for ($i = 1; $i < 6; $i++)
+                                <option value="{{ $i }}" {{ request('rating') == $i ? 'selected' : '' }}>
+                                    @for ($j = $i; $j > 0; $j--)
+                                        ⭐
+                                    @endfor
+                                </option>
+                            @endfor
+                        </select>
+                    </div>
                     <div style="flex-grow: 0">
                         <button type="submit" class="btn btn-primary">Filter</button>
                     </div>
@@ -66,8 +78,7 @@
                             <td class="text-end">
                                 <button type="button" class="btn btn-icon btn-warning btn-sm rating-button"
                                     data-bs-toggle="tooltip" data-bs-original-title="Rating"
-                                    data-name="{{ $villa->name }}"
-                                    data-rating="{{ $villa->rating }}"
+                                    data-name="{{ $villa->name }}" data-rating="{{ $villa->rating }}"
                                     data-url="{{ route('admin.villa.bypass-rating', $villa->id) }}">
                                     <span class="tf-icons bx bx-star"></span>
                                 </button>
@@ -116,7 +127,9 @@
                                 <option></option>
                                 @for ($i = 1; $i < 6; $i++)
                                     <option value="{{ $i }}">
-                                        @for ($j = $i; $j > 0; $j--)⭐@endfor
+                                        @for ($j = $i; $j > 0; $j--)
+                                            ⭐
+                                        @endfor
                                     </option>
                                 @endfor
                             </select>
@@ -174,9 +187,9 @@
         $('.rating-button').click(function(e) {
             e.preventDefault()
 
-            let name    = $(this).data('name')
-            let rating  = $(this).data('rating')
-            let url     = $(this).data('url')
+            let name = $(this).data('name')
+            let rating = $(this).data('rating')
+            let url = $(this).data('url')
 
             $('#modalRating [name="rate"]').val(rating).trigger('change')
 

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\CursorPaginator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 final class VillaRepository implements Repository
@@ -60,6 +61,18 @@ final class VillaRepository implements Repository
     static function listForAdmin(int $cursor, SearchVilla $param): LengthAwarePaginator
     {
         return Villa::query()
+            ->select(
+                '*',
+                DB::raw(
+                   'IF
+                    (
+                        villas.bypass_rating = 0, 
+                        CEIL((SELECT SUM(rating) / COUNT(*) FROM villa_ratings WHERE villa_ratings.villa_id = villas.id)), 
+                        villas.bypass_rating
+                    )
+                    AS rating'
+                )
+            )
             ->with(['city'])
             ->withCount(['transactionsSuccess'])
             ->when($param->name, function (Builder $query, string $name) {
@@ -70,6 +83,9 @@ final class VillaRepository implements Repository
             })
             ->when(!is_null($param->is_publish), function (Builder $query) use ($param) {
                 $query->where('is_publish', $param->is_publish);
+            })
+            ->when($param->rating, function (Builder $query, $rating) {
+                $query->havingRaw("rating = $rating");
             })
             ->when($param->order_by, function (Builder $query, string $column) use ($param) {
                 $query->orderBy($column, $param->order_type);

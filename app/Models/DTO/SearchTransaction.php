@@ -4,10 +4,10 @@ namespace App\Models\DTO;
 
 final class SearchTransaction
 {
-    public ?string $code;
-    public ?string $created_at;
-    public ?int $status;
-    public ?string $villa_id;
-    public ?string $start_date;
-    public ?string $end_date;
+    public ?string $code        = null;
+    public ?string $created_at  = null;
+    public ?int $status         = null;
+    public ?string $villa_id    = null;
+    public ?string $start_date  = null;
+    public ?string $end_date    = null;
 }

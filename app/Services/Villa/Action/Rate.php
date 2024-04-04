@@ -40,14 +40,19 @@ final class Rate extends Service
             if (!$transaction) return parent::error("booking terlebih dahulu");
 
             $rating = VillaRatingRepository::first(['transaction_id' => $transaction->id]);
-            if ($rating) return parent::error("villa telah di rating");
+            if ($rating) {
+                VillaRatingRepository::update($rating->id, [
+                    'rating' => $this->request->rate,
+                ]);
+            } else {
+                VillaRatingRepository::create([
+                    'villa_id'          => $this->request->villa_id,
+                    'buyer_id'          => $this->buyer->id,
+                    'transaction_id'    => $transaction->id,
+                    'rating'            => $this->request->rate,
+                ]);
+            }
 
-            VillaRatingRepository::create([
-                'villa_id'          => $this->request->villa_id,
-                'buyer_id'          => $this->buyer->id,
-                'transaction_id'    => $transaction->id,
-                'rating'            => $this->request->rate,
-            ]);
 
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {

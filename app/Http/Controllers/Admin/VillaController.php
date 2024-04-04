@@ -26,4 +26,17 @@ class VillaController extends Controller
         $data['villa'] = VillaRepository::first(['id' => $id]);
         return view('pages.admin.villa.detail', $data);
     }
+    
+    function bypassRating(Request $request, int $id)
+    {
+        $rate = VillaRepository::update($id, [
+            'bypass_rating' => $request->rate ?? 0
+        ]);
+
+        return back()->with([
+            'type'      => $rate ? 'success' : 'danger',
+            'title'     => $rate ? 'Berhasil' : 'Gagal',
+            'message'   => $rate ? "Rate villa berhasil" : "Rate villa gagal",
+        ]);
+    }
 }

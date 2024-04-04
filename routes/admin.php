@@ -21,7 +21,11 @@ Route::get('', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::prefix('villa')->group(function () {
     Route::get('', [VillaController::class, 'index'])->name('villa');
-    Route::get('{id}', [VillaController::class, 'detail'])->name('villa.detail');
+    
+    Route::prefix('{id}')->group(function () {
+        Route::get('', [VillaController::class, 'detail'])->name('villa.detail');
+        Route::put('bypass_rating', [VillaController::class, 'bypassRating'])->name('villa.bypass-rating');
+    });
 });
 
 Route::prefix('user')->group(function () {

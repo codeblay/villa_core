@@ -47,6 +47,7 @@
                         <th>Lokasi</th>
                         <th>Pemilik</th>
                         <th>Transaki</th>
+                        <th>Rating</th>
                         <th>Status</th>
                         <th class="text-end">Aksi</th>
                     </tr>
@@ -58,10 +59,18 @@
                             <td>{{ $villa->city->address }}</td>
                             <td>{{ $villa->seller->name }}</td>
                             <td>{{ $villa->transactions_success_count }}</td>
+                            <td>{{ $villa->rating }} ⭐</td>
                             <td><span
                                     class="badge bg-label-{{ $villa->is_publish ? 'primary' : 'secondary' }} me-1">{{ $villa->publish_label }}</span>
                             </td>
                             <td class="text-end">
+                                <button type="button" class="btn btn-icon btn-warning btn-sm rating-button"
+                                    data-bs-toggle="tooltip" data-bs-original-title="Rating"
+                                    data-name="{{ $villa->name }}"
+                                    data-rating="{{ $villa->rating }}"
+                                    data-url="{{ route('admin.villa.bypass-rating', $villa->id) }}">
+                                    <span class="tf-icons bx bx-star"></span>
+                                </button>
                                 <button type="button" class="btn btn-icon btn-primary btn-sm detail-button"
                                     data-bs-toggle="tooltip" data-bs-original-title="Detail"
                                     data-url="{{ route('admin.villa.detail', $villa->id) }}">
@@ -71,7 +80,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="6">@include('components.empty')</td>
+                            <td class="text-center" colspan="7">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -84,6 +93,42 @@
             {{ $villas->links() }}
         </div>
     @endif
+
+    <div class="modal fade" id="modalRating" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form class="modal-content" action="" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalRatingTitle">Rating (Bypass)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <span class="badge bg-primary" id="name"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label class="form-label" for="rating">Rating</label>
+                            <select class="form-select select2" name="rate" data-placeholder="Rating" id="rating">
+                                <option></option>
+                                @for ($i = 1; $i < 6; $i++)
+                                    <option value="{{ $i }}">
+                                        @for ($j = $i; $j > 0; $j--)⭐@endfor
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 @endsection
 
@@ -124,6 +169,20 @@
         $('.detail-button').click(function(e) {
             e.preventDefault()
             window.location.href = $(this).data('url')
+        })
+
+        $('.rating-button').click(function(e) {
+            e.preventDefault()
+
+            let name    = $(this).data('name')
+            let rating  = $(this).data('rating')
+            let url     = $(this).data('url')
+
+            $('#modalRating [name="rate"]').val(rating).trigger('change')
+
+            $('#modalRating #name').text(name)
+            $('#modalRating form').attr('action', url)
+            $('#modalRating').modal('show')
         })
     </script>
 @endsection

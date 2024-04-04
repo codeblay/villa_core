@@ -107,7 +107,7 @@ final class Booking extends Service
     }
 
     private static function generateCode() : string {
-        $prefix         = "AURA";
+        $prefix         = "RJVL";
         $random_string  = substr(md5(mt_rand()), 0, 9);
         $code       = "$prefix-$random_string";
 

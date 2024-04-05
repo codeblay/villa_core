@@ -24,9 +24,14 @@ final class Accept extends Service
         DB::beginTransaction();
         try {
             $transaction = TransactionRepository::first(['id' => $this->transaction_id]);
-            if (!$transaction || !$transaction->can_accept) {
+            if (!$transaction) {
                 DB::rollBack();
                 return parent::error("data transaksi tidak ditemukan");
+            }
+
+            if (!$transaction->can_accept) {
+                DB::rollBack();
+                return parent::error("transaksi tidak dapat diproses");
             }
 
             $midtrans = MidtransTransactionService::create($transaction);

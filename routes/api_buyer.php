@@ -22,6 +22,7 @@ Route::prefix('transaction')->group(function(){
     Route::prefix('{id}')->group(function(){
         Route::get('', [TransactionController::class, 'detail']);
         Route::get('sync', [TransactionController::class, 'sync']);
+        Route::post('cancel', [TransactionController::class, 'cancel']);
     });
 });
 

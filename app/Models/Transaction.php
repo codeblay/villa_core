@@ -23,6 +23,7 @@ class Transaction extends Model
     const STATUS_SUCCESS    = 2;
     const STATUS_FAILED     = 3;
     const STATUS_REJECT     = 4;
+    const STATUS_CANCEL     = 5;
 
     const STATUS_LABEL = [
         self::STATUS_NEW        => 'baru',
@@ -30,6 +31,7 @@ class Transaction extends Model
         self::STATUS_SUCCESS    => 'sukses',
         self::STATUS_FAILED     => 'gagal',
         self::STATUS_REJECT     => 'ditolak',
+        self::STATUS_CANCEL     => 'dibatalkan',
     ];
 
     const STATUS_CLASS = [
@@ -38,6 +40,7 @@ class Transaction extends Model
         self::STATUS_SUCCESS    => 'success',
         self::STATUS_FAILED     => 'danger',
         self::STATUS_REJECT     => 'warning',
+        self::STATUS_CANCEL     => 'dark',
     ];
 
     // Relation
@@ -85,6 +88,11 @@ class Transaction extends Model
     }
 
     function getCanDenyAttribute(): string
+    {
+        return $this->status == self::STATUS_NEW;
+    }
+
+    function getCanCancelAttribute(): string
     {
         return $this->status == self::STATUS_NEW;
     }

@@ -9,6 +9,7 @@ use App\Services\Transaction\Action\Accept;
 use App\Services\Transaction\Action\Deny;
 use App\Services\Transaction\Action\Detail;
 use App\Services\Transaction\Action\Sync;
+use App\Services\Transaction\Action\Cancel;
 use App\Services\Transaction\Action\ListForBuyer;
 use App\Services\Transaction\Action\ListForSeller;
 use Illuminate\Http\Request;
@@ -38,6 +39,11 @@ final class TransactionService
     static function sync(int $transaction_id): ServiceResponse
     {
         return (new Sync($transaction_id))->call();
+    }
+
+    static function cancel(int $transaction_id): ServiceResponse
+    {
+        return (new Cancel($transaction_id))->call();
     }
 
     static function ListForSeller(Request $request, Seller $seller): ServiceResponse

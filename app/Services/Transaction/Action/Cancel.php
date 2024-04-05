@@ -10,11 +10,11 @@ use App\Repositories\VillaScheduleRepository;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-final class Deny extends Service
+final class Cancel extends Service
 {
-    const CONTEXT           = "menolak transaksi";
-    const MESSAGE_SUCCESS   = "berhasil menolak transaksi";
-    const MESSAGE_ERROR     = "gagal menolak transaksi";
+    const CONTEXT           = "membatalkan transaksi";
+    const MESSAGE_SUCCESS   = "berhasil membatalkan transaksi";
+    const MESSAGE_ERROR     = "gagal membatalkan transaksi";
 
     public function __construct(protected int $transaction_id)
     {
@@ -29,13 +29,13 @@ final class Deny extends Service
                 DB::rollBack();
                 return parent::error("transaksi tidak ditemukan");
             }
-
-            if (!$transaction->can_deny) {
+            
+            if (!$transaction->can_cancel) {
                 DB::rollBack();
-                return parent::error("transaksi tidak dapat ditolak");
+                return parent::error("transaksi tidak dapat dibatalkan");
             }
 
-            TransactionRepository::update($transaction->id, ['status' => Transaction::STATUS_FAILED]);
+            TransactionRepository::update($transaction->id, ['status' => Transaction::STATUS_CANCEL]);
             VillaScheduleRepository::deleteByTransaction($transaction->id);
 
             DB::commit();

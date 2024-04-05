@@ -14,11 +14,13 @@
                         <!-- Logo -->
                         
                         <!-- /Logo -->
-                        <h4 class="mb-2 text-center">Welcome to {{ config('app.name') }}! 👋</h4>
-                        <hr class="my-4">
                         <div class="text-center">
-                            <img src="{{ asset('image/logo/icon.png') }}" style="max-width: 100%">
+                            <div class="d-inline-block p-2 rounded" style="background-color: #424242">
+                                <img src="{{ asset('image/logo/icon.png') }}" height="50">
+                            </div>
                         </div>
+                        <hr class="my-4">
+                        <h4 class="mb-2 text-center">Welcome to {{ config('app.name') }}! 👋</h4>
                     </div>
                 </div>
             </div>

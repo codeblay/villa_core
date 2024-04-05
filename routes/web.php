@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return strtolower(config('app.env')) == 'production' ? view('welcome') : 'OK';
-});
+Route::view('/', 'welcome');
 
 Route::get('verification', [AuthController::class, 'verification'])->name('verification');
 Route::get('reset', [AuthController::class, 'reset']);

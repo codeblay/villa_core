@@ -2,9 +2,9 @@
 
     <!-- ! Hide app brand if navbar-full -->
     <div class="app-brand demo mb-4">
-        <a href="#" class="app-brand-link gap-4">
-            <span class="app-brand-logo demo">
-                @include('_partials.macros', ['width' => 40, 'withbg' => 'var(--bs-primary)'])
+        <a href="#" class="app-brand-link gap-3">
+            <span class="app-brand-logo demo p-2 rounded" style="background-color: #424242">
+                @include('_partials.macros', ['width' => 30, 'withbg' => 'var(--bs-primary)'])
             </span>
             <span class="app-brand-text demo menu-text fw-bold" style="text-transform: inherit">{{ config('app.name') }}</span>
         </a>

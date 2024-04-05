@@ -12,8 +12,8 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Logo -->
-                        <div class="app-brand justify-content-center mb-8 mt-2">
-                            <div class="app-brand-link gap-2">
+                        <div class="app-brand justify-content-center mb-4 mt-2">
+                            <div class="app-brand-link gap-2 p-2 rounded" style="background-color: #424242">
                                 <span class="app-brand-logo demo">@include('_partials.macros', [
                                     'width' => 100,
                                     'withbg' => 'var(--bs-primary)',

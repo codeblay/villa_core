@@ -33,7 +33,7 @@ final class ListAll extends Service
             $param              = new SearchVilla;
             $param->name        = $this->request->name;
             $param->city_id     = $this->request->city_id;
-            $param->order_by    = $this->request->order_by;
+            $param->order_by    = $this->request->order_by ?? 'rating';
             $param->order_type  = $this->request->order_type ?? 'desc';
 
             $villa = VillaRepository::cursor($this->cursor, $param);

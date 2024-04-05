@@ -44,6 +44,18 @@ final class VillaRepository implements Repository
     static function cursor(int $cursor, SearchVilla $param): CursorPaginator
     {
         return Villa::query()
+            ->select(
+                '*',
+                DB::raw(
+                'IF
+                    (
+                        villas.bypass_rating = 0, 
+                        CEIL((SELECT SUM(rating) / COUNT(*) FROM villa_ratings WHERE villa_ratings.villa_id = villas.id)), 
+                        villas.bypass_rating
+                    )
+                    AS rating'
+                )
+            )
             ->with(['city'])
             ->when($param->name, function (Builder $query, string $name) {
                 $query->where('name', 'LIKE', "%{$name}%");
@@ -52,8 +64,13 @@ final class VillaRepository implements Repository
                 $query->where('city_id', $city_id);
             })
             ->when($param->order_by, function (Builder $query, string $column) use ($param) {
-                $query->orderBy($column, $param->order_type);
+                if ($param->order_by == 'asc') {
+                    $query->orderBy($column, $param->order_type);
+                } else {
+                    $query->orderByDesc($column, $param->order_type);
+                }
             })
+            ->orderBy('rating')
             ->where('is_publish', Villa::STATUS_PUBLISH)
             ->cursorPaginate($cursor);
     }

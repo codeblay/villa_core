@@ -10,6 +10,7 @@ use App\Repositories\DestinationCategoryRepository;
 use App\Repositories\DestinationRepository;
 use App\Repositories\FacilityRepository;
 use App\Services\Bank\BankService;
+use App\Services\Banner\BannerService;
 use App\Services\Destination\DestinationService;
 use App\Services\Document\DocumentService;
 use App\Services\Facility\FacilityService;
@@ -183,6 +184,36 @@ class MasterController extends Controller
     function documentUpdate(Request $request)
     {
         $service = DocumentService::upload($request);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+
+    function banner()
+    {
+        $data['banner']       = "banner/" . MyConst::BANNER_NAME;
+        $data['banner_exist'] = file_exists(public_path($data['banner']));
+
+        return view('pages.admin.master.banner', $data);
+    }
+
+    function bannerUpdate(Request $request)
+    {
+        $service = BannerService::upload($request);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+
+    function bannerDelete(Request $request)
+    {
+        $service = BannerService::delete($request);
         
         return back()->with([
             'type'      => $service->status ? 'success' : 'danger',

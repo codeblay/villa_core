@@ -67,6 +67,12 @@
       "slug": "admin.master.document"
     },
     {
+      "url": "admin.master.banner",
+      "name": "Banner",
+      "icon": "menu-icon tf-icons bx bx-broadcast",
+      "slug": "admin.master.banner"
+    },
+    {
       "url": "admin.master.facility",
       "name": "Fasilitas",
       "icon": "menu-icon tf-icons bx bx-border-outer",

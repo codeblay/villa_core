@@ -5,6 +5,7 @@ namespace App;
 class MyConst
 {
     const DOCUMENT_VERIFICATION_NAME = 'verification.pdf';
+    const BANNER_NAME = 'banner.jpg';
 
     const USER_SELLER   = 'seller';
     const USER_BUYER    = 'buyer';

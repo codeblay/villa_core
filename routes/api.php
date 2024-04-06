@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\BannerController;
 use App\Http\Controllers\API\CityController;
 use App\Http\Controllers\API\DestinationController;
 use App\Http\Controllers\API\FacilityController;
@@ -47,6 +48,8 @@ Route::prefix('city')->group(function() {
 });
 
 Route::get('payment', [PaymentController::class, 'list']);
+
+Route::get('banner', [BannerController::class, 'get']);
 
 Route::prefix('select2')->withoutMiddleware('app_key')->group(function(){
     Route::get('location', [Select2Controller::class, 'location'])->name('select2.location');

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::whenTableDoesntHaveColumn('sellers', 'fcm_token', function (Blueprint $table) {
-            $table->string('fcm_token')->after('password');
+            $table->string('fcm_token')->after('password')->nullable();
         });
     }
 

@@ -11,6 +11,8 @@ Route::post('register', [AuthController::class, 'register'])->withoutMiddleware(
 
 Route::post('logout', [AuthController::class, 'logout']);
 
+Route::put('update-fcm', [AuthController::class, 'updateFcm']);
+
 Route::prefix('password')->group(function(){
     Route::post('reset', [AuthController::class, 'resetPassword']);
     Route::post('forgot', [AuthController::class, 'forgotPassword'])->withoutMiddleware(['auth:buyer', 'is_verified']);

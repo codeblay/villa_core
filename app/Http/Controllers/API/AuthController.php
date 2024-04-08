@@ -71,4 +71,16 @@ class AuthController extends ApiController
             http_code: $service->code,
         );
     }
+
+    function updateFcm(Request $request): JsonResponse
+    {
+        $service = AuthService::updateFcm($request, auth()->user());
+
+        return parent::response(
+            status: $service->status,
+            message: $service->message,
+            data: $service->data,
+            http_code: $service->code,
+        );
+    }
 }

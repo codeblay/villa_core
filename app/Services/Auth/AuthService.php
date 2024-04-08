@@ -5,7 +5,6 @@ namespace App\Services\Auth;
 use App\Models\Buyer;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Seller;
-use App\MyConst;
 use App\Services\Auth\Action\CancelForgotPassword;
 use App\Services\Auth\Action\DoForgotPassword;
 use App\Services\Auth\Action\Login;
@@ -13,7 +12,7 @@ use App\Services\Auth\Action\Logout;
 use App\Services\Auth\Action\Register;
 use App\Services\Auth\Action\ResetPassword;
 use App\Services\Auth\Action\ForgotPassword;
-use Illuminate\Foundation\Auth\User;
+use App\Services\Auth\Action\UpdateFcm;
 use Illuminate\Http\Request;
 
 class AuthService
@@ -52,5 +51,10 @@ class AuthService
     static function cancelForgotPassword(Request $request): ServiceResponse
     {
         return (new CancelForgotPassword($request))->call();
+    }
+
+    static function updateFcm(Request $request, Seller|Buyer $user): ServiceResponse
+    {
+        return (new UpdateFcm($request, $user))->call();
     }
 }

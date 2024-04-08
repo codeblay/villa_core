@@ -8,6 +8,7 @@ use App\Models\DTO\ServiceResponse;
 use App\Repositories\BankRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 final class Update extends Service
 {
@@ -22,10 +23,6 @@ final class Update extends Service
             'is_active' => 'required|boolean',
         ];
 
-        // if ($this->request->code != Bank::QR) {
-        //     $rules['va_number'] = 'required|numeric';
-        // }
-
         return $rules;
     }
 
@@ -39,14 +36,20 @@ final class Update extends Service
 
     function call(): ServiceResponse
     {
+        DB::beginTransaction();
         try {
             $validator = parent::validator($this->request->all(), $this->rulesValidator(), attributes: self::RULES_ATTRIBUTES);
             if ($validator->fails()) return parent::error($validator->errors()->first());
 
             BankRepository::update($this->request->id, $validator->validated());
 
+            $active = BankRepository::get(['is_active' => true]);
+            if (count($active) == 0) return parent::error("Minimal mengaktifkan 1 channel pembayaran");
+
+            DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
+            DB::rollBack();
             parent::storeLog($th, self::CONTEXT);
             return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_REQUEST);
         }

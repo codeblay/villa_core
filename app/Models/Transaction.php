@@ -82,17 +82,17 @@ class Transaction extends Model
         return self::STATUS_CLASS[$this->status];
     }
 
-    function getCanAcceptAttribute(): string
+    function getCanAcceptAttribute(): bool
     {
         return $this->status == self::STATUS_NEW;
     }
 
-    function getCanDenyAttribute(): string
+    function getCanDenyAttribute(): bool
     {
         return $this->status == self::STATUS_NEW;
     }
 
-    function getCanCancelAttribute(): string
+    function getCanCancelAttribute(): bool
     {
         return in_array($this->status, [
             self::STATUS_NEW,
@@ -100,7 +100,7 @@ class Transaction extends Model
         ]);
     }
 
-    function getCanSyncAttribute(): string
+    function getCanSyncAttribute(): bool
     {
         return $this->status == self::STATUS_PENDING;
     }
@@ -116,6 +116,14 @@ class Transaction extends Model
                 $result = [
                     'payment'   => $this->bank->name,
                     'value'     => $this->external_response->actions[0]->url,
+                ];
+                break;
+
+            case Charge::PAYMENT_TYPE_ECHANNEL:
+                $result = $this->external_response->va_numbers;
+                $result = [
+                    'payment'   => $this->bank->name,
+                    'value'     => $this->external_response->bill_key,
                 ];
                 break;
 

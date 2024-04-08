@@ -17,19 +17,33 @@ class BankSeeder extends Seeder
             [
                 'name'      => 'QRIS',
                 'code'      => 'qr',
+                'fee'       => 5_000,
                 'is_active' => true,
             ],
             [
-                'name' => 'BCA',
-                'code' => 'bca',
+                'name'  => 'BRI',
+                'code'  => 'bri',
+                'fee'   => 5_000,
             ],
             [
-                'name' => 'BRI',
-                'code' => 'bri',
+                'name'  => 'BNI',
+                'code'  => 'bni',
+                'fee'   => 5_000,
             ],
             [
-                'name' => 'BNI',
-                'code' => 'bni',
+                'name'  => 'Mandiri',
+                'code'  => 'mandiri',
+                'fee'   => 5_000,
+            ],
+            [
+                'name'  => 'CIMB',
+                'code'  => 'cimb',
+                'fee'   => 5_000,
+            ],
+            [
+                'name'  => 'Permata',
+                'code'  => 'permata',
+                'fee'   => 5_000,
             ]
         ];
 

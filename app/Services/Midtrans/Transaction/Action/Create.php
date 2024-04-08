@@ -6,6 +6,8 @@ use App\Base\Service;
 use App\Models\DTO\Midtrans\Charge;
 use App\Models\DTO\Midtrans\ChargeBankTransfer;
 use App\Models\DTO\Midtrans\ChargeCustomerDetails;
+use App\Models\DTO\Midtrans\ChargeEchannel;
+use App\Models\DTO\Midtrans\ChargeItemDetails;
 use App\Models\DTO\Midtrans\ChargeTransactionDetails;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Transaction;
@@ -41,24 +43,44 @@ final class Create extends Service
             $midtrans_charge_body->payment_type         = $payment_type;
             $midtrans_charge_body->transaction_details  = $midtrans_charge_transaction_detail;
             $midtrans_charge_body->customer_details     = $midtrans_charge_customer_detail;
-            
-            if ($payment_type == Charge::PAYMENT_TYPE_BANK_TRANSFER) {
-                $midtrans_charge_bank_transfer              = new ChargeBankTransfer;
-                $midtrans_charge_bank_transfer->bank        = $this->transaction->bank->code;                
-                $midtrans_charge_body->bank_transfer        = $midtrans_charge_bank_transfer;
+
+            $midtrans_charge_item_detail            = new ChargeItemDetails;
+            $midtrans_charge_item_detail->name      = $this->transaction->transactionDetail->villa_name;
+            $midtrans_charge_item_detail->price     = $this->transaction->transactionDetail->villa_price;
+            $midtrans_charge_item_detail->quantity  = $this->transaction->amount / ($this->transaction->transactionDetail->villa_price);
+            $midtrans_charge_body->item_details[]   = $midtrans_charge_item_detail;
+
+            $midtrans_charge_item_detail            = new ChargeItemDetails;
+            $midtrans_charge_item_detail->name      = "Biaya Layanan";
+            $midtrans_charge_item_detail->price     = $this->transaction->fee;
+            $midtrans_charge_item_detail->quantity  = 1;
+            $midtrans_charge_body->item_details[]   = $midtrans_charge_item_detail;
+
+            switch ($payment_type) {
+                case Charge::PAYMENT_TYPE_BANK_TRANSFER:
+                    $midtrans_charge_bank_transfer              = new ChargeBankTransfer;
+                    $midtrans_charge_bank_transfer->bank        = $this->transaction->bank->code;
+                    $midtrans_charge_body->bank_transfer        = $midtrans_charge_bank_transfer;
+                    break;
+                case Charge::PAYMENT_TYPE_ECHANNEL:
+                    $midtrans_charge_echannel               = new ChargeEchannel;
+                    $midtrans_charge_echannel->bill_info1   = "Pembayaran:";
+                    $midtrans_charge_echannel->bill_info2   = "Raja Villa";
+                    $midtrans_charge_body->echannel         = $midtrans_charge_echannel;
+
+                    break;
             }
 
             $midtrans_charge = (new MidtransRepository)->charge($midtrans_charge_body);
             if ($midtrans_charge->failed()) parent::error(self::MESSAGE_SUCCESS, Response::HTTP_BAD_GATEWAY);
 
             $midtrans_charge_result = $midtrans_charge->json();
-            
+
             try {
                 TransactionRepository::update($this->transaction->id, [
                     'external_id'       => $midtrans_charge_result['transaction_id'],
                     'external_response' => $midtrans_charge->body(),
                 ]);
-
             } catch (\Throwable $th) {
                 if ($payment_type == Charge::PAYMENT_TYPE_QRIS) {
                     (new MidtransRepository)->cancel($this->transaction->code);

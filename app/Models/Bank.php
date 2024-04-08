@@ -12,16 +12,22 @@ class Bank extends Model
     
     protected $guarded = [];
 
-    const QR    = "qr";
-    const BCA   = "bca";
-    const BRI   = "bri";
-    const BNI   = "bni";
+    const QR        = "qr";
+    const BCA       = "bca";
+    const BRI       = "bri";
+    const BNI       = "bni";
+    const MANDIRI   = "mandiri";
+    const PERMATA   = "permata";
+    const CIMB      = "cimb";
 
     const BANK_CODE = [
         self::QR,
         self::BCA,
         self::BRI,
         self::BNI,
+        self::MANDIRI,
+        self::PERMATA,
+        self::CIMB,
     ];
 
     function getLogoAttribute() : string {
@@ -34,8 +40,9 @@ class Bank extends Model
 
     function getMidtransPaymentTypeAttribute() : string {
         return match ($this->code) {
-            self::QR    => Charge::PAYMENT_TYPE_QRIS,
-            default     => Charge::PAYMENT_TYPE_BANK_TRANSFER,
+            self::QR        => Charge::PAYMENT_TYPE_QRIS,
+            self::MANDIRI   => Charge::PAYMENT_TYPE_ECHANNEL,
+            default         => Charge::PAYMENT_TYPE_BANK_TRANSFER,
         };
     }
 }

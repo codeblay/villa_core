@@ -27,6 +27,8 @@ final class Notification extends Service
     {
         DB::beginTransaction();
         try {
+            if (!$this->verifySignature($this->request)) return parent::error(self::MESSAGE_ERROR);
+
             $status         = $this->request->transaction_status;
             $external_id    = $this->request->transaction_id;
             $paid_at        = $this->request->settlement_time;
@@ -53,7 +55,7 @@ final class Notification extends Service
                 case Midtrans::STATUS_CANCEL:
                     $status_parsed = Transaction::STATUS_CANCEL;
                     break;
-                    
+
                 case Midtrans::STATUS_EXPIRE:
                 case Midtrans::STATUS_FAILURE:
                     $status_parsed = Transaction::STATUS_FAILED;
@@ -74,9 +76,22 @@ final class Notification extends Service
             SUCCESS:
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
+            dd($th);
             DB::rollBack();
             parent::storeLog($th, self::CONTEXT);
-            return parent::error(self::MESSAGE_SUCCESS);
+            return parent::success(self::MESSAGE_SUCCESS);
         }
+    }
+
+    private function verifySignature(): bool
+    {
+        $status_code    = $this->request->status_code;
+        $gross_amount   = $this->request->gross_amount;
+        $order_id       = $this->request->order_id;
+        $signature_key  = $this->request->signature_key;
+
+        $server_key = config('midtrans.server_key');
+
+        return $signature_key == hash("sha512", "$order_id$status_code$gross_amount$server_key");
     }
 }

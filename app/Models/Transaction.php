@@ -97,6 +97,11 @@ class Transaction extends Model
         return $this->status == self::STATUS_NEW;
     }
 
+    function getCanSyncAttribute(): string
+    {
+        return $this->status == self::STATUS_PENDING;
+    }
+
     function getExternalResponseParseAttribute(): ?array
     {
         $result = null;

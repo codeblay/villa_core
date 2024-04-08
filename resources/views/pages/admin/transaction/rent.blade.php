@@ -54,13 +54,21 @@
                                     class="badge bg-label-{{ $transaction->status_class }}">{{ $transaction->status_label }}</span>
                             </td>
                             <td class="text-end">
-                                <form action="{{ route('admin.transaction.rentSync', $transaction->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-icon btn-warning btn-sm" data-bs-toggle="tooltip"
-                                        data-bs-original-title="Sinkron">
+                                @if ($transaction->can_sync)
+                                    <form action="{{ route('admin.transaction.rentSync', $transaction->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-icon btn-warning btn-sm"
+                                            data-bs-toggle="tooltip" data-bs-original-title="Sinkron">
+                                            <span class="tf-icons bx bx-sync"></span>
+                                        </button>
+                                    </form>
+                                @else
+                                    <button type="button" class="btn btn-icon btn-secondary btn-sm" style="cursor: not-allowed"
+                                        data-bs-toggle="tooltip" data-bs-original-title="Sinkron">
                                         <span class="tf-icons bx bx-sync"></span>
                                     </button>
-                                </form>
+                                @endif
                             </td>
                         </tr>
                     @empty

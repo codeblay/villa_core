@@ -111,6 +111,43 @@ final class VillaRepository implements Repository
             ->paginate($cursor);
     }
 
+    static function highlight(int $cursor, SearchVilla $param): LengthAwarePaginator
+    {
+        return Villa::query()
+            ->select(
+                '*',
+                DB::raw(
+                   'IF
+                    (
+                        villas.bypass_rating = 0, 
+                        CEIL((SELECT SUM(rating) / COUNT(*) FROM villa_ratings WHERE villa_ratings.villa_id = villas.id)), 
+                        villas.bypass_rating
+                    )
+                    AS rating'
+                )
+            )
+            ->with(['city'])
+            ->withCount(['transactionsSuccess'])
+            ->where('promote', true)
+            ->when($param->name, function (Builder $query, string $name) {
+                $query->where('name', 'LIKE', "%{$name}%");
+            })
+            ->when($param->city_id, function (Builder $query, int $city_id) {
+                $query->where('city_id', $city_id);
+            })
+            ->when(!is_null($param->is_publish), function (Builder $query) use ($param) {
+                $query->where('is_publish', $param->is_publish);
+            })
+            ->when($param->rating, function (Builder $query, $rating) {
+                $query->havingRaw("rating = $rating");
+            })
+            ->when($param->order_by, function (Builder $query, string $column) use ($param) {
+                $query->orderBy($column, $param->order_type);
+            })
+            ->orderByDesc('transactions_success_count')
+            ->paginate($cursor);
+    }
+
     static function cursorBySeller(int $seller_id, SearchVilla $param, int $cursor): CursorPaginator
     {
         return Villa::query()
@@ -131,6 +168,11 @@ final class VillaRepository implements Repository
         return Villa::query()->with(['city'])->where('is_publish', Villa::STATUS_PUBLISH)->limit($limit)->get();
     }
 
+    static function slider(int $limit): Collection
+    {
+        return Villa::query()->with(['city'])->where('promote', true)->limit($limit)->get();
+    }
+
     static function detailForBuyer(int $id): ?Villa
     {
         return Villa::query()->with(['city', 'facilities'])->where('is_publish', Villa::STATUS_PUBLISH)->where('id', $id)->first();
@@ -139,5 +181,22 @@ final class VillaRepository implements Repository
     static function detailForSeller(int $id): ?Villa
     {
         return Villa::query()->with(['city', 'facilities'])->where('id', $id)->first();
+    }
+
+    static function select2(string $keyword = ''): array
+    {
+        return Villa::query()
+            ->where('name', 'LIKE', "%$keyword%")
+            ->where('promote', false)
+            ->where('is_publish', true)
+            ->limit(5)
+            ->get()
+            ->map(function (Villa $villa) {
+                return [
+                    'id'    => $villa->id,
+                    'text'  => $villa->name,
+                ];
+            })
+            ->toArray();
     }
 }

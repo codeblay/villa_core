@@ -25,7 +25,7 @@ final class Slider extends Service
     function call(): ServiceResponse
     {
         try {
-            $repo = VillaRepository::limit($this->total);
+            $repo = VillaRepository::slider($this->total);
 
             $this->data = $repo->map(function (Villa $villa) {
                 return [

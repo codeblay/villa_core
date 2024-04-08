@@ -21,6 +21,32 @@ class VillaController extends Controller
         $data['villas'] = VillaRepository::listForAdmin(20, $param);
         return view('pages.admin.villa.index', $data);
     }
+
+    function highlight(Request $request)
+    {
+        $param              = new SearchVilla;
+        $param->name        = $request->name;
+        $param->city_id     = $request->city_id;
+        $param->seller_id   = $request->seller_id;
+        $param->is_publish  = $request->status;
+        $param->rating      = $request->rating;
+
+        $data['villas'] = VillaRepository::highlight(20, $param);
+        return view('pages.admin.villa.higlight', $data);
+    }
+
+    function highlightUpdate(Request $request)
+    {
+        $highlight = VillaRepository::update($request->villa_id, [
+            'promote' => $request->promote
+        ]);
+
+        return back()->with([
+            'type'      => $highlight ? 'success' : 'danger',
+            'title'     => $highlight ? 'Berhasil' : 'Gagal',
+            'message'   => $highlight ? "Higlight villa berhasil" : "Higlight villa gagal",
+        ]);
+    }
     
     function detail(int $id)
     {

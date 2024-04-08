@@ -52,6 +52,7 @@ Route::get('payment', [PaymentController::class, 'list']);
 Route::get('banner', [BannerController::class, 'get']);
 
 Route::prefix('select2')->withoutMiddleware('app_key')->group(function(){
+    Route::get('villa', [Select2Controller::class, 'villa'])->name('select2.villa');
     Route::get('location', [Select2Controller::class, 'location'])->name('select2.location');
     Route::get('location/{id}', [Select2Controller::class, 'locationDetail'])->name('select2.location.detail');
     Route::get('seller', [Select2Controller::class, 'seller'])->name('select2.seller');

@@ -7,7 +7,7 @@
       "slug": "admin.dashboard"
     },
     {
-      "menuHeader": "Properti"
+      "menuHeader": "Villa"
     },
     {
       "url": "admin.villa",
@@ -17,6 +17,12 @@
         "admin.villa",
         "admin.villa.detail"
       ]
+    },
+    {
+      "url": "admin.villa.highlight",
+      "name": "Highlight",
+      "icon": "menu-icon tf-icons bx bx-star",
+      "slug": "admin.villa.highlight"
     },
     {
       "menuHeader": "Pengguna"

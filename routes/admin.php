@@ -22,6 +22,11 @@ Route::get('', [DashboardController::class, 'index'])->name('dashboard');
 Route::prefix('villa')->group(function () {
     Route::get('', [VillaController::class, 'index'])->name('villa');
     
+    Route::prefix('higlight')->group(function () {
+        Route::get('', [VillaController::class, 'highlight'])->name('villa.highlight');
+        Route::post('', [VillaController::class, 'highlightUpdate'])->name('villa.highlight.update');
+    });
+    
     Route::prefix('{id}')->group(function () {
         Route::get('', [VillaController::class, 'detail'])->name('villa.detail');
         Route::put('bypass_rating', [VillaController::class, 'bypassRating'])->name('villa.bypass-rating');

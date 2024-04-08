@@ -28,11 +28,11 @@ final class MidtransRepository
         return $request;
     }
 
-    function cancel(string $url) : Response {
+    function cancel(string $order_id) : Response {
         $request = Http::acceptJson()
             ->contentType('application/json')
             ->withBasicAuth($this->server_key, '')
-            ->post($url);
+            ->post("{$this->url}/v2/$order_id/cancel");
 
         return $request;
     }

@@ -51,6 +51,9 @@ final class Notification extends Service
                     break;
 
                 case Midtrans::STATUS_CANCEL:
+                    $status_parsed = Transaction::STATUS_CANCEL;
+                    break;
+                    
                 case Midtrans::STATUS_EXPIRE:
                 case Midtrans::STATUS_FAILURE:
                     $status_parsed = Transaction::STATUS_FAILED;

@@ -94,7 +94,10 @@ class Transaction extends Model
 
     function getCanCancelAttribute(): string
     {
-        return $this->status == self::STATUS_NEW;
+        return in_array($this->status, [
+            self::STATUS_NEW,
+            self::STATUS_PENDING,
+        ]);
     }
 
     function getCanSyncAttribute(): string

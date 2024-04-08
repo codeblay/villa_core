@@ -5,6 +5,7 @@ namespace App\Services\Transaction\Action;
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Transaction;
+use App\Repositories\MidtransRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\VillaScheduleRepository;
 use Illuminate\Http\Response;
@@ -33,6 +34,11 @@ final class Cancel extends Service
             if (!$transaction->can_cancel) {
                 DB::rollBack();
                 return parent::error("transaksi tidak dapat dibatalkan");
+            }
+
+            if ($transaction->status == Transaction::STATUS_PENDING) {
+                $cancel = (new MidtransRepository)->cancel($transaction->code);
+                if ($cancel->failed()) return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_GATEWAY);
             }
 
             TransactionRepository::update($transaction->id, ['status' => Transaction::STATUS_CANCEL]);

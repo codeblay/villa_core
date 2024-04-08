@@ -44,9 +44,7 @@ final class Create extends Service
             
             if ($payment_type == Charge::PAYMENT_TYPE_BANK_TRANSFER) {
                 $midtrans_charge_bank_transfer              = new ChargeBankTransfer;
-                $midtrans_charge_bank_transfer->bank        = $this->transaction->bank->code;
-                // $midtrans_charge_bank_transfer->va_number   = $this->transaction->bank->va_number;
-                
+                $midtrans_charge_bank_transfer->bank        = $this->transaction->bank->code;                
                 $midtrans_charge_body->bank_transfer        = $midtrans_charge_bank_transfer;
             }
 
@@ -63,8 +61,7 @@ final class Create extends Service
 
             } catch (\Throwable $th) {
                 if ($payment_type == Charge::PAYMENT_TYPE_QRIS) {
-                    $midtrans_cancel_link = collect($midtrans_charge_result['actions'])->where('name', 'cancel')->value('url');
-                    (new MidtransRepository)->cancel($midtrans_cancel_link);
+                    (new MidtransRepository)->cancel($this->transaction->code);
                 }
             }
 

@@ -44,7 +44,6 @@ Route::prefix('transaction')->group(function () {
         Route::get('', [TransactionController::class, 'rent'])->name('transaction.rent');
         Route::post('{id}/sync', [TransactionController::class, 'rentSync'])->name('transaction.rentSync');
     });
-    // Route::view('withdrawal', 'pages.admin.transaction.withdrawal')->name('transaction.withdrawal');
 });
 
 Route::prefix('master')->group(function () {

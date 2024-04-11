@@ -7,6 +7,7 @@ use App\Mail\Booking\BookingMail;
 use App\Models\DTO\ServiceResponse;
 use App\Models\External\Midtrans;
 use App\Models\Transaction;
+use App\Repositories\FirebaseRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\VillaScheduleRepository;
 use Illuminate\Http\Request;
@@ -43,6 +44,14 @@ final class Notification extends Service
                     if ($transaction_status == Transaction::STATUS_PENDING) {
                         $status_parsed = Transaction::STATUS_SUCCESS;
                         BookingMail::ticket($transaction);
+
+                        if ($transaction->villa->seller->fcm_token) {
+                            (new FirebaseRepository)->send($transaction->villa->seller->fcm_token, "Pembayaran Diterima", "Pembayaran diterima dengan kode booking {$transaction->code}");
+                        }
+
+                        if ($transaction->buyer->fcm_token) {
+                            (new FirebaseRepository)->send($transaction->buyer->fcm_token, "Pembayaran Berhasil", "Pembayaran berhasil dengan kode booking {$transaction->code}");
+                        }
                     }
                     break;
 
@@ -60,6 +69,9 @@ final class Notification extends Service
                 case Midtrans::STATUS_FAILURE:
                     $status_parsed = Transaction::STATUS_FAILED;
                     VillaScheduleRepository::deleteByTransaction($transaction->id);
+                    if ($transaction->buyer->fcm_token) {
+                        (new FirebaseRepository)->send($transaction->buyer->fcm_token, "Pembayaran Gagal", "Pembayaran gagal dengan kode booking {$transaction->code}");
+                    }
                     break;
 
                 default:
@@ -76,7 +88,6 @@ final class Notification extends Service
             SUCCESS:
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
-            dd($th);
             DB::rollBack();
             parent::storeLog($th, self::CONTEXT);
             return parent::success(self::MESSAGE_SUCCESS);

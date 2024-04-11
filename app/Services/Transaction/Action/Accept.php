@@ -4,6 +4,7 @@ namespace App\Services\Transaction\Action;
 
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
+use App\Repositories\FirebaseRepository;
 use App\Repositories\TransactionRepository;
 use App\Services\Midtrans\Transaction\MidtransTransactionService;
 use Illuminate\Http\Response;
@@ -38,6 +39,10 @@ final class Accept extends Service
             if (!$midtrans->status) {
                 DB::rollBack();
                 return parent::error("terjadi kesalahan, cobalah beberapa saat lagi", Response::HTTP_BAD_GATEWAY);
+            }
+
+            if ($transaction->buyer->fcm_token) {
+                (new FirebaseRepository)->send($transaction->buyer->fcm_token, "Booking Berhasil", "Booking diterima dengan kode booking {$transaction->code}");
             }
 
             DB::commit();

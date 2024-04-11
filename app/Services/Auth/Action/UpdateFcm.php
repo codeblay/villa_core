@@ -24,7 +24,6 @@ class UpdateFcm extends Service
 
     public function __construct(protected Request $request, protected Seller|Buyer $user)
     {
-        $this->data['token'] = '';
     }
 
     private function repo(): RepositoryApi

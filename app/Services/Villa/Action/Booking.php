@@ -8,6 +8,7 @@ use App\Models\Buyer;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Transaction;
 use App\Repositories\BankRepository;
+use App\Repositories\FirebaseRepository;
 use App\Repositories\TransactionDetailRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\VillaRepository;
@@ -96,6 +97,10 @@ final class Booking extends Service
             }
 
             $this->data['code'] = $transaction->code;
+
+            if ($villa->seller->fcm_token) {
+                (new FirebaseRepository)->send($villa->seller->fcm_token, "Booking", "Booking masuk untuk {$villa->name}");
+            }
 
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);

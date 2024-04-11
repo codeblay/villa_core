@@ -5,6 +5,7 @@ namespace App\Services\Transaction\Action;
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Transaction;
+use App\Repositories\FirebaseRepository;
 use App\Repositories\MidtransRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\VillaScheduleRepository;
@@ -43,6 +44,10 @@ final class Cancel extends Service
 
             TransactionRepository::update($transaction->id, ['status' => Transaction::STATUS_CANCEL]);
             VillaScheduleRepository::deleteByTransaction($transaction->id);
+
+            if ($transaction->villa->seller->fcm_token) {
+                (new FirebaseRepository)->send($transaction->villa->seller->fcm_token, "Booking Dibatalkan", "Booking dibatalkan dengan kode booking {$transaction->code}");
+            }
 
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);

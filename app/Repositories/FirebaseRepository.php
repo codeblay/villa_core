@@ -18,7 +18,7 @@ final class FirebaseRepository
     }
 
     private static function getToken() : string {
-        $config = json_decode(file_get_contents("firebase.json"), true);
+        $config = json_decode(file_get_contents("../firebase.json"), true);
         $c = new Google_Client();
         $c->setAuthConfig($config);
         $c->setScopes("https://www.googleapis.com/auth/firebase.messaging");

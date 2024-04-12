@@ -17,7 +17,7 @@ final class FirebaseRepository
         $this->project_id   = config('firebase.project_id');
     }
 
-    function getToken() : string {
+    private static function getToken() : string {
         $config = json_decode(file_get_contents("firebase.json"), true);
         $c = new Google_Client();
         $c->setAuthConfig($config);
@@ -29,7 +29,7 @@ final class FirebaseRepository
     function send(string $token, string $title, string $body): Response
     {
         $request = Http::acceptJson()
-            ->withToken($this->getToken())
+            ->withToken(self::getToken())
             ->contentType('application/json')
             ->post("{$this->url}/v1/projects/{$this->project_id}/messages:send", [
                 "message" => [

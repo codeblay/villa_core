@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\FirebaseController;
 use App\Http\Controllers\API\TransactionController;
 use App\Http\Controllers\API\VillaController;
 use App\Http\Controllers\API\ProfileController;
@@ -36,4 +37,8 @@ Route::prefix('villa')->group(function(){
 
 Route::prefix('profile')->group(function () {
     Route::get('', [ProfileController::class, 'profileBuyer']);
+});
+
+Route::prefix('fcm')->group(function () {
+    Route::post('send', [FirebaseController::class, 'send']);
 });

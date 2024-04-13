@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DTO\SearchSeller;
+use App\Repositories\MutationRepository;
 use App\Repositories\SellerRepository;
+use App\Services\Mutation\MutationService;
 use App\Services\Verification\VerificationService;
 use Illuminate\Http\Request;
 
@@ -42,6 +44,23 @@ class SellerController extends Controller
     function verificationDeny(int $id)
     {
         $service = VerificationService::deny($id);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+
+    function mutation(int $id)
+    {
+        $data = MutationService::listForAdmin($id)->data;
+        return view('pages.admin.user.mutation', $data);
+    }
+
+    function mutationStore(Request $request, int $id)
+    {
+        $service = MutationService::store($request, $id);
         
         return back()->with([
             'type'      => $service->status ? 'success' : 'danger',

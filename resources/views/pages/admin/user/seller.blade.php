@@ -48,16 +48,21 @@
                                     class="badge bg-label-{{ $seller->is_verified ? 'success' : 'secondary' }} me-1">{{ $seller->is_verified ? 'Ya' : 'Tidak' }}</span>
                             </td>
                             <td class="text-end">
-                                <div class="d-flex justify-content-end align-items-center gap-1">
-                                    <form action="{{ route('admin.user.seller.mutation', $seller->id) }}"
-                                        method="GET">
+                                @if ($seller->is_verified)
+                                    <form action="{{ route('admin.user.seller.mutation', $seller->id) }}" method="GET">
                                         @csrf
                                         <button type="submit" class="btn btn-icon btn-warning btn-sm"
                                             data-bs-toggle="tooltip" title="Mutasi">
                                             <span class="tf-icons bx bx-dollar"></span>
                                         </button>
                                     </form>
-                                </div>
+                                @else
+                                    <button type="button" class="btn btn-icon btn-secondary btn-sm"
+                                        style="cursor: not-allowed" data-bs-toggle="tooltip"
+                                        data-bs-original-title="Mutasi">
+                                        <span class="tf-icons bx bx-dollar"></span>
+                                    </button>
+                                @endif
                             </td>
                         </tr>
                     @empty

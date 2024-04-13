@@ -1,0 +1,104 @@
+{
+  "menu": [
+    {
+      "url": "admin.dashboard",
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons bx bx-bar-chart-square",
+      "slug": "admin.dashboard"
+    },
+    {
+      "menuHeader": "Villa"
+    },
+    {
+      "url": "admin.villa",
+      "name": "Villa",
+      "icon": "menu-icon tf-icons bx bx-building-house",
+      "slug": [
+        "admin.villa",
+        "admin.villa.detail"
+      ]
+    },
+    {
+      "url": "admin.villa.highlight",
+      "name": "Highlight",
+      "icon": "menu-icon tf-icons bx bx-star",
+      "slug": "admin.villa.highlight"
+    },
+    {
+      "menuHeader": "Pengguna"
+    },
+    {
+      "url": "admin.user.seller",
+      "name": "Investor",
+      "icon": "menu-icon tf-icons bx bx-user-check",
+      "slug": "admin.user.seller"
+    },
+    {
+      "url": "admin.user.buyer",
+      "name": "Pelanggan",
+      "icon": "menu-icon tf-icons bx bx-user-voice",
+      "slug": "admin.user.buyer"
+    },
+    {
+      "menuHeader": "Verifikasi"
+    },
+    {
+      "url": "admin.verification.account",
+      "name": "Akun",
+      "icon": "menu-icon tf-icons bx bx-user-plus",
+      "slug": "admin.verification.account"
+    },
+    {
+      "menuHeader": "Transaksi"
+    },
+    {
+      "url": "admin.transaction.rent",
+      "name": "Penyewaan",
+      "icon": "menu-icon tf-icons bx bx-import",
+      "slug": "admin.transaction.rent"
+    },
+    {
+      "menuHeader": "Master"
+    },
+    {
+      "url": "admin.master.payment",
+      "name": "Pembayaran",
+      "icon": "menu-icon tf-icons bx bx-wallet-alt",
+      "slug": "admin.master.payment"
+    },
+    {
+      "url": "admin.master.document",
+      "name": "Dokumen Verifikasi",
+      "icon": "menu-icon tf-icons bx bx-news",
+      "slug": "admin.master.document"
+    },
+    {
+      "url": "admin.master.banner",
+      "name": "Banner",
+      "icon": "menu-icon tf-icons bx bx-broadcast",
+      "slug": "admin.master.banner"
+    },
+    {
+      "url": "admin.master.facility",
+      "name": "Fasilitas",
+      "icon": "menu-icon tf-icons bx bx-border-outer",
+      "slug": "admin.master.facility"
+    },
+    {
+      "url": "admin.master.destination.list",
+      "name": "Destinasi",
+      "icon": "menu-icon tf-icons bx bx-map-alt",
+      "slug": [
+        "admin.master.destination.list",
+        "admin.master.destination.list.detail",
+        "admin.master.destination.list.edit"
+      ]
+    },
+    {
+      "url": "admin.master.destination.category",
+      "name": "Destinasi Kategori",
+      "icon": "menu-icon tf-icons bx bx-sitemap",
+      "slug": "admin.master.destination.category"
+    }
+  ]
+}

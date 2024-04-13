@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome');
+
+Route::get('verification', [AuthController::class, 'verification'])->name('verification');
+Route::get('reset', [AuthController::class, 'reset']);
+Route::post('reset', [AuthController::class, 'resetPassword'])->name('reset');
+Route::get('resetCancel', [AuthController::class, 'resetPasswordCancel'])->name('reset.cancel');

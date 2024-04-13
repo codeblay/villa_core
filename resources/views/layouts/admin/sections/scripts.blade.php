@@ -1,0 +1,117 @@
+<!-- BEGIN: Vendor JS-->
+<script src="{{ asset('template/vendor/libs/jquery/jquery.js') }}"></script>
+<script src="{{ asset('template/vendor/libs/popper/popper.js') }}"></script>
+<script src="{{ asset('template/vendor/js/bootstrap.js') }}"></script>
+<script src="{{ asset('template/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+<script src="{{ asset('template/vendor/js/menu.js') }}"></script>
+<script src="{{ asset('template/js/main.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    $(function() {
+        $('.select2').select2({
+            theme: "bootstrap",
+            width: 'resolve',
+            allowClear: true,
+        })
+
+        $('.modal .select2').select2({
+            theme: "bootstrap",
+            width: 'resolve',
+            allowClear: true,
+            dropdownParent: $(this).closest('.modal') ? $('.modal') : $('body'),
+        })
+
+        $('.select2-ajax').select2({
+            theme: "bootstrap",
+            width: 'resolve',
+            minimumInputLength: 3,
+            language: {
+                inputTooShort: function() {
+                    return "Minimal 3 karakter";
+                },
+                noResults: function() {
+                    return "Data tidak ditemukan"
+                },
+                searching: function() {
+                    return "Mencari data.."
+                },
+                errorLoading: function() {
+                    return "Terjadi kesalahan, coba lagi"
+                },
+            },
+            allowClear: true,
+            ajax: {
+                data: function(term) {
+                    return {
+                        keyword: term.term
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+        })
+
+        $('.modal .select2-ajax').select2({
+            theme: "bootstrap",
+            width: 'resolve',
+            dropdownParent: $('.modal'),
+            minimumInputLength: 3,
+            language: {
+                inputTooShort: function() {
+                    return "Minimal 3 karakter";
+                },
+                noResults: function() {
+                    return "Data tidak ditemukan"
+                },
+                searching: function() {
+                    return "Mencari data.."
+                },
+                errorLoading: function() {
+                    return "Terjadi kesalahan, coba lagi"
+                },
+            },
+            allowClear: true,
+            ajax: {
+                data: function(term) {
+                    return {
+                        keyword: term.term
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+        })
+
+        let toast = $('body .bs-toast.show')
+        let hasToast = toast.length > 0
+
+        if (hasToast) {
+            setTimeout(function() {
+                toast.removeClass('show');
+            }, 3000);
+        }
+    })
+
+    function logout() {
+        $('#logoutForm').submit()
+    }
+
+    $(window).bind('beforeunload', function() {
+        $('#myLoading').removeClass('d-none')
+        $('#myLoading').addClass('d-flex')
+    });
+
+    $(window).bind('unload', function() {
+        $('#myLoading').addClass('d-none')
+        $('#myLoading').removeClass('d-flex')
+    });
+</script>
+
+@yield('page-script')

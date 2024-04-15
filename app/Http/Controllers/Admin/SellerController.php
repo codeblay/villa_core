@@ -68,4 +68,15 @@ class SellerController extends Controller
             'message'   => ucfirst($service->message),
         ]);
     }
+
+    function mutationUpdate(Request $request, int $id)
+    {
+        $service = MutationService::update($request, $id);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
 }

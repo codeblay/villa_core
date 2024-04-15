@@ -39,7 +39,7 @@ final class MutationRepository implements Repository
         return Mutation::query()->where('seller_id', $seller_id)->oldest()->paginate($paginate);
     }
 
-    static function activeBalanceSelelr(int $seller_id): int
+    static function activeBalanceSeller(int $seller_id): int
     {
         return Mutation::query()->where('seller_id', $seller_id)->sum('amount');
     }

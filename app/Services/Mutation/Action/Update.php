@@ -10,20 +10,19 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-final class Store extends Service
+final class Update extends Service
 {
     const CONTEXT           = "menyimpan mutasi";
     const MESSAGE_SUCCESS   = "berhasil menyimpan mutasi";
     const MESSAGE_ERROR     = "gagal menyimpan mutasi";
 
     const RULES_VALIDATOR = [
+        'id'        => 'required|integer',
         'amount'    => 'required|integer',
-        'commition' => 'required|integer',
     ];
 
     const ATTRIBUTES_VALIDATOR = [
-        'amount'    => 'dana investor',
-        'commition' => 'komisi raja villa',
+        'amount' => 'nominal',
     ];
 
     public function __construct(protected Request $request, protected int $seller_id)
@@ -39,21 +38,19 @@ final class Store extends Service
 
             $balance = MutationRepository::activeBalanceSeller($this->seller_id);
 
-            if ($balance < $this->request->amount) {
+            $mutation = MutationRepository::first(['id' => $this->request->id]);
+            if (!$mutation) {
+                DB::rollBack();
+                return parent::error("mutasi tidak ditemukan");
+            }
+
+            if (($balance - $mutation->amount) < $this->request->amount) {
                 DB::rollBack();
                 return parent::error("jumlah pencairan tidak boleh melebihi saldo investor");
             }
 
-            MutationRepository::create([
-                'seller_id' => $this->seller_id,
-                'amount'    => - ($this->request->amount),
-                'type'      => Mutation::TYPE_WITHDRAW,
-            ]);
-
-            MutationRepository::create([
-                'seller_id' => $this->seller_id,
-                'amount'    => - ($this->request->commition),
-                'type'      => Mutation::TYPE_COMMISION,
+            MutationRepository::update($this->request->id, [
+                'amount' => - ($this->request->amount),
             ]);
 
             DB::commit();

@@ -23,7 +23,7 @@ final class ListForAdmin extends Service
         try {
             $this->data = [
                 "seller"    => SellerRepository::first(['id' => $this->seller_id]),
-                "balance"   => MutationRepository::activeBalanceSelelr($this->seller_id),
+                "balance"   => MutationRepository::activeBalanceSeller($this->seller_id),
                 "mutations" => MutationRepository::listForAdmin($this->seller_id, 10)
             ];
 

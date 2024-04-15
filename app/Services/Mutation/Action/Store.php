@@ -39,7 +39,7 @@ final class Store extends Service
 
             $balance = MutationRepository::activeBalanceSeller($this->seller_id);
 
-            if ($balance < $this->request->amount) {
+            if ($balance < ($this->request->amount + $this->request->commition)) {
                 DB::rollBack();
                 return parent::error("jumlah pencairan tidak boleh melebihi saldo investor");
             }

@@ -34,7 +34,13 @@ Route::prefix('villa')->group(function () {
 });
 
 Route::prefix('user')->group(function () {
-    Route::get(MyConst::USER_SELLER, [SellerController::class, 'index'])->name('user.seller');
+    Route::prefix(MyConst::USER_SELLER)->group(function () {
+        Route::get('', [SellerController::class, 'index'])->name('user.seller');
+        Route::get('{id}/mutation', [SellerController::class, 'mutation'])->name('user.seller.mutation');
+        Route::post('{id}/mutation', [SellerController::class, 'mutationStore'])->name('user.seller.mutation.store');
+        Route::put('{id}/mutation', [SellerController::class, 'mutationUpdate'])->name('user.seller.mutation.update');
+    });
+
     Route::get(MyConst::USER_BUYER, [BuyerController::class, 'index'])->name('user.buyer');
 });
 

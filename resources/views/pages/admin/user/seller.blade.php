@@ -1,4 +1,4 @@
-@extends('layouts.admin.index' )
+@extends('layouts.admin.index')
 @section('title', 'Investor')
 
 @section('content')
@@ -9,7 +9,8 @@
                     <div style="flex-grow: 2">
                         <div class="input-group input-group-merge">
                             <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                            <input type="text" class="form-control" name="name" value="{{ request('name') }}" placeholder="Cari investor..." aria-label="Cari investor..."
+                            <input type="text" class="form-control" name="name" value="{{ request('name') }}"
+                                placeholder="Cari investor..." aria-label="Cari investor..."
                                 aria-describedby="basic-addon-search31" />
                         </div>
                     </div>
@@ -30,7 +31,8 @@
                         <th>Jenis Kelamin</th>
                         <th>Umur</th>
                         <th>Villa</th>
-                        <th class="text-end">Verifikasi</th>
+                        <th>Verifikasi</th>
+                        <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -41,13 +43,31 @@
                             <td>{{ $seller->gender_label }}</td>
                             <td>{{ $seller->age }} Tahun</td>
                             <td>{{ $seller->villas_count }} Unit</td>
+                            <td>
+                                <span
+                                    class="badge bg-label-{{ $seller->is_verified ? 'success' : 'secondary' }} me-1">{{ $seller->is_verified ? 'Ya' : 'Tidak' }}</span>
+                            </td>
                             <td class="text-end">
-                                <span class="badge bg-label-{{ $seller->is_verified ? 'success' : 'secondary' }} me-1">{{ $seller->is_verified ? 'Ya' : 'Tidak' }}</span>
+                                @if ($seller->is_verified)
+                                    <form action="{{ route('admin.user.seller.mutation', $seller->id) }}" method="GET">
+                                        @csrf
+                                        <button type="submit" class="btn btn-icon btn-warning btn-sm"
+                                            data-bs-toggle="tooltip" title="Mutasi">
+                                            <span class="tf-icons bx bx-dollar"></span>
+                                        </button>
+                                    </form>
+                                @else
+                                    <button type="button" class="btn btn-icon btn-secondary btn-sm"
+                                        style="cursor: not-allowed" data-bs-toggle="tooltip"
+                                        data-bs-original-title="Mutasi">
+                                        <span class="tf-icons bx bx-dollar"></span>
+                                    </button>
+                                @endif
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td class="text-center" colspan="6">@include('components.empty')</td>
+                            <td class="text-center" colspan="7">@include('components.empty')</td>
                         </tr>
                     @endforelse
                 </tbody>

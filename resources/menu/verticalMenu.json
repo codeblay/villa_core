@@ -33,7 +33,7 @@
       "icon": "menu-icon tf-icons bx bx-user-check",
       "slug": [
         "admin.user.seller",
-        "user.seller.mutation"
+        "admin.user.seller.mutation"
       ]
     },
     {

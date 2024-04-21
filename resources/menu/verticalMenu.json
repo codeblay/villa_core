@@ -31,7 +31,10 @@
       "url": "admin.user.seller",
       "name": "Investor",
       "icon": "menu-icon tf-icons bx bx-user-check",
-      "slug": "admin.user.seller"
+      "slug": [
+        "admin.user.seller",
+        "admin.user.seller.mutation"
+      ]
     },
     {
       "url": "admin.user.buyer",

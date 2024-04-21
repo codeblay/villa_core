@@ -6,8 +6,10 @@ use App\Base\Service;
 use App\Mail\Booking\BookingMail;
 use App\Models\DTO\ServiceResponse;
 use App\Models\External\Midtrans;
+use App\Models\Mutation;
 use App\Models\Transaction;
 use App\Repositories\FirebaseRepository;
+use App\Repositories\MutationRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\VillaScheduleRepository;
 use Illuminate\Http\Request;
@@ -43,6 +45,12 @@ final class Notification extends Service
                 case Midtrans::STATUS_SETTLEMENT:
                     if ($transaction_status == Transaction::STATUS_PENDING) {
                         $status_parsed = Transaction::STATUS_SUCCESS;
+                        MutationRepository::create([
+                            'seller_id' => $transaction->villa->seller->id,
+                            'amount'    => $transaction->amount,
+                            'type'      => Mutation::TYPE_RENT,
+                        ]);
+
                         BookingMail::ticket($transaction);
 
                         if ($transaction->villa->seller->fcm_token) {

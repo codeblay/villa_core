@@ -60,6 +60,7 @@ final class ListBySeller extends Service
                 'address'       => $villa->city->address,
                 'price'         => $villa->price,
                 'description'   => $villa->description,
+                'rating'        => $villa->rating,
                 'is_publish'    => (bool) $villa->is_publish,
                 'image_url'     => $villa->file->local_path,
             ];

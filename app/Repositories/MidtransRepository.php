@@ -25,6 +25,8 @@ final class MidtransRepository
             ->withBasicAuth($this->server_key, '')
             ->post("{$this->url}/v2/charge", (array)$body);
 
+        if ($request->failed()) logger()->channel('midtrans')->alert('charge', [$request->json()]);
+
         return $request;
     }
 
@@ -34,6 +36,8 @@ final class MidtransRepository
             ->withBasicAuth($this->server_key, '')
             ->post("{$this->url}/v2/$order_id/cancel");
 
+        if ($request->failed()) logger()->channel('midtrans')->alert('cancel', [$request->json()]);
+
         return $request;
     }
 
@@ -42,6 +46,8 @@ final class MidtransRepository
             ->contentType('application/json')
             ->withBasicAuth($this->server_key, '')
             ->get("{$this->url}/v2/$order_id/status");
+
+        if ($request->failed()) logger()->channel('midtrans')->alert('status', [$request->json()]);
 
         return $request;
     }

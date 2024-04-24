@@ -39,7 +39,10 @@ final class Cancel extends Service
 
             if ($transaction->status == Transaction::STATUS_PENDING) {
                 $cancel = (new MidtransRepository)->cancel($transaction->code);
-                if ($cancel->failed()) return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_GATEWAY);
+                if ($cancel->failed()) {
+                    DB::rollBack();
+                    return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_GATEWAY);
+                }
             }
 
             TransactionRepository::update($transaction->id, ['status' => Transaction::STATUS_CANCEL]);

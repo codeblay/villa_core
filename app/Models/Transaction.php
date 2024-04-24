@@ -120,7 +120,6 @@ class Transaction extends Model
                 break;
 
             case Charge::PAYMENT_TYPE_ECHANNEL:
-                $result = $this->external_response->va_numbers;
                 $result = [
                     'payment'   => $this->bank->name,
                     'value'     => $this->external_response->bill_key,
@@ -128,7 +127,6 @@ class Transaction extends Model
                 break;
 
             case Charge::PAYMENT_TYPE_BANK_TRANSFER:
-                $result = $this->external_response->va_numbers;
                 $result = [
                     'payment'   => $this->bank->name,
                     'value'     => $this->external_response->va_numbers[0]->va_number,

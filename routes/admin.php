@@ -21,6 +21,8 @@ Route::get('', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::prefix('villa')->group(function () {
     Route::get('', [VillaController::class, 'index'])->name('villa');
+    Route::get('create', [VillaController::class, 'create'])->name('villa.create');
+    Route::post('', [VillaController::class, 'store'])->name('villa.store');
     
     Route::prefix('higlight')->group(function () {
         Route::get('', [VillaController::class, 'highlight'])->name('villa.highlight');
@@ -30,6 +32,9 @@ Route::prefix('villa')->group(function () {
     Route::prefix('{id}')->group(function () {
         Route::get('', [VillaController::class, 'detail'])->name('villa.detail');
         Route::put('bypass_rating', [VillaController::class, 'bypassRating'])->name('villa.bypass-rating');
+        Route::get('investor', [VillaController::class, 'investor'])->name('villa.investor');
+        Route::post('investor', [VillaController::class, 'investorAdd'])->name('villa.investor.store');
+        Route::delete('investor', [VillaController::class, 'investorDelete'])->name('villa.investor.delete');
     });
 });
 

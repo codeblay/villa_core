@@ -92,4 +92,24 @@ final class SellerRepository implements RepositoryApi
             ->latest()
             ->paginate($paginate);
     }
+
+    
+    static function select2Investor(int $villa_id, string $keyword = ''): array
+    {
+        return Seller::query()
+            ->whereDoesntHave('villas', function(Builder $query) use ($villa_id){
+                $query->where('villa_id', $villa_id);
+            })
+            ->where('name', 'LIKE', "%$keyword%")
+            ->orWhere('email', 'LIKE', "$keyword%")
+            ->limit(5)
+            ->get()
+            ->map(function(Seller $city){
+                return [
+                    'id'    => $city->id,
+                    'text'  => $city->name,
+                ];
+            })
+            ->toArray();
+    }
 }

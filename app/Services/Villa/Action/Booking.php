@@ -13,6 +13,8 @@ use App\Repositories\TransactionDetailRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\VillaRepository;
 use App\Repositories\VillaScheduleRepository;
+use App\Repositories\VillaTypeRepository;
+use App\Services\Midtrans\Transaction\MidtransTransactionService;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -28,7 +30,7 @@ final class Booking extends Service
     private static function rules() : array {
         $now = now()->format('Y-m-d');
         return [
-            'villa_id'      => ['required', 'integer'],
+            'villa_type_id' => ['required', 'integer'],
             'payment'       => ['required', 'string', Rule::in(Bank::BANK_CODE)],
             'name'          => ['required', 'string', 'min:2'],
             'start_date'    => ['required', 'date_format:Y-m-d', "after:$now"],
@@ -50,17 +52,20 @@ final class Booking extends Service
                 return parent::error($validator->errors()->first());
             }
 
-            $villa = VillaRepository::first(['id' => $this->request->villa_id]);
-            if (!$villa || !$villa->is_publish) {
+            $villa_type = VillaTypeRepository::first(['id' => $this->request->villa_type_id]);
+            if (!$villa_type || !$villa_type->is_publish || !$villa_type->villa->is_publish) {
                 DB::rollBack();
                 return parent::error("data villa tidak ditemukan");
             }
+
             $date_booking       = CarbonPeriod::create($this->request->start_date, $this->request->end_date);
-            $booked_schedules   = VillaScheduleRepository::get(['villa_id' => $this->request->villa_id])->pluck('date')->toArray();
+            $booked_schedules   = VillaScheduleRepository::schedule($this->request->villa_type_id, $date_booking);
+
             foreach ($date_booking as $date) {
                 $date_format = $date->format('Y-m-d');
-                if (in_array($date_format, $booked_schedules)) {
-                    DB::rollBack();
+                $booked = $booked_schedules->where('date', $date_format);
+
+                if ($booked->count() == $villa_type->total_unit) {
                     return parent::error("villa telah di-booking pada tanggal {$date_format}");
                 }
             }
@@ -69,11 +74,11 @@ final class Booking extends Service
 
             $transaction = TransactionRepository::create([
                 'code'              => self::generateCode(),
-                'villa_id'          => $villa->id,
+                'villa_type_id'     => $villa_type->id,
                 'buyer_id'          => $this->buyer->id,
                 'bank_id'           => $bank->id,
-                'status'            => Transaction::STATUS_NEW,
-                'amount'            => $villa->price * count($date_booking),
+                'status'            => Transaction::STATUS_PENDING,
+                'amount'            => $villa_type->price * count($date_booking),
                 'fee'               => $bank->fee,
             ]);
 
@@ -82,25 +87,35 @@ final class Booking extends Service
                 'name'              => $this->request->name,
                 'start'             => $this->request->start_date,
                 'end'               => $this->request->end_date,
-                'villa_name'        => $villa->name,
-                'villa_address'     => $villa->city->address,
-                'villa_price'       => $villa->price,
+                'villa_name'        => $villa_type->full_name,
+                'villa_address'     => $villa_type->villa->city->address,
+                'villa_price'       => $villa_type->price,
             ]);
 
             // schedule
             foreach ($date_booking as $date) {
                 VillaScheduleRepository::create([
-                    'villa_id'          => $villa->id,
+                    'villa_type_id'     => $villa_type->id,
                     'transaction_id'    => $transaction->id,
                     'date'              => $date,
                 ]);
             }
 
+            $midtrans = MidtransTransactionService::create($transaction);
+            if (!$midtrans->status) {
+                DB::rollBack();
+                return parent::error("terjadi kesalahan, cobalah beberapa saat lagi", Response::HTTP_BAD_GATEWAY);
+            }
+
+            // if ($transaction->buyer->fcm_token) {
+            //     (new FirebaseRepository)->send($transaction->buyer->fcm_token, "Booking Berhasil", "Booking diterima dengan kode booking {$transaction->code}");
+            // }
+
             $this->data['code'] = $transaction->code;
 
-            if ($villa->seller->fcm_token) {
-                (new FirebaseRepository)->send($villa->seller->fcm_token, "Booking", "Booking masuk untuk {$villa->name}");
-            }
+            // if ($villa_type->seller->fcm_token) {
+            //     (new FirebaseRepository)->send($villa_type->seller->fcm_token, "Booking", "Booking masuk untuk {$villa_type->name}");
+            // }
 
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);

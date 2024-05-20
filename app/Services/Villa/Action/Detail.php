@@ -8,12 +8,11 @@ use App\Models\DTO\ServiceResponse;
 use App\Models\Facility;
 use App\Models\Seller;
 use App\Models\Villa;
+use App\Models\VillaType;
 use App\Repositories\DestinationCategoryRepository;
 use App\Repositories\VillaRepository;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
-
-use function PHPSTORM_META\map;
 
 final class Detail extends Service
 {
@@ -55,15 +54,19 @@ final class Detail extends Service
             'name'          => $villa->name,
             'city_id'       => $villa->city_id,
             'address'       => $villa->city->address,
-            'price'         => $villa->price,
             'description'   => $villa->description,
             'rating'        => $villa->rating,
             'can_book'      => $villa->is_publish == 1,
             'images'        => $villa->files->pluck('local_path')->toArray(),
-            'facilities'    => $villa->facilities->map(function(Facility $facility){
+            'facilities'    => $villa->villaTypes->map(function(VillaType $villa_type){
+                return $villa_type->facilities->pluck('name')->toArray();
+            })->flatten()->unique()->toArray(),
+            'units' => $villa->villaTypes->map(function(VillaType $villa_type){
                 return [
-                    'id'    => $facility->id,
-                    'name'  => $facility->name,
+                    'id'    => $villa_type->id,
+                    'name'  => $villa_type->name,
+                    'price' => $villa_type->price,
+                    'images'=> $villa_type->primaryImage->local_path,
                 ];
             })->toArray(),
         ];

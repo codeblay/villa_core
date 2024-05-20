@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interface\Repository;
 use App\Models\VillaSchedule;
+use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Collection;
 
 final class VillaScheduleRepository implements Repository
@@ -36,5 +37,10 @@ final class VillaScheduleRepository implements Repository
     static function deleteByTransaction(int $transaction_id): bool
     {
         return VillaSchedule::query()->where('transaction_id', $transaction_id)->delete();
+    }
+
+    static function schedule(int $villa_type_id, CarbonPeriod $period) : Collection
+    {
+        return VillaSchedule::query()->where('villa_type_id', $villa_type_id)->whereBetween('date', [$period->start, $period->end])->get();
     }
 }

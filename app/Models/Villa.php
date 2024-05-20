@@ -22,10 +22,6 @@ class Villa extends Model
 
     // Relation
 
-    function seller() : BelongsTo {
-        return $this->belongsTo(Seller::class);
-    }
-
     function city() : BelongsTo {
         return $this->belongsTo(City::class);
     }
@@ -38,10 +34,6 @@ class Villa extends Model
         return $this->hasMany(VillaRating::class);
     }
 
-    function schedule() : HasOne {
-        return $this->hasOne(VillaSchedule::class);
-    }
-
     function files() : MorphMany {
         return $this->morphMany(File::class, 'fileable');
     }
@@ -49,19 +41,19 @@ class Villa extends Model
     function file() : MorphOne {
         return $this->morphOne(File::class, 'fileable');
     }
-
-    function transactions() : HasMany {
-        return $this->hasMany(Transaction::class);
-    }
-
-    function transactionsSuccess() : HasMany {
-        return $this->hasMany(Transaction::class)->where('status', Transaction::STATUS_SUCCESS);
-    }
     
     function primaryImage() : MorphOne {
         return $this->morphOne(File::class, 'fileable')->where('type', File::TYPE_IMAGE);
     }
 
+    function villaTypes() : HasMany {
+        return $this->hasMany(VillaType::class);
+    }
+
+    function investors() : BelongsToMany {
+        return $this->belongsToMany(Seller::class, 'villa_investors', 'villa_id', 'investor_id');
+    }
+    
     // End Relation
 
     function getAddressAttribute() : string {
@@ -77,6 +69,10 @@ class Villa extends Model
             0 => 'Draft',
             1 => 'Publish',
         };
+    }
+
+    function getPriceAttribute() : int {
+        return $this->villaTypes->sortBy('price')->first()->price;
     }
 
     function getRatingAttribute() : float {

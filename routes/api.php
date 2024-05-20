@@ -57,4 +57,7 @@ Route::prefix('select2')->withoutMiddleware('app_key')->group(function(){
     Route::get('location/{id}', [Select2Controller::class, 'locationDetail'])->name('select2.location.detail');
     Route::get('seller', [Select2Controller::class, 'seller'])->name('select2.seller');
     Route::get('seller/{id}', [Select2Controller::class, 'sellerDetail'])->name('select2.seller.detail');
+    Route::get('facility', [Select2Controller::class, 'facility'])->name('select2.facility');
+    Route::get('facility/{id}', [Select2Controller::class, 'facilityDetail'])->name('select2.facility.detail');
+    Route::get('investor/{villa_id}', [Select2Controller::class, 'investorVilla'])->name('select2.investor.villa');
 });

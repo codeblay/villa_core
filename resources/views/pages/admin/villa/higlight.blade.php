@@ -24,11 +24,6 @@
                         </select>
                     </div>
                     <div style="flex-grow: 1">
-                        <select class="form-select select2-ajax" name="seller_id"
-                            data-ajax--url="{{ route('api.select2.seller') }}" data-placeholder="Pemilik">
-                        </select>
-                    </div>
-                    <div style="flex-grow: 1">
                         <select class="form-select select2" name="status" data-placeholder="Status">
                             <option></option>
                             <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Publish</option>
@@ -182,22 +177,6 @@
                     dataType: "json",
                     success: function(response) {
                         $(`[name="city_id"]`).append(
-                            `<option value="${response.id}">${response.text}</option>`)
-                    }
-                });
-            })
-        </script>
-    @endif
-
-    @if (request('seller_id'))
-        <script>
-            $(function() {
-                $.ajax({
-                    type: "GET",
-                    url: `{{ route('api.select2.seller.detail', request('seller_id')) }}`,
-                    dataType: "json",
-                    success: function(response) {
-                        $(`[name="seller_id"]`).append(
                             `<option value="${response.id}">${response.text}</option>`)
                     }
                 });

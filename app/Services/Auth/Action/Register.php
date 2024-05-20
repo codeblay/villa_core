@@ -106,7 +106,7 @@ class Register extends Service
             // }
 
             // send email
-            VerificationMail::send($user);
+            // VerificationMail::send($user);
 
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);

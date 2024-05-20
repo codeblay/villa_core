@@ -16,8 +16,8 @@ class SellerSeeder extends Seeder
     public function run(): void
     {
         Seller::query()->create([
-            'name'                  => 'Seller',
-            'email'                 => 'seller@gmail.com',
+            'name'                  => 'Inestor',
+            'email'                 => 'investor@gmail.com',
             'password'              => 'qweqweqwe',
             'phone'                 => '080000000001',
             'gender'                => MyConst::GENDER_MALE,

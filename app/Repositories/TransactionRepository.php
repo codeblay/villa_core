@@ -82,6 +82,14 @@ final class TransactionRepository implements Repository
             ->cursorPaginate($cursor);
     }
 
+    static function listByUnit(int $unit_id, int $cursor): CursorPaginator
+    {
+        return Transaction::query()
+            ->where('villa_type_id', $unit_id)
+            ->latest()
+            ->cursorPaginate($cursor);
+    }
+
     static function listForAdmin(int $cursor, SearchTransaction $param): LengthAwarePaginator
     {
         return Transaction::query()

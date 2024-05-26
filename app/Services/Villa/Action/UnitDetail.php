@@ -4,9 +4,12 @@ namespace App\Services\Villa\Action;
 
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
+use App\Models\Transaction;
 use App\Models\VillaType;
+use App\Repositories\TransactionRepository;
 use App\Repositories\VillaTypeRepository;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\CursorPaginator;
 
 final class UnitDetail extends Service
 {
@@ -27,7 +30,9 @@ final class UnitDetail extends Service
                 'is_publish'    => true
             ]);
 
-            $this->data = $this->mapResult($villa);
+            $trx = TransactionRepository::listByUnit($this->unit_id, 20);
+
+            $this->data = $this->mapResult($villa, $trx);
 
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
@@ -36,15 +41,21 @@ final class UnitDetail extends Service
         }
     }
 
-    static function mapResult(VillaType $unit): array
+    static function mapResult(VillaType $unit, CursorPaginator $trx): array
     {
         return [
             'id'            => $unit->id,
             'name'          => $unit->name,
             'price'         => $unit->price,
-            'description'   => $unit->description,
             'rating'        => $unit->rating,
-            'image_url'     => $unit->primaryImage->local_path,
+            'transactions'  => collect($trx->items())->map(function(Transaction $t){
+                return [
+                    'code'          => $t->code,
+                    'status'        => $t->status_label,
+                    'created_at'    => $t->created_at,
+                ];
+            }),
+            'cursor'        => $trx->nextCursor()?->encode()
         ];
     }
 }

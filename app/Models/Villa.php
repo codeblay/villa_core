@@ -50,6 +50,10 @@ class Villa extends Model
         return $this->hasMany(VillaType::class);
     }
 
+    function villaTypesPublish() : HasMany {
+        return $this->hasMany(VillaType::class)->where('is_publish', true);
+    }
+
     function investors() : BelongsToMany {
         return $this->belongsToMany(Seller::class, 'villa_investors', 'villa_id', 'investor_id');
     }

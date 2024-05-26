@@ -61,7 +61,7 @@ final class Detail extends Service
             'facilities'    => $villa->villaTypes->map(function(VillaType $villa_type){
                 return $villa_type->facilities->pluck('name')->toArray();
             })->flatten()->unique()->toArray(),
-            'units' => $villa->villaTypes->map(function(VillaType $villa_type){
+            'units' => $villa->villaTypesPublish->map(function(VillaType $villa_type){
                 return [
                     'id'    => $villa_type->id,
                     'name'  => $villa_type->name,

@@ -30,12 +30,12 @@ class Register extends Service
             case MyConst::USER_SELLER:
                 $rules = [
                     'name'          => ['required', 'string'],
-                    'email'         => ['required', 'email', 'unique:sellers,email'],
-                    'phone'         => ['required', 'numeric', 'unique:sellers,phone'],
+                    'email'         => ['required', 'email', 'unique:investors,email'],
+                    'phone'         => ['required', 'numeric', 'unique:investors,phone'],
                     'password'      => ['required', 'min:8'],
                     'gender'        => ['required', Rule::in(MyConst::GENDER)],
                     'birth_date'    => ['required', 'date_format:Y-m-d'],
-                    'nik'           => ['required', 'size:16', 'unique:sellers,nik'],
+                    'nik'           => ['required', 'size:16', 'unique:investors,nik'],
                 ];
                 break;
 
@@ -77,6 +77,8 @@ class Register extends Service
     {
         DB::beginTransaction();
         try {
+            $message = self::MESSAGE_SUCCESS;
+
             if (!$this->validateUserType()) {
                 DB::rollBack();
                 return parent::error("tipe user tidak valid");
@@ -88,28 +90,25 @@ class Register extends Service
                 return parent::error($validator->errors()->first());
             }
 
+            $data = $validator->validated();
+
             if ($this->user_type == MyConst::USER_SELLER) {
-                $document       = "pdf/" . MyConst::DOCUMENT_VERIFICATION_NAME;
-                $document_exist = file_exists(public_path($document));
-                if (!$document_exist) {
-                    return parent::error("sedang terjadi kendala teknis", Response::HTTP_PRECONDITION_REQUIRED);
-                }
+                $data['email_verified_at']      = now();
+                $data['document_verified_at']   = now();
+
+                $message = "berhasil mendaftarkan akun";
             }
 
             $repo = $this->repo();
-            $user = $repo->create($validator->validated());
-
-            // $send_otp = OtpService::send($this->request->phone);
-            // if (!$send_otp->status) {
-            //     DB::rollBack();
-            //     return parent::success($send_otp->message, $send_otp->code);
-            // }
+            $user = $repo->create($data);
 
             // send email
-            // VerificationMail::send($user);
+            if ($this->user_type == MyConst::USER_BUYER) {
+                VerificationMail::send($user);
+            }
 
             DB::commit();
-            return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
+            return parent::success($message, Response::HTTP_OK);
         } catch (\Throwable $th) {
             DB::rollBack();
             parent::storeLog($th, self::CONTEXT);

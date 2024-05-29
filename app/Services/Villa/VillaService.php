@@ -19,6 +19,7 @@ use App\Services\Villa\Action\DeleteInvestor;
 use App\Services\Villa\Action\Edit;
 use App\Services\Villa\Action\Unit;
 use App\Services\Villa\Action\UnitDetail;
+use App\Services\Villa\Action\UnitDetailBuyer;
 use Illuminate\Http\Request;
 
 final class VillaService
@@ -63,9 +64,9 @@ final class VillaService
         return (new Rate($request, $buyer))->call();
     }
 
-    static function check(int $villa_id, Buyer $buyer): ServiceResponse
+    static function check(int $villa_type_id, Buyer $buyer): ServiceResponse
     {
-        return (new Check($villa_id, $buyer))->call();
+        return (new Check($villa_type_id, $buyer))->call();
     }
 
     static function addInvestor(Request $request): ServiceResponse
@@ -86,5 +87,10 @@ final class VillaService
     static function unitDetail(int $id, $unit_detail): ServiceResponse
     {
         return (new UnitDetail($id, $unit_detail))->call();
+    }
+
+    static function unitDetailBuyer(int $id, $unit_detail): ServiceResponse
+    {
+        return (new UnitDetailBuyer($id, $unit_detail))->call();
     }
 }

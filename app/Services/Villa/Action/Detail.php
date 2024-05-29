@@ -47,7 +47,7 @@ final class Detail extends Service
         }
     }
 
-    private static function mapVilla(Villa $villa): array
+    static function mapVilla(Villa $villa): array
     {
         return [
             'id'            => $villa->id,

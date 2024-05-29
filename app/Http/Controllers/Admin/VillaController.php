@@ -52,7 +52,7 @@ class VillaController extends Controller
     
     function detail(int $id)
     {
-        $data['villa'] = VillaRepository::first(['id' => $id]);
+        $data['villa'] = VillaRepository::detailForAdmin($id);
         return view('pages.admin.villa.detail', $data);
     }
     

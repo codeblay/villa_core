@@ -55,9 +55,9 @@ class Transaction extends Model
         return $this->hasOne(TransactionDetail::class);
     }
 
-    function villa(): BelongsTo
+    function villaType(): BelongsTo
     {
-        return $this->belongsTo(Villa::class);
+        return $this->belongsTo(VillaType::class);
     }
 
     function bank(): BelongsTo

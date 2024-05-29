@@ -126,6 +126,7 @@ final class VillaRepository implements Repository
                 )
             )
             ->with(['city'])
+            ->withCount(['investors'])
             ->where('promote', true)
             ->when($param->name, function (Builder $query, string $name) {
                 $query->where('name', 'LIKE', "%{$name}%");
@@ -196,5 +197,13 @@ final class VillaRepository implements Repository
                 ];
             })
             ->toArray();
+    }
+    
+    static function detailForAdmin(int $id): ?Villa
+    {
+        return Villa::query()->where('id', $id)->with([
+            'files',
+            'villaTypes.files',
+        ])->first();
     }
 }

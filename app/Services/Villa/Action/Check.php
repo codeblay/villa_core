@@ -15,14 +15,14 @@ final class Check extends Service
     const MESSAGE_SUCCESS   = "berhasil rate villa";
     const MESSAGE_ERROR     = "gagal rate villa";
 
-    public function __construct(protected int $villa_id, protected Buyer $buyer)
+    public function __construct(protected int $villa_type_id, protected Buyer $buyer)
     {
     }
 
     function call(): ServiceResponse
     {
         try {
-            $booked_schedules = VillaScheduleRepository::get(['villa_id' => $this->villa_id])->pluck('date')->toArray();
+            $booked_schedules = VillaScheduleRepository::get(['villa_type_id' => $this->villa_type_id])->pluck('date')->toArray();
 
             $this->data = [
                 'booked' => $booked_schedules,

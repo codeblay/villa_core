@@ -4,14 +4,11 @@ namespace App\Services\Villa\Action;
 
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
-use App\Models\Transaction;
 use App\Models\VillaType;
-use App\Repositories\TransactionRepository;
 use App\Repositories\VillaTypeRepository;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\CursorPaginator;
 
-final class UnitDetail extends Service
+final class UnitDetailBuyer extends Service
 {
     const CONTEXT           = "memuat unit";
     const MESSAGE_SUCCESS   = "berhasil memuat unit";
@@ -30,9 +27,7 @@ final class UnitDetail extends Service
                 'is_publish'    => true
             ]);
 
-            $trx = TransactionRepository::listByUnit($this->unit_id, 20);
-
-            $this->data = $this->mapResult($villa, $trx);
+            $this->data = $this->mapResult($villa);
 
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {
@@ -41,21 +36,17 @@ final class UnitDetail extends Service
         }
     }
 
-    static function mapResult(VillaType $unit, CursorPaginator $trx): array
+    static function mapResult(VillaType $unit): array
     {
         return [
             'id'            => $unit->id,
+            'villa_id'      => $unit->villa_id,
+            'villa'         => Detail::mapVilla($unit->villa),
             'name'          => $unit->name,
             'price'         => $unit->price,
-            'rating'        => $unit->rating,
-            'transactions'  => collect($trx->items())->map(function(Transaction $t){
-                return [
-                    'code'          => $t->code,
-                    'status'        => $t->status_label,
-                    'created_at'    => $t->created_at,
-                ];
-            }),
-            'next'        => $trx->nextCursor()?->encode()
+            'description'   => $unit->description,
+            'facilities'    => $unit->facilities->pluck('name')->toArray(),
+            'images'        => $unit->files->pluck('local_path')
         ];
     }
 }

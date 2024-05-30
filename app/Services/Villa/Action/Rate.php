@@ -18,8 +18,8 @@ final class Rate extends Service
     const MESSAGE_ERROR     = "gagal rate villa";
 
     const RULES_VALIDATOR = [
-        'villa_type_id' => 'required|integer',
-        'rate'          => 'required|integer|min:1|max:5',
+        'transaction_id'    => 'required|integer',
+        'rate'              => 'required|integer|min:1|max:5',
     ];
 
     public function __construct(protected Request $request, protected Buyer $buyer)
@@ -33,7 +33,7 @@ final class Rate extends Service
             if ($validator->fails()) return parent::error($validator->errors()->first());
 
             $transaction = TransactionRepository::first([
-                'villa_type_id'     => $this->request->villa_type_id,
+                'id'                => $this->request->transaction_id,
                 'buyer_id'          => $this->buyer->id,
                 'status'            => Transaction::STATUS_SUCCESS,
             ]);

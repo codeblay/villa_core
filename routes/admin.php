@@ -21,6 +21,8 @@ Route::get('', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::prefix('villa')->group(function () {
     Route::get('', [VillaController::class, 'index'])->name('villa');
+    Route::get('create', [VillaController::class, 'create'])->name('villa.create');
+    Route::post('', [VillaController::class, 'store'])->name('villa.store');
     
     Route::prefix('higlight')->group(function () {
         Route::get('', [VillaController::class, 'highlight'])->name('villa.highlight');
@@ -30,25 +32,29 @@ Route::prefix('villa')->group(function () {
     Route::prefix('{id}')->group(function () {
         Route::get('', [VillaController::class, 'detail'])->name('villa.detail');
         Route::put('bypass_rating', [VillaController::class, 'bypassRating'])->name('villa.bypass-rating');
+        Route::get('investor', [VillaController::class, 'investor'])->name('villa.investor');
+        Route::post('investor', [VillaController::class, 'investorAdd'])->name('villa.investor.store');
+        Route::delete('investor', [VillaController::class, 'investorDelete'])->name('villa.investor.delete');
     });
 });
 
 Route::prefix('user')->group(function () {
     Route::prefix(MyConst::USER_SELLER)->group(function () {
         Route::get('', [SellerController::class, 'index'])->name('user.seller');
-        Route::get('{id}/mutation', [SellerController::class, 'mutation'])->name('user.seller.mutation');
-        Route::post('{id}/mutation', [SellerController::class, 'mutationStore'])->name('user.seller.mutation.store');
-        Route::put('{id}/mutation', [SellerController::class, 'mutationUpdate'])->name('user.seller.mutation.update');
+        Route::post('', [SellerController::class, 'addInvestor'])->name('user.seller.store');
+        // Route::get('{id}/mutation', [SellerController::class, 'mutation'])->name('user.seller.mutation');
+        // Route::post('{id}/mutation', [SellerController::class, 'mutationStore'])->name('user.seller.mutation.store');
+        // Route::put('{id}/mutation', [SellerController::class, 'mutationUpdate'])->name('user.seller.mutation.update');
     });
 
     Route::get(MyConst::USER_BUYER, [BuyerController::class, 'index'])->name('user.buyer');
 });
 
-Route::prefix('verification')->group(function () {
-    Route::get('account', [SellerController::class, 'verification'])->name('verification.account');
-    Route::post('account/{id}/accept', [SellerController::class, 'verificationAccept'])->name('verification.account.accept');
-    Route::post('account/{id}/deny', [SellerController::class, 'verificationDeny'])->name('verification.account.deny');
-});
+// Route::prefix('verification')->group(function () {
+//     Route::get('account', [SellerController::class, 'verification'])->name('verification.account');
+//     Route::post('account/{id}/accept', [SellerController::class, 'verificationAccept'])->name('verification.account.accept');
+//     Route::post('account/{id}/deny', [SellerController::class, 'verificationDeny'])->name('verification.account.deny');
+// });
 
 Route::prefix('transaction')->group(function () {
     Route::prefix('rent')->group(function () {
@@ -66,7 +72,6 @@ Route::prefix('master')->group(function () {
     });
 
     Route::prefix('destination')->group(function () {
-        
         Route::prefix('category')->group(function () {
             Route::get('', [MasterController::class, 'destinationCategory'])->name('master.destination.category');
             Route::post('', [MasterController::class, 'destinationCategoryCreate'])->name('master.destination.category.create');

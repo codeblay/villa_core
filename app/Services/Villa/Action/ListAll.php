@@ -56,7 +56,6 @@ final class ListAll extends Service
             $result[] = [
                 'id'            => $villa->id,
                 'name'          => $villa->name,
-                'seller'        => $villa->seller->name,
                 'address'       => $villa->city->address,
                 'price'         => $villa->price,
                 'description'   => $villa->description,

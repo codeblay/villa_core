@@ -24,18 +24,6 @@
                         </select>
                     </div>
                     <div style="flex-grow: 1">
-                        <select class="form-select select2-ajax" name="seller_id"
-                            data-ajax--url="{{ route('api.select2.seller') }}" data-placeholder="Pemilik">
-                        </select>
-                    </div>
-                    <div style="flex-grow: 1">
-                        <select class="form-select select2" name="status" data-placeholder="Status">
-                            <option></option>
-                            <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Publish</option>
-                            <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Draft</option>
-                        </select>
-                    </div>
-                    <div style="flex-grow: 1">
                         <select class="form-select select2" name="rating" data-placeholder="Rating">
                             <option></option>
                             @for ($i = 1; $i < 6; $i++)
@@ -61,10 +49,8 @@
                     <tr>
                         <th>Nama</th>
                         <th>Lokasi</th>
-                        <th>Pemilik</th>
-                        <th>Transaki</th>
+                        <th>Investor</th>
                         <th>Rating</th>
-                        <th>Status</th>
                         <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
@@ -73,12 +59,8 @@
                         <tr>
                             <td><span class="fw-medium">{{ $villa->name }}</span></td>
                             <td>{{ $villa->city->address }}</td>
-                            <td>{{ $villa->seller->name }}</td>
-                            <td>{{ $villa->transactions_success_count }}</td>
+                            <td>{{ $villa->investors_count }}</td>
                             <td>{{ $villa->rating }} ⭐</td>
-                            <td><span
-                                    class="badge bg-label-{{ $villa->is_publish ? 'primary' : 'secondary' }} me-1">{{ $villa->publish_label }}</span>
-                            </td>
                             <td class="text-end">
                                 <form action="" method="POST">
                                     @csrf
@@ -182,22 +164,6 @@
                     dataType: "json",
                     success: function(response) {
                         $(`[name="city_id"]`).append(
-                            `<option value="${response.id}">${response.text}</option>`)
-                    }
-                });
-            })
-        </script>
-    @endif
-
-    @if (request('seller_id'))
-        <script>
-            $(function() {
-                $.ajax({
-                    type: "GET",
-                    url: `{{ route('api.select2.seller.detail', request('seller_id')) }}`,
-                    dataType: "json",
-                    success: function(response) {
-                        $(`[name="seller_id"]`).append(
                             `<option value="${response.id}">${response.text}</option>`)
                     }
                 });

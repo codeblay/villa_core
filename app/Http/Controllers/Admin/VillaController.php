@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DTO\SearchVilla;
+use App\Repositories\VillaInvestorRepository;
 use App\Repositories\VillaRepository;
+use App\Services\Villa\VillaService;
 use Illuminate\Http\Request;
 
 class VillaController extends Controller
@@ -50,7 +52,7 @@ class VillaController extends Controller
     
     function detail(int $id)
     {
-        $data['villa'] = VillaRepository::first(['id' => $id]);
+        $data['villa'] = VillaRepository::detailForAdmin($id);
         return view('pages.admin.villa.detail', $data);
     }
     
@@ -64,6 +66,51 @@ class VillaController extends Controller
             'type'      => $rate ? 'success' : 'danger',
             'title'     => $rate ? 'Berhasil' : 'Gagal',
             'message'   => $rate ? "Rate villa berhasil" : "Rate villa gagal",
+        ]);
+    }
+
+    function create(Request $request)
+    {
+        return view('pages.admin.villa.create');
+    }
+
+    function investor(Request $request, int $id)
+    {
+        $data['items']      = VillaInvestorRepository::cursorByVilla($id, $request->keyword ?? '', 20);
+        $data['villa_id']   = $id;
+        return view('pages.admin.villa.investor', $data);
+    }
+
+    function store(Request $request)
+    {
+        $service = VillaService::create($request, auth()->user());
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+
+    function investorAdd(Request $request)
+    {
+        $service = VillaService::addInvestor($request);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
+    }
+
+    function investorDelete(Request $request)
+    {
+        $service = VillaService::deleteInvestor($request->id);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
         ]);
     }
 }

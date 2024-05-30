@@ -42,7 +42,7 @@ final class Detail extends Service
         return [
             'id'        => $transaction->id,
             'code'      => $transaction->code,
-            'amount'    => $transaction->amount,
+            'amount'    => $transaction->amount / $transaction->transactionDetail->duration,
             'fee'       => $transaction->fee,
             'status'    => $transaction->status_label,
             'can_rate'  => $transaction->status == Transaction::STATUS_SUCCESS && is_null($transaction->villaRating),
@@ -53,15 +53,17 @@ final class Detail extends Service
                 'name'      => $transaction->bank->name,
             ],
             'villa' => [
-                'id'        => $transaction->villa->id,
-                'name'      => $transaction->villa->name,
-                'address'   => $transaction->villa->city->address,
-                'image'     => $transaction->villa->file->local_path,
+                'id'        => $transaction->villaType->villa->id,
+                'name'      => $transaction->villaType->villa->name,
+                'address'   => $transaction->villaType->villa->city->address,
+                'type'      => $transaction->villaType->name,
+                'image'     => $transaction->villaType->villa->file->local_path,
             ],
             'detail' => [
-                'name'  => $transaction->transactionDetail->name,
-                'start' => $transaction->transactionDetail->start,
-                'end'   => $transaction->transactionDetail->end,
+                'name'      => $transaction->transactionDetail->name,
+                'duration'  => $transaction->transactionDetail->duration,
+                'start'     => $transaction->transactionDetail->start,
+                'end'       => $transaction->transactionDetail->end,
             ],
             'response'  => $transaction->external_response_parse,
         ];

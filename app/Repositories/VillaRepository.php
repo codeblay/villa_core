@@ -91,7 +91,7 @@ final class VillaRepository implements Repository
                 )
             )
             ->with(['city'])
-            ->withCount(['transactionsSuccess'])
+            ->withCount(['investors'])
             ->when($param->name, function (Builder $query, string $name) {
                 $query->where('name', 'LIKE', "%{$name}%");
             })
@@ -107,7 +107,6 @@ final class VillaRepository implements Repository
             ->when($param->order_by, function (Builder $query, string $column) use ($param) {
                 $query->orderBy($column, $param->order_type);
             })
-            ->orderByDesc('transactions_success_count')
             ->paginate($cursor);
     }
 
@@ -127,7 +126,7 @@ final class VillaRepository implements Repository
                 )
             )
             ->with(['city'])
-            ->withCount(['transactionsSuccess'])
+            ->withCount(['investors'])
             ->where('promote', true)
             ->when($param->name, function (Builder $query, string $name) {
                 $query->where('name', 'LIKE', "%{$name}%");
@@ -144,15 +143,15 @@ final class VillaRepository implements Repository
             ->when($param->order_by, function (Builder $query, string $column) use ($param) {
                 $query->orderBy($column, $param->order_type);
             })
-            ->orderByDesc('transactions_success_count')
             ->paginate($cursor);
     }
 
     static function cursorBySeller(int $seller_id, SearchVilla $param, int $cursor): CursorPaginator
     {
         return Villa::query()
-            ->with(['seller', 'city'])
-            ->where('seller_id', $seller_id)
+            ->whereHas('investors', function(Builder $query) use ($seller_id){
+                $query->where('investor_id', $seller_id);
+            })
             ->when($param->name, function (Builder $query, string $name) {
                 $query->where('name', 'LIKE', "%{$name}%");
             })
@@ -175,12 +174,12 @@ final class VillaRepository implements Repository
 
     static function detailForBuyer(int $id): ?Villa
     {
-        return Villa::query()->with(['city', 'facilities'])->where('is_publish', Villa::STATUS_PUBLISH)->where('id', $id)->first();
+        return Villa::query()->with(['villaTypes', 'city', 'facilities'])->where('is_publish', Villa::STATUS_PUBLISH)->where('id', $id)->first();
     }
 
     static function detailForSeller(int $id): ?Villa
     {
-        return Villa::query()->with(['city', 'facilities'])->where('id', $id)->first();
+        return Villa::query()->with(['villaTypes', 'city', 'facilities'])->where('id', $id)->first();
     }
 
     static function select2(string $keyword = ''): array
@@ -198,5 +197,13 @@ final class VillaRepository implements Repository
                 ];
             })
             ->toArray();
+    }
+    
+    static function detailForAdmin(int $id): ?Villa
+    {
+        return Villa::query()->where('id', $id)->with([
+            'files',
+            'villaTypes.files',
+        ])->first();
     }
 }

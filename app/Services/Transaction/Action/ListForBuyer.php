@@ -26,7 +26,7 @@ final class ListForBuyer extends Service
         'end_date'  => ['sometimes', 'nullable', 'date_format:Y-m-d', 'after_or_equal:start_date'],
     ];
 
-    private int $cursor = 10;
+    private int $cursor = 5;
 
     function __construct(protected Request $request, protected Buyer $buyer)
     {
@@ -69,10 +69,11 @@ final class ListForBuyer extends Service
             return [
                 'id'            => $transaction->id,
                 'code'          => $transaction->code,
-                'name'          => $transaction->villa->name,
+                'name'          => $transaction->villaType->villa->name,
                 'amount'        => $transaction->amount,
                 'fee'           => $transaction->fee,
-                'image'         => $transaction->villa->file->local_path,
+                'status'        => $transaction->status_label,
+                'image'         => $transaction->villaType->villa->file->local_path,
                 'created_at'    => $transaction->created_at->translatedFormat('j F Y'),
             ];
         })->toArray();

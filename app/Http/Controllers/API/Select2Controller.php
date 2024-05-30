@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Repositories\CityRepository;
+use App\Repositories\FacilityRepository;
 use App\Repositories\SellerRepository;
 use App\Repositories\VillaRepository;
 use Illuminate\Http\JsonResponse;
@@ -21,6 +22,12 @@ class Select2Controller
         $data = CityRepository::select2($request->keyword ?? '');
         return response()->json($data);
     }
+    
+    function facility(Request $request): JsonResponse
+    {
+        $data = FacilityRepository::select2($request->keyword ?? '');
+        return response()->json($data);
+    }
 
     function seller(Request $request): JsonResponse
     {
@@ -37,6 +44,18 @@ class Select2Controller
     function sellerDetail(int $id): JsonResponse
     {
         $data = SellerRepository::select2Single($id);
+        return response()->json($data);
+    }
+
+    function facilityDetail(int $id): JsonResponse
+    {
+        $data = FacilityRepository::select2Single($id);
+        return response()->json($data);
+    }
+
+    function investorVilla(Request $request, int $villa_id): JsonResponse
+    {
+        $data = SellerRepository::select2Investor($villa_id, $request->keyword ?? '');
         return response()->json($data);
     }
 }

@@ -28,7 +28,6 @@
                     <tr>
                         <th>Kode Booking</th>
                         <th>Villa</th>
-                        <th>Pemilik</th>
                         <th>Pelanggan</th>
                         <th>Pembayaran</th>
                         <th>Harga</th>
@@ -42,8 +41,7 @@
                     @forelse ($transactions as $transaction)
                         <tr>
                             <td>{{ $transaction->code }}</td>
-                            <td>{{ $transaction->villa->name }}</td>
-                            <td>{{ $transaction->villa->seller->name }}</td>
+                            <td>{{ $transaction->villaType->villa->name }}</td>
                             <td>{{ $transaction->buyer->name }}</td>
                             <td>{{ $transaction->bank->name }}</td>
                             <td>{{ rupiah($transaction->amount) }}</td>

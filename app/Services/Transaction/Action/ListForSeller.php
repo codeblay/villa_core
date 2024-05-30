@@ -70,9 +70,9 @@ final class ListForSeller extends Service
             return [
                 'id'            => $transaction->id,
                 'code'          => $transaction->code,
-                'name'          => $transaction->villa->name,
+                'name'          => $transaction->villaType->villa->name,
                 'amount'        => $transaction->amount,
-                'image'         => $transaction->villa->file->local_path,
+                'image'         => $transaction->villaType->villa->file->local_path,
                 'created_at'    => $transaction->created_at->translatedFormat('j F Y'),
             ];
         })->toArray();

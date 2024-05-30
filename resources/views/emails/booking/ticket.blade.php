@@ -347,7 +347,7 @@
                                         </tr>
                                         <tr>
                                             <td>Villa</td>
-                                            <td>{{ $transaction->villa->name }}</td>
+                                            <td>{{ $transaction->villaType->villa->name }}</td>
                                         </tr>
                                         <tr>
                                             <td>Tanggal</td>

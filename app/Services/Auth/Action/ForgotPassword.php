@@ -29,6 +29,7 @@ class ForgotPassword extends Service
     private function repo(): SellerRepository|BuyerRepository
     {
         switch ($this->user_type) {
+            case "seller":
             case MyConst::USER_SELLER:
                 $repo = (new SellerRepository);
                 break;

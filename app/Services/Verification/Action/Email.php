@@ -28,6 +28,7 @@ class Email extends Service
     private function repo(string $type): SellerRepository|BuyerRepository
     {
         switch ($type) {
+            case "seller":
             case MyConst::USER_SELLER:
                 $repo = (new SellerRepository);
                 break;

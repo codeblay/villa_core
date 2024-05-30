@@ -57,6 +57,7 @@ final class Detail extends Service
                 'name'      => $transaction->villaType->villa->name,
                 'address'   => $transaction->villaType->villa->city->address,
                 'type'      => $transaction->villaType->name,
+                'type_id'   => $transaction->villaType->id,
                 'image'     => $transaction->villaType->villa->file->local_path,
             ],
             'detail' => [

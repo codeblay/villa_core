@@ -26,7 +26,7 @@ final class ListForBuyer extends Service
         'end_date'  => ['sometimes', 'nullable', 'date_format:Y-m-d', 'after_or_equal:start_date'],
     ];
 
-    private int $cursor = 5;
+    private int $cursor = 10;
 
     function __construct(protected Request $request, protected Buyer $buyer)
     {

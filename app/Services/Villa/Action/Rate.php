@@ -18,7 +18,7 @@ final class Rate extends Service
     const MESSAGE_ERROR     = "gagal rate villa";
 
     const RULES_VALIDATOR = [
-        'villa_id'      => 'required|integer',
+        'villa_type_id' => 'required|integer',
         'rate'          => 'required|integer|min:1|max:5',
     ];
 
@@ -33,9 +33,9 @@ final class Rate extends Service
             if ($validator->fails()) return parent::error($validator->errors()->first());
 
             $transaction = TransactionRepository::first([
-                'villa_id'  => $this->request->villa_id,
-                'buyer_id'  => $this->buyer->id,
-                'status'    => Transaction::STATUS_SUCCESS,
+                'villa_type_id'     => $this->request->villa_type_id,
+                'buyer_id'          => $this->buyer->id,
+                'status'            => Transaction::STATUS_SUCCESS,
             ]);
             if (!$transaction) return parent::error("booking terlebih dahulu");
 
@@ -46,7 +46,7 @@ final class Rate extends Service
                 ]);
             } else {
                 VillaRatingRepository::create([
-                    'villa_id'          => $this->request->villa_id,
+                    'villa_id'          => $transaction->villaType->villa_id,
                     'buyer_id'          => $this->buyer->id,
                     'transaction_id'    => $transaction->id,
                     'rating'            => $this->request->rate,

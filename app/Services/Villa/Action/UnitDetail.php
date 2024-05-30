@@ -30,7 +30,7 @@ final class UnitDetail extends Service
                 'is_publish'    => true
             ]);
 
-            $trx = TransactionRepository::listByUnit($this->unit_id, 20);
+            $trx = TransactionRepository::listByUnit($this->unit_id, 10);
 
             $this->data = $this->mapResult($villa, $trx);
 

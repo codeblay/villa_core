@@ -30,8 +30,8 @@ class TransactionDetail extends Model
     }
 
     function getDurationAttribute() : int {
-        $start  = Carbon::parse($this->start_date);
-        $end    = Carbon::parse($this->end_date);
+        $start  = Carbon::parse($this->start);
+        $end    = Carbon::parse($this->end);
 
         $duration = $start->diffInDays($end);
         return $duration + 1;

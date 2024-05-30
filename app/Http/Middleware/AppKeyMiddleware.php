@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\MyConst;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,10 @@ class AppKeyMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request->header('x-role') == 'seller') {
+            $request->headers->set('x-role', MyConst::USER_SELLER);
+        }
+
         if ($request->header('x-app-key', '') == config('app.key')) return $next($request);
 
         return response()->json([

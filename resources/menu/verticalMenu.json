@@ -55,12 +55,6 @@
       "slug": "admin.master.payment"
     },
     {
-      "url": "admin.master.document",
-      "name": "Dokumen Verifikasi",
-      "icon": "menu-icon tf-icons bx bx-news",
-      "slug": "admin.master.document"
-    },
-    {
       "url": "admin.master.banner",
       "name": "Banner",
       "icon": "menu-icon tf-icons bx bx-broadcast",

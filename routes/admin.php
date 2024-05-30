@@ -94,11 +94,6 @@ Route::prefix('master')->group(function () {
         Route::put('', [MasterController::class, 'bankUpdate'])->name('master.payment.update');
     });
 
-    Route::prefix('document')->group(function () {
-        Route::get('', [MasterController::class, 'document'])->name('master.document'); 
-        Route::post('', [MasterController::class, 'documentUpdate'])->name('master.document.update');
-    });
-
     Route::prefix('banner')->group(function () {
         Route::get('', [MasterController::class, 'banner'])->name('master.banner'); 
         Route::post('', [MasterController::class, 'bannerUpdate'])->name('master.banner.update');

@@ -60,7 +60,7 @@ final class Detail extends Service
             'images'        => $villa->files->pluck('local_path')->toArray(),
             'facilities'    => $villa->villaTypes->map(function(VillaType $villa_type){
                 return $villa_type->facilities->pluck('name')->toArray();
-            })->flatten()->unique()->toArray(),
+            })->flatten()->unique()->values()->toArray(),
             'units' => $villa->villaTypesPublish->map(function(VillaType $villa_type){
                 return [
                     'id'    => $villa_type->id,

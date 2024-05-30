@@ -6,6 +6,7 @@ use App\Base\Service;
 use App\Models\DTO\SearchVilla;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Seller;
+use App\Repositories\VillaInvestorRepository;
 use App\Repositories\VillaRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -56,7 +57,6 @@ final class ListBySeller extends Service
                 'id'            => $villa->id,
                 'uuid'          => $villa->uuid,
                 'name'          => $villa->name,
-                'seller'        => $villa->seller->name,
                 'address'       => $villa->city->address,
                 'price'         => $villa->price,
                 'description'   => $villa->description,

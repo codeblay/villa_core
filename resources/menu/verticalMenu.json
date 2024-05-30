@@ -1,12 +1,6 @@
 {
   "menu": [
     {
-      "url": "admin.dashboard",
-      "name": "Dashboard",
-      "icon": "menu-icon tf-icons bx bx-bar-chart-square",
-      "slug": "admin.dashboard"
-    },
-    {
       "menuHeader": "Villa"
     },
     {
@@ -41,15 +35,6 @@
       "name": "Pelanggan",
       "icon": "menu-icon tf-icons bx bx-user-voice",
       "slug": "admin.user.buyer"
-    },
-    {
-      "menuHeader": "Verifikasi"
-    },
-    {
-      "url": "admin.verification.account",
-      "name": "Akun",
-      "icon": "menu-icon tf-icons bx bx-user-plus",
-      "slug": "admin.verification.account"
     },
     {
       "menuHeader": "Transaksi"

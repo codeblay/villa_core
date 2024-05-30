@@ -1,6 +1,10 @@
 @extends('layouts.admin.index')
 @section('title', 'Villa')
 
+@section('action')
+    <a href="{{ route('admin.villa.create') }}" class="btn btn-success btn-sm">Tambah</a>
+@endsection
+
 @section('content')
     <div class="card mb-2">
         <form action="">
@@ -17,11 +21,6 @@
                     <div style="flex-grow: 1">
                         <select class="form-select select2-ajax" name="city_id"
                             data-ajax--url="{{ route('api.select2.location') }}" data-placeholder="Lokasi">
-                        </select>
-                    </div>
-                    <div style="flex-grow: 1">
-                        <select class="form-select select2-ajax" name="seller_id"
-                            data-ajax--url="{{ route('api.select2.seller') }}" data-placeholder="Pemilik">
                         </select>
                     </div>
                     <div style="flex-grow: 1">
@@ -57,8 +56,7 @@
                     <tr>
                         <th>Nama</th>
                         <th>Lokasi</th>
-                        <th>Pemilik</th>
-                        <th>Transaki</th>
+                        <th>Investor</th>
                         <th>Rating</th>
                         <th>Status</th>
                         <th class="text-end">Aksi</th>
@@ -69,8 +67,7 @@
                         <tr>
                             <td><span class="fw-medium">{{ $villa->name }}</span></td>
                             <td>{{ $villa->city->address }}</td>
-                            <td>{{ $villa->seller->name }}</td>
-                            <td>{{ $villa->transactions_success_count }}</td>
+                            <td>{{ $villa->investors_count }}</td>
                             <td>{{ $villa->rating }} ⭐</td>
                             <td><span
                                     class="badge bg-label-{{ $villa->is_publish ? 'primary' : 'secondary' }} me-1">{{ $villa->publish_label }}</span>
@@ -81,6 +78,11 @@
                                     data-name="{{ $villa->name }}" data-rating="{{ $villa->rating }}"
                                     data-url="{{ route('admin.villa.bypass-rating', $villa->id) }}">
                                     <span class="tf-icons bx bx-star"></span>
+                                </button>
+                                <button type="button" class="btn btn-icon btn-info btn-sm investor-button"
+                                    data-bs-toggle="tooltip" data-bs-original-title="Investor"
+                                    data-url="{{ route('admin.villa.investor', $villa->id) }}">
+                                    <span class="tf-icons bx bx-user"></span>
                                 </button>
                                 <button type="button" class="btn btn-icon btn-primary btn-sm detail-button"
                                     data-bs-toggle="tooltip" data-bs-original-title="Detail"
@@ -162,24 +164,13 @@
         </script>
     @endif
 
-    @if (request('seller_id'))
-        <script>
-            $(function() {
-                $.ajax({
-                    type: "GET",
-                    url: `{{ route('api.select2.seller.detail', request('seller_id')) }}`,
-                    dataType: "json",
-                    success: function(response) {
-                        $(`[name="seller_id"]`).append(
-                            `<option value="${response.id}">${response.text}</option>`)
-                    }
-                });
-            })
-        </script>
-    @endif
-
     <script>
         $('.detail-button').click(function(e) {
+            e.preventDefault()
+            window.location.href = $(this).data('url')
+        })
+
+        $('.investor-button').click(function(e) {
             e.preventDefault()
             window.location.href = $(this).data('url')
         })

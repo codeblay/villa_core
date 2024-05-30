@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DTO\SearchSeller;
+use App\MyConst;
 use App\Repositories\MutationRepository;
 use App\Repositories\SellerRepository;
+use App\Services\Auth\AuthService;
 use App\Services\Mutation\MutationService;
 use App\Services\Verification\VerificationService;
 use Illuminate\Http\Request;
@@ -19,6 +21,17 @@ class SellerController extends Controller
         
         $data['sellers'] = SellerRepository::listForAdmin(20, $param);
         return view('pages.admin.user.seller', $data);
+    }
+
+    function addInvestor(Request $request)
+    {
+        $service = AuthService::register($request, MyConst::USER_SELLER);
+        
+        return back()->with([
+            'type'      => $service->status ? 'success' : 'danger',
+            'title'     => $service->status ? 'Berhasil' : 'Gagal',
+            'message'   => ucfirst($service->message),
+        ]);
     }
 
     function verification(Request $request)

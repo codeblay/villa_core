@@ -20,31 +20,37 @@ Route::prefix('password')->group(function(){
     Route::post('forgot', [AuthController::class, 'forgotPassword'])->withoutMiddleware(['auth:seller', 'is_verified']);
 });
 
-Route::get('dashboard', [DashboardController::class, 'dashboard']);
+// Route::get('dashboard', [DashboardController::class, 'dashboard']);
 
 Route::prefix('villa')->group(function () {
     Route::get('', [VillaController::class, 'listBySeller']);
-    Route::post('', [VillaController::class, 'create']);
+    // Route::post('', [VillaController::class, 'create']);
+
 
     Route::prefix('{id}')->group(function () {
         Route::get('', [VillaController::class, 'detail']);
-        Route::post('update', [VillaController::class, 'edit']);
+        
+        Route::prefix('unit')->group(function () {
+            Route::get('', [VillaController::class, 'unit']);
+            Route::get('{unit_id}', [VillaController::class, 'unitDetail']);
+        });
+        // Route::post('update', [VillaController::class, 'edit']);
     });
 });
 
-Route::prefix('transaction')->group(function () {
-    Route::get('', [TransactionController::class, 'listForSeller']);
-    Route::prefix('{id}')->group(function () {
-        Route::get('', [TransactionController::class, 'detail']);
-        Route::post('accept', [TransactionController::class, 'accept']);
-        Route::post('deny', [TransactionController::class, 'deny']);
-    });
-});
+// Route::prefix('transaction')->group(function () {
+//     Route::get('', [TransactionController::class, 'listForSeller']);
+//     Route::prefix('{id}')->group(function () {
+//         Route::get('', [TransactionController::class, 'detail']);
+//         Route::post('accept', [TransactionController::class, 'accept']);
+//         Route::post('deny', [TransactionController::class, 'deny']);
+//     });
+// });
 
 Route::prefix('profile')->group(function () {
     Route::get('', [ProfileController::class, 'profileSeller']);
 });
 
-Route::prefix('fcm')->group(function () {
-    Route::post('send', [FirebaseController::class, 'send']);
-});
+// Route::prefix('fcm')->group(function () {
+//     Route::post('send', [FirebaseController::class, 'send']);
+// });

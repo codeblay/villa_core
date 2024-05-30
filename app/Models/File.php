@@ -22,6 +22,7 @@ class File extends Model
     function getLocalPathAttribute() : string {
         return match ($this->fileable_type) {
             Villa::class        => asset('storage/villa') . "/" . $this->path,
+            VillaType::class    => asset('storage/villa') . "/" . $this->path,
             Destination::class  => asset('storage/destination') . "/" . $this->path,
             default             => asset('storage') . "/" . $this->path,
         };

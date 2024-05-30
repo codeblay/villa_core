@@ -6,10 +6,8 @@ use App\Base\Service;
 use App\Mail\Booking\BookingMail;
 use App\Models\DTO\ServiceResponse;
 use App\Models\External\Midtrans;
-use App\Models\Mutation;
 use App\Models\Transaction;
 use App\Repositories\FirebaseRepository;
-use App\Repositories\MutationRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\VillaScheduleRepository;
 use Illuminate\Http\Request;
@@ -45,17 +43,7 @@ final class Notification extends Service
                 case Midtrans::STATUS_SETTLEMENT:
                     if ($transaction_status == Transaction::STATUS_PENDING) {
                         $status_parsed = Transaction::STATUS_SUCCESS;
-                        MutationRepository::create([
-                            'seller_id' => $transaction->villa->seller->id,
-                            'amount'    => $transaction->amount,
-                            'type'      => Mutation::TYPE_RENT,
-                        ]);
-
                         BookingMail::ticket($transaction);
-
-                        if ($transaction->villa->seller->fcm_token) {
-                            (new FirebaseRepository)->send($transaction->villa->seller->fcm_token, "Pembayaran Diterima", "Pembayaran diterima dengan kode booking {$transaction->code}");
-                        }
 
                         if ($transaction->buyer->fcm_token) {
                             (new FirebaseRepository)->send($transaction->buyer->fcm_token, "Pembayaran Berhasil", "Pembayaran berhasil dengan kode booking {$transaction->code}");
@@ -86,10 +74,12 @@ final class Notification extends Service
                     goto SUCCESS;
             }
 
-            TransactionRepository::update($transaction->id, [
-                'status'    => $status_parsed,
-                'paid_at'   => $paid_at,
-            ]);
+            if (isset($status_parsed)) {
+                TransactionRepository::update($transaction->id, [
+                    'status'    => $status_parsed,
+                    'paid_at'   => $paid_at,
+                ]);
+            }
 
             DB::commit();
 

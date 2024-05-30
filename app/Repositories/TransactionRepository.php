@@ -40,7 +40,7 @@ final class TransactionRepository implements Repository
     static function listForBuyer(int $buyer_id, SearchTransaction $param, int $cursor): CursorPaginator
     {
         return Transaction::query()
-            ->with(['villa'])
+            ->with(['villaType'])
             ->where('buyer_id', $buyer_id)
             ->when(!is_null($param->status), function(Builder $query) use ($param){
                 $query->where('status', $param->status);
@@ -61,10 +61,10 @@ final class TransactionRepository implements Repository
     static function listForSeller(int $seller_id, SearchTransaction $param, int $cursor): CursorPaginator
     {
         return Transaction::query()
-            ->whereHas('villa', function(Builder $query) use ($seller_id, $param){
+            ->whereHas('villaType', function(Builder $query) use ($param){
                 $query->when($param->villa_id, function (Builder $query, string $x){
                     $query->where('uuid', $x);
-                })->where('seller_id', $seller_id);
+                });
             })
             ->when($param->code, function (Builder $query, string $x) {
                 $query->where('code', 'LIKE', "%$x%");
@@ -82,13 +82,21 @@ final class TransactionRepository implements Repository
             ->cursorPaginate($cursor);
     }
 
+    static function listByUnit(int $unit_id, int $cursor): CursorPaginator
+    {
+        return Transaction::query()
+            ->where('villa_type_id', $unit_id)
+            ->latest()
+            ->cursorPaginate($cursor);
+    }
+
     static function listForAdmin(int $cursor, SearchTransaction $param): LengthAwarePaginator
     {
         return Transaction::query()
             ->when($param->code, function (Builder $query, string $code) {
                 $query->where('code', 'LIKE', "%{$code}%");
             })
-            ->with(['villa', 'buyer'])
+            ->with(['villaType.villa', 'buyer'])
             ->latest()
             ->paginate($cursor);
     }

@@ -53,4 +53,28 @@ final class FacilityRepository implements Repository
             ->limit($limit)
             ->get();
     }
+
+    static function select2(string $keyword = ''): array
+    {
+        return Facility::query()
+            ->where('name', 'LIKE', "%$keyword%")
+            ->limit(5)
+            ->get()
+            ->map(function (Facility $facility) {
+                return [
+                    'id'    => $facility->id,
+                    'text'  => $facility->name,
+                ];
+            })
+            ->toArray();
+    }
+
+    static function select2Single(int $id): array
+    {
+        $facility = Facility::query()->find($id);
+        return [
+            'id'    => @$facility->id,
+            'text'  => @$facility->name,
+        ];
+    }
 }

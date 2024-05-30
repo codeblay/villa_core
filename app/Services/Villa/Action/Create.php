@@ -6,10 +6,13 @@ use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
 use App\Models\File;
 use App\Models\Seller;
+use App\Models\User;
 use App\Repositories\VillaRepository;
+use App\Repositories\VillaTypeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
 
 final class Create extends Service
@@ -19,47 +22,122 @@ final class Create extends Service
     const MESSAGE_ERROR     = "gagal menyimpan villa";
 
     const RULES_VALIDATOR = [
-        'name'          => 'required|string',
-        'city_id'       => 'required|integer',
-        'description'   => 'required|string|min:20',
-        'price'         => 'required|integer',
-        'facilities'    => 'required|array|min:1',
-        'facilities.*'  => 'required|integer',
-        'images'        => 'required|array|min:1',
-        'images.*'      => 'required|mimes:jpg|max:1024|dimensions:ratio=16/9',
+        'name'                      => 'required|string',
+        'city_id'                   => 'required|integer',
+        'description'               => 'required|string|min:20',
+        'images'                    => 'required|array|min:1',
+        'images.*'                  => 'required|image|max:1024',
+        'type'                      => 'required|array|min:1',
+        'type.*.name'               => 'required|string',
+        'type.*.total_unit'         => 'required|integer|min:1',
+        'type.*.price'              => 'required|integer|min:1',
+        'type.*.facilities'         => 'required|array|min:1',
+        'type.*.facilities.*'       => 'required|integer',
+        'type.*.description'        => 'required|string',
+        'type.*.images'             => 'required|array|min:1',
+        'type.*.images.*'           => 'required|image|max:1024',
     ];
 
-    public function __construct(protected Request $request, protected Seller $seller)
+    const RULES_VALIDATOR_EDIT = [
+        'name'                      => 'required|string',
+        'city_id'                   => 'required|integer',
+        'description'               => 'required|string|min:20',
+        'images'                    => 'sometimes|array|min:1',
+        'images.*'                  => 'required|image|max:1024',
+        'type'                      => 'required|array|min:1',
+        'type.*.name'               => 'required|string',
+        'type.*.total_unit'         => 'required|integer|min:1',
+        'type.*.price'              => 'required|integer|min:1',
+        'type.*.facilities'         => 'required|array|min:1',
+        'type.*.facilities.*'       => 'required|integer',
+        'type.*.description'        => 'required|string',
+        'type.*.images'             => 'sometimes|array|min:1',
+        'type.*.images.*'           => 'required|image|max:1024',
+    ];
+
+    private bool $is_edit = false;
+
+    public function __construct(protected Request $request, protected Seller|User $seller)
     {
+        $this->is_edit = $this->request->id ? true : false;
     }
 
     function call(): ServiceResponse
     {
         DB::beginTransaction();
         try {
-            $validator = parent::validator($this->request->all(), self::RULES_VALIDATOR);
+            $validator = parent::validator($this->request->all(), $this->is_edit ? self::RULES_VALIDATOR_EDIT : self::RULES_VALIDATOR);
             if ($validator->fails()) return parent::error($validator->errors()->first());
 
             $images = $this->request->file('images');
 
-            $villa = VillaRepository::create([
-                'uuid'          => Uuid::uuid4(),
-                'name'          => $this->request->name,
-                'seller_id'     => $this->seller->id,
-                'city_id'       => $this->request->city_id,
-                'description'   => $this->request->description,
-                'price'         => $this->request->price,
-                'is_publish'    => false,
-            ]);
+            if ($this->is_edit) {
+                $villa = VillaRepository::first(['id' => $this->request->id]);
+            } else {
+                $villa = VillaRepository::create([
+                    'uuid'          => Uuid::uuid4(),
+                    'name'          => $this->request->name,
+                    'city_id'       => $this->request->city_id,
+                    'description'   => $this->request->description,
+                    'is_publish'    => true,
+                ]);
+            }
 
-            $villa->facilities()->attach($this->request->facilities);
+            if ($this->is_edit) {
+                $villa->facilities()->sync($this->request->facilities);
 
-            foreach ($images as $image) {
+                if ($images) {
+                    foreach ($villa->files as $file) {
+                        Storage::disk('villa')->delete($file->path);
+                        $file->delete();
+                    }
+                }
+            } else {
+                $villa->facilities()->attach($this->request->facilities);
+            }
+
+            foreach ($images ?? [] as $image) {
                 $_file       = new File();
                 $_file->path = $image->store(options: 'villa');
                 $_file->type = File::TYPE_IMAGE;
 
                 $villa->files()->save($_file);
+            }
+
+            foreach ($this->request->type as $t) {
+                if ($this->is_edit) {
+                    $villa_type = VillaTypeRepository::first(['id' => $t['id']]);
+
+                    if (@$t['images']) {
+                        foreach ($villa_type->files as $file) {
+                            Storage::disk('villa')->delete($file->path);
+                            $file->delete();
+                        }
+                    }
+                } else {
+                    $villa_type = VillaTypeRepository::create([
+                        'villa_id'      => $villa->id,
+                        'name'          => $t['name'],
+                        'total_unit'    => $t['total_unit'],
+                        'price'         => $t['price'],
+                        'description'   => $t['description'],
+                        'is_publish'    => true,
+                    ]);
+                }
+
+                if ($this->is_edit) {
+                    $villa_type->facilities()->sync($t['facilities']);
+                } else {
+                    $villa_type->facilities()->attach($t['facilities']);
+                }
+
+                foreach ($t['images'] ?? [] as $image) {
+                    $_file       = new File();
+                    $_file->path = $image->store(options: 'villa');
+                    $_file->type = File::TYPE_IMAGE;
+
+                    $villa_type->files()->save($_file);
+                }
             }
 
             DB::commit();

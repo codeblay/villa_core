@@ -27,7 +27,6 @@ class Register extends Service
     private function rulesValidator(): array
     {
         switch ($this->user_type) {
-            case "seller":
             case MyConst::USER_SELLER:
                 $rules = [
                     'name'          => ['required', 'string'],
@@ -58,7 +57,6 @@ class Register extends Service
     private function repo(): RepositoryApi
     {
         switch ($this->user_type) {
-            case "seller":
             case MyConst::USER_SELLER:
                 $repo = (new SellerRepository);
                 break;

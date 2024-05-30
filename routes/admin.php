@@ -39,7 +39,7 @@ Route::prefix('villa')->group(function () {
 });
 
 Route::prefix('user')->group(function () {
-    Route::prefix(MyConst::USER_SELLER)->group(function () {
+    Route::prefix("investor")->group(function () {
         Route::get('', [SellerController::class, 'index'])->name('user.seller');
         Route::post('', [SellerController::class, 'addInvestor'])->name('user.seller.store');
         // Route::get('{id}/mutation', [SellerController::class, 'mutation'])->name('user.seller.mutation');

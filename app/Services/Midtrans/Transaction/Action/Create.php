@@ -74,8 +74,8 @@ final class Create extends Service
             $midtrans_charge = (new MidtransRepository)->charge($midtrans_charge_body);
             $midtrans_charge_result = $midtrans_charge->json();
 
-            if ($midtrans_charge_result['status_code'] != Response::HTTP_OK) parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_GATEWAY);
-            if ($midtrans_charge->failed()) parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_GATEWAY);
+            if ($midtrans_charge_result['status_code'] != Response::HTTP_OK) return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_GATEWAY);
+            if ($midtrans_charge->failed()) return parent::error(self::MESSAGE_ERROR, Response::HTTP_BAD_GATEWAY);
 
             try {
                 TransactionRepository::update($this->transaction->id, [

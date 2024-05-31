@@ -59,6 +59,13 @@
                         <label class="form-label">Deskripsi</label>
                         <textarea type="text" name="description" class="form-control" rows="5">{{ $villa->description }}</textarea>
                     </div>
+                    <div>
+                        <select class="form-select select2" name="status" data-placeholder="Status">
+                            <option></option>
+                            <option value="1" {{ $villa->is_publish == '1' ? 'selected' : '' }}>Aktif</option>
+                            <option value="0" {{ $villa->is_publish == '0' ? 'selected' : '' }}>Non Aktif</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -118,9 +125,16 @@
                                                 data-index="{{ $loop->index }}" multiple />
                                         </label>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mb-3">
                                         <label class="form-label">Deskripsi</label>
                                         <textarea type="text" name="type[{{ $loop->index }}][description]" class="form-control" rows="5">{{ $type->description }}</textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <select class="form-select select2" name="type[{{ $loop->index }}][status]" data-placeholder="Status">
+                                            <option></option>
+                                            <option value="1" {{ $type->is_publish == '1' ? 'selected' : '' }}>Aktif</option>
+                                            <option value="0" {{ $type->is_publish == '0' ? 'selected' : '' }}>Non Aktif</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -298,9 +312,16 @@
                                     <input type="file" class="image-type" name="type[${index}][images][]" hidden accept="image/jpeg" data-index="${index}" multiple/>
                                 </label>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 mb-3">
                                 <label class="form-label">Deskripsi</label>
                                 <textarea type="text" name="type[${index}][description]" class="form-control" rows="5"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <select class="form-select select2" name="type[${index}][status]" data-placeholder="Status">
+                                    <option></option>
+                                    <option value="1" selected>Aktif</option>
+                                    <option value="0">Non Aktif</option>
+                                </select>
                             </div>
                         </div>
                     </div>

@@ -42,6 +42,7 @@ final class Create extends Service
         'name'                      => 'required|string',
         'city_id'                   => 'required|integer',
         'description'               => 'required|string|min:20',
+        'status'                    => 'required|boolean',
         'images'                    => 'sometimes|array|min:1',
         'images.*'                  => 'required|image|max:1024',
         'type'                      => 'required|array|min:1',
@@ -51,6 +52,7 @@ final class Create extends Service
         'type.*.facilities'         => 'required|array|min:1',
         'type.*.facilities.*'       => 'required|integer',
         'type.*.description'        => 'required|string',
+        'type.*.status'             => 'required|boolean',
         'type.*.images'             => 'sometimes|array|min:1',
         'type.*.images.*'           => 'required|image|max:1024',
     ];
@@ -73,6 +75,12 @@ final class Create extends Service
 
             if ($this->is_edit) {
                 $villa = VillaRepository::first(['id' => $this->request->id]);
+                VillaRepository::update($villa->id, [
+                    'name'          => $this->request->name,
+                    'city_id'       => $this->request->city_id,
+                    'description'   => $this->request->description,
+                    'is_publish'    => $this->request->status,
+                ]);
             } else {
                 $villa = VillaRepository::create([
                     'uuid'          => Uuid::uuid4(),
@@ -107,6 +115,13 @@ final class Create extends Service
             foreach ($this->request->type as $t) {
                 if ($this->is_edit) {
                     $villa_type = VillaTypeRepository::first(['id' => $t['id']]);
+                    VillaTypeRepository::update($villa_type->id, [
+                        'name'          => $t['name'],
+                        'total_unit'    => $t['total_unit'],
+                        'price'         => $t['price'],
+                        'description'   => $t['description'],
+                        'is_publish'    => $t['status'],
+                    ]);
 
                     if (@$t['images']) {
                         foreach ($villa_type->files as $file) {

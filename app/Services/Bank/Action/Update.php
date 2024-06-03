@@ -66,7 +66,7 @@ final class Update extends Service
             $data = $validator->validated();
             if ($this->request->id == 1 && (config('payment.method') == MyConst::PAYMENT_MANUAL)) {
                 $bank = BankRepository::first(['id' => $this->request->id]);
-                if (file_exists(public_path($bank->va_number))) unlink($bank->va_number);
+                if (!empty($bank->va_number) && file_exists(public_path($bank->va_number))) unlink($bank->va_number);
 
                 $qr = $this->request->file('va_number');
                 $file_name = "qr.{$qr->getClientOriginalExtension()}";

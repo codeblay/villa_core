@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\DTO\Midtrans\Charge;
-use App\MyConst;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -111,6 +110,7 @@ class Transaction extends Model
         $result = null;
 
         if ($this->status != self::STATUS_PENDING) return $result;
+        if ($this->is_manual) goto BANK;
 
         switch ($this->bank->midtrans_payment_type) {
             case Charge::PAYMENT_TYPE_QRIS:
@@ -139,7 +139,9 @@ class Transaction extends Model
                 break;
         }
 
-        if ($this->is_manual == !$result) {
+        BANK:
+        if ($this->is_manual) {
+            $result['payment'] = $this->bank->name;
             if ($this->bank->code == Bank::QR) {
                 $result['value'] = asset($this->bank->va_number);
             } else {

@@ -58,7 +58,7 @@
                                             <form form action="{{ route('admin.transaction.rentSync', $transaction->id) }}"
                                                 method="POST">
                                                 @csrf
-                                                <input type="hidden" name="status" value="4">
+                                                <input type="hidden" name="status" value="3">
                                                 <button type="submit" class="btn btn-icon btn-danger btn-sm"
                                                     data-bs-toggle="tooltip" data-bs-original-title="Tolak">
                                                     <span class="tf-icons bx bx-x"></span>
@@ -67,7 +67,7 @@
                                             <form form action="{{ route('admin.transaction.rentSync', $transaction->id) }}"
                                                 method="POST">
                                                 @csrf
-                                                <input type="hidden" name="status" value="3">
+                                                <input type="hidden" name="status" value="2">
                                                 <button type="submit" class="btn btn-icon btn-success btn-sm"
                                                     data-bs-toggle="tooltip" data-bs-original-title="Terima">
                                                     <span class="tf-icons bx bx-check"></span>

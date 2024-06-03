@@ -19,7 +19,6 @@ final class Sync extends Service
 
     function __construct(protected int $transaction_id)
     {
-        dd(request('status'));
     }
 
     function call(): ServiceResponse

@@ -81,6 +81,7 @@ final class Booking extends Service
                 'status'            => Transaction::STATUS_PENDING,
                 'amount'            => $villa_type->price * count($date_booking),
                 'fee'               => $bank->fee,
+                'is_manual'         => config('payment.method') == MyConst::PAYMENT_MANUAL,
             ]);
 
             TransactionDetailRepository::create([

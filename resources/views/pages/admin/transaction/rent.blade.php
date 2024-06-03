@@ -52,7 +52,7 @@
                                     class="badge bg-label-{{ $transaction->status_class }}">{{ $transaction->status_label }}</span>
                             </td>
                             <td class="text-end">
-                                @if (!$transaction->is_manual)
+                                @if ($transaction->is_manual)
                                     <div class="d-flex justify-content-end align-items-center gap-1">
                                         @if (in_array($transaction->status, [0, 1]))
                                             <form form action="{{ route('admin.transaction.rentSync', $transaction->id) }}"

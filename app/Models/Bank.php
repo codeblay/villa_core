@@ -31,6 +31,10 @@ class Bank extends Model
     ];
 
     function getLogoAttribute() : string {
+        if ($this->code == self::QR && !empty($this->va_number) && file_exists(public_path("{$this->va_number}"))) {
+            return asset("{$this->va_number}");
+        }
+
         return asset("image/bank/{$this->code}.png");
     }
 

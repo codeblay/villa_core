@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\DTO\Midtrans\Charge;
+use App\MyConst;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -136,6 +137,14 @@ class Transaction extends Model
             default:
                 $result = null;
                 break;
+        }
+
+        if ($this->is_manual == !$result) {
+            if ($this->bank->code == Bank::QR) {
+                $result['value'] = asset($this->bank->va_number);
+            } else {
+                $result['value'] = $this->bank->va_number;
+            }
         }
 
         return $result;

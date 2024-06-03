@@ -52,20 +52,52 @@
                                     class="badge bg-label-{{ $transaction->status_class }}">{{ $transaction->status_label }}</span>
                             </td>
                             <td class="text-end">
-                                @if ($transaction->can_sync)
-                                    <form action="{{ route('admin.transaction.rentSync', $transaction->id) }}"
-                                        method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-icon btn-warning btn-sm"
-                                            data-bs-toggle="tooltip" data-bs-original-title="Sinkron">
+                                @if (!$transaction->is_manual)
+                                    <div class="d-flex justify-content-end align-items-center gap-1">
+                                        @if (in_array($transaction->status, [0, 1]))
+                                            <form form action="{{ route('admin.transaction.rentSync', $transaction->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                <input type="hidden" name="status" value="4">
+                                                <button type="submit" class="btn btn-icon btn-danger btn-sm"
+                                                    data-bs-toggle="tooltip" data-bs-original-title="Tolak">
+                                                    <span class="tf-icons bx bx-x"></span>
+                                                </button>
+                                            </form>
+                                            <form form action="{{ route('admin.transaction.rentSync', $transaction->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                <input type="hidden" name="status" value="3">
+                                                <button type="submit" class="btn btn-icon btn-success btn-sm"
+                                                    data-bs-toggle="tooltip" data-bs-original-title="Terima">
+                                                    <span class="tf-icons bx bx-check"></span>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <button type="button" class="btn btn-icon btn-secondary btn-sm"
+                                                style="cursor: not-allowed" data-bs-toggle="tooltip"
+                                                data-bs-original-title="Selesai">
+                                                <span class="tf-icons bx bx-check-double"></span>
+                                            </button>
+                                        @endif
+                                    </div>
+                                @else
+                                    @if ($transaction->can_sync)
+                                        <form action="{{ route('admin.transaction.rentSync', $transaction->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-icon btn-warning btn-sm"
+                                                data-bs-toggle="tooltip" data-bs-original-title="Sinkron">
+                                                <span class="tf-icons bx bx-sync"></span>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <button type="button" class="btn btn-icon btn-secondary btn-sm"
+                                            style="cursor: not-allowed" data-bs-toggle="tooltip"
+                                            data-bs-original-title="Sinkron">
                                             <span class="tf-icons bx bx-sync"></span>
                                         </button>
-                                    </form>
-                                @else
-                                    <button type="button" class="btn btn-icon btn-secondary btn-sm" style="cursor: not-allowed"
-                                        data-bs-toggle="tooltip" data-bs-original-title="Sinkron">
-                                        <span class="tf-icons bx bx-sync"></span>
-                                    </button>
+                                    @endif
                                 @endif
                             </td>
                         </tr>

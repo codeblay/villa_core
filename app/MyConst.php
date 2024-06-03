@@ -16,4 +16,7 @@ class MyConst
         self::GENDER_MALE,
         self::GENDER_FEMALE,
     ];
+
+    const PAYMENT_MANUAL = 'manual';
+    const PAYMENT_VENDOR = 'vendor';
 }

@@ -4,6 +4,7 @@ namespace App\Services\Transaction\Action;
 
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
+use App\MyConst;
 use App\Repositories\MidtransRepository;
 use App\Repositories\TransactionRepository;
 use App\Services\Midtrans\Callback\MidtransCallbackService;
@@ -18,6 +19,7 @@ final class Sync extends Service
 
     function __construct(protected int $transaction_id)
     {
+        dd(request('status'));
     }
 
     function call(): ServiceResponse
@@ -25,6 +27,13 @@ final class Sync extends Service
         try {
             $transaction = TransactionRepository::first(['id' => $this->transaction_id]);
             if (!$transaction) return parent::error('transaction not found', Response::HTTP_BAD_REQUEST);
+            
+            if ($transaction->is_manual) {
+                TransactionRepository::update($transaction->id, [
+                    'status' => request('status'),
+                ]);
+                goto SKIP;
+            }
 
             $midtrans = (new MidtransRepository)->status($transaction->code);
             if ($midtrans->failed()) parent::error(self::MESSAGE_SUCCESS, Response::HTTP_BAD_GATEWAY);
@@ -34,6 +43,7 @@ final class Sync extends Service
             $midtrans = MidtransCallbackService::notification(new Request($midtrans_result));
             if (!$midtrans->status) return parent::error("terjadi kesalahan, cobalah beberapa saat lagi", Response::HTTP_BAD_GATEWAY);
 
+            SKIP:
             $transaction = TransactionRepository::first(['id' => $this->transaction_id]);
             $this->data = Detail::mapResult($transaction);
 

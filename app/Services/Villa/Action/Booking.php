@@ -7,6 +7,7 @@ use App\Models\Bank;
 use App\Models\Buyer;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Transaction;
+use App\MyConst;
 use App\Repositories\BankRepository;
 use App\Repositories\FirebaseRepository;
 use App\Repositories\TransactionDetailRepository;
@@ -101,22 +102,21 @@ final class Booking extends Service
                 ]);
             }
 
+            if (config('payment.method') == MyConst::PAYMENT_MANUAL) goto SKIP;
+
             $midtrans = MidtransTransactionService::create($transaction);
             if (!$midtrans->status) {
                 DB::rollBack();
                 return parent::error("terjadi kesalahan, cobalah beberapa saat lagi", Response::HTTP_BAD_GATEWAY);
             }
 
+            SKIP:
             // if ($transaction->buyer->fcm_token) {
             //     (new FirebaseRepository)->send($transaction->buyer->fcm_token, "Booking Berhasil", "Booking diterima dengan kode booking {$transaction->code}");
             // }
 
             $this->data['code'] = $transaction->code;
-
-            // if ($villa_type->seller->fcm_token) {
-            //     (new FirebaseRepository)->send($villa_type->seller->fcm_token, "Booking", "Booking masuk untuk {$villa_type->name}");
-            // }
-
+            
             DB::commit();
             return parent::success(self::MESSAGE_SUCCESS, Response::HTTP_OK);
         } catch (\Throwable $th) {

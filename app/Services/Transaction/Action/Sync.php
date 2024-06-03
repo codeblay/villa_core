@@ -4,6 +4,7 @@ namespace App\Services\Transaction\Action;
 
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
+use App\Models\Transaction;
 use App\MyConst;
 use App\Repositories\MidtransRepository;
 use App\Repositories\TransactionRepository;
@@ -28,9 +29,11 @@ final class Sync extends Service
             if (!$transaction) return parent::error('transaction not found', Response::HTTP_BAD_REQUEST);
             
             if ($transaction->is_manual) {
-                TransactionRepository::update($transaction->id, [
-                    'status' => request('status'),
-                ]);
+                $data_update['status'] = request('status');
+                if (request('status') == Transaction::STATUS_SUCCESS) {
+                    $data_update['paid_at'] = now();
+                }
+                TransactionRepository::update($transaction->id, $data_update);
                 goto SKIP;
             }
 

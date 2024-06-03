@@ -94,8 +94,8 @@
                                     @else
                                         <button type="button" class="btn btn-icon btn-secondary btn-sm"
                                             style="cursor: not-allowed" data-bs-toggle="tooltip"
-                                            data-bs-original-title="Sinkron">
-                                            <span class="tf-icons bx bx-sync"></span>
+                                            data-bs-original-title="Selesai">
+                                            <span class="tf-icons bx bx-check-double"></span>
                                         </button>
                                     @endif
                                 @endif

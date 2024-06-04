@@ -5,6 +5,7 @@ namespace App\Services\Transaction\Action;
 use App\Base\Service;
 use App\Models\DTO\ServiceResponse;
 use App\Models\Transaction;
+use App\MyConst;
 use App\Repositories\FirebaseRepository;
 use App\Repositories\MidtransRepository;
 use App\Repositories\TransactionRepository;
@@ -37,6 +38,8 @@ final class Cancel extends Service
                 return parent::error("transaksi tidak dapat dibatalkan");
             }
 
+            if ($transaction->is_manual)  goto SKIP;
+            
             if ($transaction->status == Transaction::STATUS_PENDING) {
                 $cancel = (new MidtransRepository)->cancel($transaction->code);
                 if ($cancel->failed()) {
@@ -45,6 +48,7 @@ final class Cancel extends Service
                 }
             }
 
+            SKIP:
             TransactionRepository::update($transaction->id, ['status' => Transaction::STATUS_CANCEL]);
             VillaScheduleRepository::deleteByTransaction($transaction->id);
 

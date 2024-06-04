@@ -110,6 +110,7 @@ class Transaction extends Model
         $result = null;
 
         if ($this->status != self::STATUS_PENDING) return $result;
+        if ($this->is_manual) goto BANK;
 
         switch ($this->bank->midtrans_payment_type) {
             case Charge::PAYMENT_TYPE_QRIS:
@@ -136,6 +137,16 @@ class Transaction extends Model
             default:
                 $result = null;
                 break;
+        }
+
+        BANK:
+        if ($this->is_manual) {
+            $result['payment'] = $this->bank->name;
+            if ($this->bank->code == Bank::QR) {
+                $result['value'] = asset($this->bank->va_number);
+            } else {
+                $result['value'] = $this->bank->va_number;
+            }
         }
 
         return $result;

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BuyerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MasterController;
 use App\Http\Controllers\Admin\SellerController;
+use App\Http\Controllers\Admin\SystemController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\VillaController;
 use App\MyConst;
@@ -15,7 +16,7 @@ Route::withoutMiddleware('admin')->middleware('guest')->group(function () {
     Route::post('login', [AuthController::class, 'login'])->name('login');
 });
 
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout')->withoutMiddleware('admin');
 
 Route::get('', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -56,7 +57,7 @@ Route::prefix('user')->group(function () {
 //     Route::post('account/{id}/deny', [SellerController::class, 'verificationDeny'])->name('verification.account.deny');
 // });
 
-Route::prefix('transaction')->group(function () {
+Route::prefix('transaction')->withoutMiddleware('admin')->group(function () {
     Route::prefix('rent')->group(function () {
         Route::get('', [TransactionController::class, 'rent'])->name('transaction.rent');
         Route::post('{id}/sync', [TransactionController::class, 'rentSync'])->name('transaction.rentSync');
@@ -99,4 +100,16 @@ Route::prefix('master')->group(function () {
         Route::post('', [MasterController::class, 'bannerUpdate'])->name('master.banner.update');
         Route::delete('', [MasterController::class, 'bannerDelete'])->name('master.banner.delete');
     });
+
+    Route::prefix('system')->group(function () {
+        Route::prefix("agent")->group(function () {
+            Route::get('', [SystemController::class, 'agentList'])->name('system.agent');
+            Route::post('', [SystemController::class, 'agentStore'])->name('system.agent.store');
+        });
+        Route::prefix("security")->withoutMiddleware('admin')->group(function () {
+            Route::get('', [SystemController::class, 'changePassword'])->name('system.security');
+            Route::post('', [SystemController::class, 'changePasswordStore'])->name('system.security.store');
+        });
+    });
+
 });

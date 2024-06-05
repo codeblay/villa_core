@@ -1,7 +1,8 @@
 {
   "menu": [
     {
-      "menuHeader": "Villa"
+      "menuHeader": "Villa",
+      "isAdmin": true
     },
     {
       "url": "admin.villa",
@@ -10,16 +11,19 @@
       "slug": [
         "admin.villa",
         "admin.villa.detail"
-      ]
+      ],
+      "isAdmin": true
     },
     {
       "url": "admin.villa.highlight",
       "name": "Highlight",
       "icon": "menu-icon tf-icons bx bx-star",
-      "slug": "admin.villa.highlight"
+      "slug": "admin.villa.highlight",
+      "isAdmin": true
     },
     {
-      "menuHeader": "Pengguna"
+      "menuHeader": "Pengguna",
+      "isAdmin": true
     },
     {
       "url": "admin.user.seller",
@@ -28,43 +32,51 @@
       "slug": [
         "admin.user.seller",
         "admin.user.seller.mutation"
-      ]
+      ],
+      "isAdmin": true
     },
     {
       "url": "admin.user.buyer",
       "name": "Pelanggan",
       "icon": "menu-icon tf-icons bx bx-user-voice",
-      "slug": "admin.user.buyer"
+      "slug": "admin.user.buyer",
+      "isAdmin": true
     },
     {
-      "menuHeader": "Transaksi"
+      "menuHeader": "Transaksi",
+      "isAdmin": false
     },
     {
       "url": "admin.transaction.rent",
       "name": "Penyewaan",
       "icon": "menu-icon tf-icons bx bx-import",
-      "slug": "admin.transaction.rent"
+      "slug": "admin.transaction.rent",
+      "isAdmin": false
     },
     {
-      "menuHeader": "Master"
+      "menuHeader": "Master",
+      "isAdmin": true
     },
     {
       "url": "admin.master.payment",
       "name": "Pembayaran",
       "icon": "menu-icon tf-icons bx bx-wallet-alt",
-      "slug": "admin.master.payment"
+      "slug": "admin.master.payment",
+      "isAdmin": true
     },
     {
       "url": "admin.master.banner",
       "name": "Banner",
       "icon": "menu-icon tf-icons bx bx-broadcast",
-      "slug": "admin.master.banner"
+      "slug": "admin.master.banner",
+      "isAdmin": true
     },
     {
       "url": "admin.master.facility",
       "name": "Fasilitas",
       "icon": "menu-icon tf-icons bx bx-border-outer",
-      "slug": "admin.master.facility"
+      "slug": "admin.master.facility",
+      "isAdmin": true
     },
     {
       "url": "admin.master.destination.list",
@@ -74,13 +86,37 @@
         "admin.master.destination.list",
         "admin.master.destination.list.detail",
         "admin.master.destination.list.edit"
-      ]
+      ],
+      "isAdmin": true
     },
     {
       "url": "admin.master.destination.category",
       "name": "Destinasi Kategori",
       "icon": "menu-icon tf-icons bx bx-sitemap",
-      "slug": "admin.master.destination.category"
+      "slug": "admin.master.destination.category",
+      "isAdmin": true
+    },
+    {
+      "menuHeader": "Sistem",
+      "isAdmin": false
+    },
+    {
+      "url": "admin.system.agent",
+      "name": "Agen",
+      "icon": "menu-icon tf-icons bx bx-user-pin",
+      "slug": [
+        "admin.system.agent"
+      ],
+      "isAdmin": true
+    },
+    {
+      "url": "admin.system.security",
+      "name": "Ubah Password",
+      "icon": "menu-icon tf-icons bx bx-lock-alt",
+      "slug": [
+        "admin.system.security"
+      ],
+      "isAdmin": false
     }
   ]
 }

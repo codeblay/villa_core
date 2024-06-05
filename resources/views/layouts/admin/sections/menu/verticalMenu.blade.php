@@ -18,11 +18,15 @@
 
     <ul class="menu-inner pt-1">
         @foreach ($menuData[0]->menu as $menu)
+            @php
+                $showMenu = true;
+                if ($menu->isAdmin) $showMenu = auth()->user()->is_admin;
+            @endphp
             {{-- adding active and open class if child is active --}}
 
             {{-- menu headers --}}
             @if (isset($menu->menuHeader))
-                <li class="menu-header small text-uppercase">
+                <li class="menu-header small text-uppercase {{ $showMenu ? '': 'd-none' }}">
                     <span class="menu-header-text">{{ __($menu->menuHeader) }}</span>
                 </li>
             @else
@@ -54,7 +58,7 @@
                 @endphp
 
                 {{-- main menu --}}
-                <li class="menu-item {{ $activeClass }}">
+                <li class="menu-item {{ $activeClass }} {{ $showMenu ? '': 'd-none' }}">
                     <a href="{{ isset($menu->url) ? route($menu->url) : 'javascript:void(0);' }}"
                         class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}"
                         @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>

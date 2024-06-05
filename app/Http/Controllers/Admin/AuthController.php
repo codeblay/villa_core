@@ -20,7 +20,11 @@ class AuthController extends Controller
         $is_valid = auth()->attempt($credentials);
         if ($is_valid) {
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard');
+            if (auth()->user()->is_admin) {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('admin.transaction.rent');
+            }
         }
         
         return back()->with([

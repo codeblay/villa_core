@@ -17,7 +17,8 @@ final class Update extends Service
     const MESSAGE_SUCCESS   = "berhasil menyimpan pembayaran";
     const MESSAGE_ERROR     = "gagal menyimpan pembayaran";
 
-    private function rulesValidator() : array {
+    private function rulesValidator(): array
+    {
         $rules = [
             'id'        => 'required|integer',
             'fee'       => 'nullable|integer',
@@ -25,11 +26,13 @@ final class Update extends Service
         ];
 
         if (config('payment.method') == MyConst::PAYMENT_MANUAL) {
-            if ($this->request->id == 1) {
-                $rules['va_number'] = 'required|image';
-            } else {
-                if ($this->request->is_active) {
+            if ($this->request->is_active) {
+                if ($this->request->id != 1) {
                     $rules['va_number'] = 'required|string';
+                }
+            } else {
+                if ($this->request->id == 1) {
+                    $rules['va_number'] = 'sometimes|image';
                 } else {
                     $rules['va_number'] = 'sometimes|nullable|string';
                 }
@@ -39,7 +42,8 @@ final class Update extends Service
         return $rules;
     }
 
-    private function rulesAttributes() : array {
+    private function rulesAttributes(): array
+    {
         $attribtues = [
             'is_active' => 'status',
             'va_number' => 'rekening',
@@ -65,16 +69,28 @@ final class Update extends Service
 
             $data = $validator->validated();
             if ($this->request->id == 1 && (config('payment.method') == MyConst::PAYMENT_MANUAL)) {
+                $bank = BankRepository::first(["id" => $this->request->id]);
+                
+                $qr = $this->request->file('va_number');
+                if (!$this->request->is_active && is_null($qr)) goto SKIP;
+
+                if ($this->request->is_active) {
+                    $file_exists = $bank->va_number && file_exists(public_path($bank->va_number));
+                    if (!$file_exists) return parent::error("Gambar QR wajib diisi.", Response::HTTP_BAD_REQUEST);
+                    if (is_null($qr)) goto SKIP;
+                }
+                
+                $qr = $this->request->file('va_number');
                 $bank = BankRepository::first(['id' => $this->request->id]);
                 if (!empty($bank->va_number) && file_exists(public_path($bank->va_number))) unlink($bank->va_number);
 
-                $qr = $this->request->file('va_number');
                 $file_name = "qr.{$qr->getClientOriginalExtension()}";
 
                 $qr->move('image', $file_name);
                 $data['va_number'] = "image/$file_name";
             }
 
+            SKIP:
             BankRepository::update($this->request->id, $data);
 
             $active = BankRepository::get(['is_active' => true]);

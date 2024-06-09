@@ -54,6 +54,7 @@
                             <i class="bx bx-upload d-block d-sm-none"></i>
                             <input type="file" class="image" name="images[]" hidden accept="image/jpeg" multiple />
                         </label>
+                        <small class="text-info">*Disarankan menggunakan gambar dengan resolusi 16:9</small>
                     </div>
                     <div>
                         <label class="form-label">Deskripsi</label>
@@ -72,7 +73,7 @@
 
         <div class="col-md-6">
             <div class="card mb-4">
-                <h5 class="card-header">Tipe</h5>
+                <h5 class="card-header">Unit</h5>
 
                 <div id="sectionType">
                     @foreach ($villa->villaTypes as $type)
@@ -124,6 +125,7 @@
                                                 name="type[{{ $loop->index }}][images][]" hidden accept="image/jpeg"
                                                 data-index="{{ $loop->index }}" multiple />
                                         </label>
+                                        <small class="text-info">*Disarankan menggunakan gambar dengan resolusi 16:9</small>
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label class="form-label">Deskripsi</label>
@@ -311,6 +313,7 @@
                                     <i class="bx bx-upload d-block d-sm-none"></i>
                                     <input type="file" class="image-type" name="type[${index}][images][]" hidden accept="image/jpeg" data-index="${index}" multiple/>
                                 </label>
+                                <small class="text-info">*Disarankan menggunakan gambar dengan resolusi 16:9</small>
                             </div>
                             <div class="col-12 mb-3">
                                 <label class="form-label">Deskripsi</label>

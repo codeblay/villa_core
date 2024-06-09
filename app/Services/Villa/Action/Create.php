@@ -25,7 +25,7 @@ final class Create extends Service
         'name'                      => 'required|string',
         'city_id'                   => 'required|integer',
         'description'               => 'required|string|min:20',
-        'images'                    => 'required|array|min:1',
+        'images'                    => 'required|array|min:1|max:6',
         'images.*'                  => 'required|image|max:1024',
         'type'                      => 'required|array|min:1',
         'type.*.name'               => 'required|string',
@@ -34,7 +34,7 @@ final class Create extends Service
         'type.*.facilities'         => 'required|array|min:1',
         'type.*.facilities.*'       => 'required|integer',
         'type.*.description'        => 'required|string',
-        'type.*.images'             => 'required|array|min:1',
+        'type.*.images'             => 'required|array|min:1|max:6',
         'type.*.images.*'           => 'required|image|max:1024',
     ];
 
@@ -43,7 +43,7 @@ final class Create extends Service
         'city_id'                   => 'required|integer',
         'description'               => 'required|string|min:20',
         'status'                    => 'required|boolean',
-        'images'                    => 'sometimes|array|min:1',
+        'images'                    => 'sometimes|array|min:1|max:6',
         'images.*'                  => 'required|image|max:1024',
         'type'                      => 'required|array|min:1',
         'type.*.name'               => 'required|string',
@@ -53,8 +53,21 @@ final class Create extends Service
         'type.*.facilities.*'       => 'required|integer',
         'type.*.description'        => 'required|string',
         'type.*.status'             => 'required|boolean',
-        'type.*.images'             => 'sometimes|array|min:1',
+        'type.*.images'             => 'sometimes|array|min:1|max:6',
         'type.*.images.*'           => 'required|image|max:1024',
+    ];
+
+    const ATTRIBUTES_VALIDATOR = [
+        'images'                => 'Gambar Viilla',
+        'type'                  => 'Unit',
+        'type.*.name'           => "Nama Unit",
+        'type.*.total_unit'     => "Total Unit",
+        'type.*.price'          => "Harga Unit",
+        'type.*.facilities'     => "Fasilitas Unit",
+        'type.*.facilities.*'   => "Fasilitas Unit",
+        'type.*.description'    => "Deskripsi Unit",
+        'type.*.status'         => "status Unit",
+        'type.*.images'         => 'Gambar Unit',
     ];
 
     private bool $is_edit = false;
@@ -68,7 +81,7 @@ final class Create extends Service
     {
         DB::beginTransaction();
         try {
-            $validator = parent::validator($this->request->all(), $this->is_edit ? self::RULES_VALIDATOR_EDIT : self::RULES_VALIDATOR);
+            $validator = parent::validator($this->request->all(), $this->is_edit ? self::RULES_VALIDATOR_EDIT : self::RULES_VALIDATOR, attributes: self::ATTRIBUTES_VALIDATOR);
             if ($validator->fails()) return parent::error($validator->errors()->first());
 
             $images = $this->request->file('images');

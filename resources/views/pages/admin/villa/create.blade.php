@@ -46,6 +46,7 @@
                             <i class="bx bx-upload d-block d-sm-none"></i>
                             <input type="file" class="image" name="images[]" hidden accept="image/jpeg" multiple />
                         </label>
+                        <small class="text-info">*Disarankan menggunakan gambar dengan resolusi 16:9</small>
                     </div>
                     <div>
                         <label class="form-label">Deskripsi</label>
@@ -57,7 +58,7 @@
 
         <div class="col-md-6">
             <div class="card mb-4">
-                <h5 class="card-header">Tipe</h5>
+                <h5 class="card-header">Unit</h5>
 
                 <div id="sectionType">
                     <div class="input-villa-type">
@@ -92,6 +93,7 @@
                                         <input type="file" class="image-type" name="type[0][images][]" hidden accept="image/jpeg" data-index="0"
                                             multiple />
                                     </label>
+                                    <small class="text-info">*Disarankan menggunakan gambar dengan resolusi 16:9</small>
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Deskripsi</label>
